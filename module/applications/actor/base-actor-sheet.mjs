@@ -1,18 +1,19 @@
 /** @import {SYSTEM} from  "SYSTEM" */
 /** @import {SCHEMA} from  "MODELS" */
 
+import { HandlebarsApplicationMixin } from "../api/_module.mjs";
 import HitPointsConfigSheet from "./config/hit-points-config-sheet.mjs";
 
-const { api, sheets } = foundry.applications;
+const { sheets } = foundry.applications;
 
 /**
  * A base ActorSheet built on top of ApplicationV2 and the Handlebars rendering backend.
  */
-export default class COGBaseActorSheet extends api.HandlebarsApplicationMixin(sheets.ActorSheetV2) {
+export default class COGBaseActorSheet extends HandlebarsApplicationMixin(sheets.ActorSheetV2) {
 
   /** @inheritDoc */
   static DEFAULT_OPTIONS = {
-    classes: ["cog", "actor", "standard-form"],
+    classes: ["actor"],
     position: {
       width: 900,
       height: 750,
@@ -20,9 +21,6 @@ export default class COGBaseActorSheet extends api.HandlebarsApplicationMixin(sh
     actions: {
       editImage: COGBaseActorSheet.#onEditImage,
       configure: COGBaseActorSheet.#onConfigure,
-    },
-    form: {
-      submitOnChange: true,
     },
     actor: {
       type: undefined, // Defined by subclass
@@ -45,7 +43,7 @@ export default class COGBaseActorSheet extends api.HandlebarsApplicationMixin(sh
     },
     sidebar: {
       id: "sidebar",
-      template: "systems/cog/templates/sheets/actor/sidebar.hbs", // Defined during _initializeActorSheetClass
+      template: "systems/cog/templates/sheets/actor/sidebar.hbs",
     },
     body: {
       id: "body",

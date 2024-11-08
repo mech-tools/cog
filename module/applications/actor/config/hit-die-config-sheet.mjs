@@ -16,6 +16,7 @@ export default class HitDieConfigSheet extends BaseConfigSheet {
     },
     config: {
       type: "hit-die",
+      includesHeader: { description: "SHEET.CONFIG.HIT_DIE.LABELS.Description" },
     },
   };
 
@@ -38,9 +39,13 @@ export default class HitDieConfigSheet extends BaseConfigSheet {
   /*  Sheet Context                               */
   /* -------------------------------------------- */
 
-  /** @inheritDoc */
-  async _prepareContext(_options) {
+  /** @inheritdoc */
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+
     return {
+      ...context,
+
       // Document
       systemFields: this.document.system.schema.fields.health.fields.hitDie.fields,
 

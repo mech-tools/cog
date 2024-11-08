@@ -1,8 +1,10 @@
 <section class="sheet-body flexcol">
     {{! Header }}
-    <header class="sheet-header flexcol">
-        {{localize "SHEET.CONFIG.HIT_DIE.LABELS.Description"}}
-    </header>
+    {{#if header}}
+        <header class="sheet-header flexcol">
+            {{localize header.description}}
+        </header>
+    {{/if}}
 
     {{! Content }}
     <template data-application-part="config"></template>

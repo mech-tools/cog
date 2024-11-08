@@ -24,6 +24,21 @@
 
   .sheet-header {
     color: var(--color-text-75);
+    position: relative;
+  }
+
+  &:has(.sheet-content.scrolling) .sheet-header::after {
+    --scrolled-shadow-height: var(--spacing-100);
+
+    position: absolute;
+    content: "";
+    bottom: calc(-1 * (var(--scrolled-shadow-height) + var(--spacing-100)));
+    width: 100%;
+    min-height: var(--scrolled-shadow-height);
+
+    background: radial-gradient(farthest-side at 50% 0, var(--color-drop-shadow), rgba(0, 0, 0, 0));
+    background-repeat: no-repeat;
+    background-size: 100% var(--scrolled-shadow-height);
   }
 
   /* ----------------------------------------- */
@@ -32,23 +47,7 @@
 
   .sheet-content {
     gap: var(--spacing-100);
-
-    &.scrolling::before {
-      --scrolled-shadow-height: var(--spacing-100);
-
-      position: sticky;
-      content: "";
-      top: 0;
-      min-height: var(--scrolled-shadow-height);
-
-      background: radial-gradient(
-        farthest-side at 50% 0,
-        var(--color-drop-shadow),
-        rgba(0, 0, 0, 0)
-      );
-      background-repeat: no-repeat;
-      background-size: 100% var(--scrolled-shadow-height);
-    }
+    padding-top: var(--spacing-25);
   }
 
   /* ----------------------------------------- */

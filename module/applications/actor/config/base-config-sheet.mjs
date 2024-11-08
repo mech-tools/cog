@@ -1,19 +1,19 @@
+import { HandlebarsApplicationMixin } from "../../api/_module.mjs";
+
 const { api } = foundry.applications;
 
 /**
  * A base ConfigSheet built on top of ApplicationV2 and the Handlebars rendering backend.
  */
-export default class BaseConfigSheet extends api.HandlebarsApplicationMixin(api.DocumentSheetV2) {
+export default class BaseConfigSheet extends HandlebarsApplicationMixin(api.DocumentSheetV2) {
 
   /** @inheritDoc */
   static DEFAULT_OPTIONS = {
-    classes: ["cog", "config", "standard-form"],
+    classes: ["config"],
     sheetConfig: false,
-    form: {
-      submitOnChange: true,
-    },
     config: {
       type: undefined, // Defined by subclass
+      includesHeader: false,
     },
   };
 
@@ -30,32 +30,6 @@ export default class BaseConfigSheet extends api.HandlebarsApplicationMixin(api.
     },
   };
 
-  /** @inheritdoc */
-  // _replaceHTML(result, content, options) {
-  //   console.error(content);
-  //   const scrollPositions = [];
-
-  //   // Store previous scroll positions
-  //   for (const [partId, newElement] of Object.entries(result)) {
-  //     for (const selector of this.constructor.PARTS[partId].scrollable || []) {
-  //       const priorPart = content.querySelector(`[data-application-part="${partId}"]`);
-  //       const priorElement = selector === "" ? priorPart : priorPart?.querySelector(selector);
-
-  //       if (priorElement) {
-  //         scrollPositions.push([newElement, priorElement.scrollTop, priorElement.scrollLeft]);
-  //       }
-  //     }
-  //   }
-
-  //   // Replace HTML with the new content
-  //   super._replaceHTML(result, content, options);
-
-  //   // Restore previous positions
-  //   for (const [newElement, scrollTop, scrollLeft] of scrollPositions) {
-  //     Object.assign(newElement, { scrollTop, scrollLeft });
-  //   }
-  // }
-
   /* -------------------------------------------- */
 
   /**
@@ -69,6 +43,18 @@ export default class BaseConfigSheet extends api.HandlebarsApplicationMixin(api.
     // Config Type Configuration
     this.PARTS.config.template = `systems/cog/templates/sheets/actor/config/${config.type}-config.hbs`;
     this.DEFAULT_OPTIONS.classes = [config.type];
+  }
+
+  /* -------------------------------------------- */
+  /*  Sheet Context                               */
+  /* -------------------------------------------- */
+
+  /** @override */
+  async _prepareContext(_options) {
+    return {
+      // Data
+      header: this.options.config.includesHeader,
+    };
   }
 
   /* -------------------------------------------- */
@@ -93,6 +79,6 @@ export default class BaseConfigSheet extends api.HandlebarsApplicationMixin(api.
   #onScrollContent(event) {
     const target = event.target;
 
-    target.classList.toggle("scrolling", target.scrollTop > 30);
+    target.classList.toggle("scrolling", target.scrollTop > 0);
   }
 }
