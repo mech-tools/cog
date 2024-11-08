@@ -1,0 +1,89 @@
+/* ----------------------------------------- */
+/*  Application V2 Styles                    */
+/* ----------------------------------------- */
+
+.cog.application {
+  --color-header-background: transparent;
+  --background-texture: url("../ui/applications/background.webp");
+  --background-overlay: url("../ui/applications/overlay.webp");
+
+  background:
+    var(--background-texture) no-repeat,
+    rgb(0 0 0 / 100%);
+  background-size: cover;
+  border-color: var(--color-frame-bg);
+  gap: 0;
+  box-sizing: content-box;
+
+  &::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: var(--background-overlay) no-repeat;
+    background-position: top center;
+    background-size: 100% auto;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+  }
+
+  .window-header {
+    border-bottom: none;
+
+    .window-title {
+      font-family: var(--font-h1);
+      font-size: var(--font-size-12);
+      color: var(--color-primary);
+    }
+
+    .header-control {
+      color: var(--color-tertiary-50);
+
+      &:hover {
+        color: var(--color-tertiary);
+        background-color: var(--color-secondary);
+        box-shadow: none;
+      }
+
+      &:focus {
+        --button-focus-outline-color: var(--color-primary-25);
+      }
+    }
+  }
+
+  .controls-dropdown {
+    background: transparent;
+    background-color: var(--color-frame-bg);
+
+    button {
+      color: var(--color-text);
+      font-family: var(--font-body);
+
+      &:hover {
+        background-color: var(--color-secondary);
+        box-shadow: none;
+      }
+
+      &:focus {
+        --button-focus-outline-color: var(--color-primary-25);
+      }
+    }
+  }
+
+  .window-content {
+    padding: var(--spacing-25) var(--spacing-100) var(--spacing-100);
+
+    .scrollable {
+      --color-scrollbar: var(--color-secondary-50);
+      --color-scrollbar-border: var(--color-secondary-75);
+      --scroll-margin: var(--spacing-75);
+      --scroll-gutter: var(--spacing-50);
+
+      margin-right: calc(-1 * var(--scroll-gutter)) !important;
+      padding-right: var(--scroll-gutter) !important;
+    }
+  }
+}

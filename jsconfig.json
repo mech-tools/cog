@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "ES2022",
+    "target": "ES2022",
+    "allowJs": true,
+    "checkJs": false,
+    "paths": {
+      "SYSTEM": ["./module/system/_types.mjs"],
+      "MODELS": ["./module/models/_types.mjs"]
+    }
+  },
+  "include": ["cog.mjs", "module/**/*.mjs"]
+}

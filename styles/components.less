@@ -1,0 +1,63 @@
+/* ---------------------------------- */
+/*  Slide Toggles                     */
+/* ---------------------------------- */
+
+slide-toggle {
+  --slide-toggle-height: 20px;
+  --slide-toggle-width: 36px;
+  --slide-toggle-padding: 2px;
+  --slide-toggle-track-border-width: 1px;
+  --slide-toggle-track-border-color: var(--color-secondary);
+  --slide-toggle-track-color-unchecked: var(--color-frame-bg);
+  --slide-toggle-track-color-checked: var(--color-primary);
+  --slide-toggle-thumb-color: var(--color-text);
+  --slide-toggle-thumb-width: calc(
+    var(--slide-toggle-height) - var(--slide-toggle-track-border-width) -
+      (var(--slide-toggle-padding) * 2)
+  );
+  --slide-toggle-thumb-height: var(--slide-toggle-thumb-width);
+  --slide-toggle-transition-time: 250ms;
+
+  display: inline-block;
+  width: var(--slide-toggle-width);
+  height: var(--slide-toggle-height);
+  cursor: pointer;
+
+  .slide-toggle-track {
+    width: 100%;
+    height: 100%;
+    background: var(--slide-toggle-track-color-unchecked);
+    border-radius: calc((var(--slide-toggle-height) * 2) / 3);
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    padding: var(--slide-toggle-padding);
+    border: var(--slide-toggle-track-border-width) solid var(--slide-toggle-track-border-color);
+  }
+
+  .slide-toggle-thumb {
+    width: var(--slide-toggle-thumb-width);
+    height: var(--slide-toggle-thumb-height);
+    border-radius: 100%;
+    background: var(--slide-toggle-thumb-color);
+    box-shadow: 0 0 8px var(--color-drop-shadow);
+    text-align: center;
+    transition: margin-left var(--slide-toggle-transition-time) ease;
+    line-height: calc(var(--slide-toggle-thumb-height) - (var(--slide-toggle-padding)));
+
+    &::before {
+      font-family: var(--font-awesome);
+      color: var(--color-secondary);
+      font-weight: bold;
+      font-size: var(--font-size-9);
+    }
+  }
+
+  /* Checked state */
+  &[checked] .slide-toggle-track {
+    background: var(--slide-toggle-track-color-checked);
+  }
+  &[checked] .slide-toggle-thumb {
+    margin-left: calc(100% - var(--slide-toggle-thumb-width));
+  }
+}

@@ -1,0 +1,52 @@
+<section class="sheet-header flexcol">
+    <header class="flexrow">
+        {{! NPC Name }}
+        <h1 class="actor-name">
+            {{#if editMode}}
+                {{formInput
+                    fields.name
+                    value=source.name
+                }}
+            {{else}}
+                {{source.name}}
+            {{/if}}
+        </h1>
+
+        {{! NPC CR }}
+        <div class="level flexrow flex0">
+            <span class="label">{{advancement.cr.label}}</span>
+            {{#if editMode}}
+                <span data-tooltip="{{advancement.cr.hint}}" data-tooltip-class="cog">
+                    {{formInput
+                        systemFields.advancement.fields.cr.fields.value
+                        value=advancement.cr.value
+                    }}
+                </span>
+            {{else}}
+                <span class="value">{{advancement.cr.value}}</span>
+                /
+            {{/if}}
+        </div>
+
+        {{! NPC Size }}
+        <div class="size flexrow flex0" data-tooltip="{{attributes.size.label}}" data-tooltip-class="cog">
+            {{#if editMode}}
+                {{formInput
+                    systemFields.attributes.fields.size.fields.value
+                    value=attributes.size.value
+                }}
+            {{else}}
+                <span class="value">{{attributes.size.formattedValue}}</span>
+            {{/if}}
+        </div>
+    </header>
+
+    {{! NPC Traits }}
+    <div class="subtitle flexrow">
+        <a class="cog-button highlighted"><i class="fa-solid fa-octagon-plus"></i></i></i> Espèce</a>
+        <a class="cog-button"><i class="fa-solid fa-id-card-clip"></i> Archétype</a>
+        <a class="cog-button"><i class="fa-regular fa-microchip"></i> Expertise</a>
+        <a class="cog-button"><i class="fa-regular fa-microchip"></i> Rôle</a>
+        <a class="cog-button"><i class="fa-regular fa-microchip"></i> Trait</a>
+    </div>
+</section>

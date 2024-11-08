@@ -1,0 +1,52 @@
+{
+  "id": "cog",
+  "title": "Chroniques Oubliées Galactiques",
+  "description": "Chroniques Oubliées Galactiques game system.",
+  "version": "0.0.1",
+  "manifest": "#{MANIFEST}#",
+  "download": "#{DOWNLOAD}#",
+  "url": "https://foundryvtt.com/packages/cog",
+  "authors": [
+    {
+      "name": "Maxime",
+      "url": "https://github.com/mech-tools/",
+      "discord": "maxime1562"
+    }
+  ],
+  "compatibility": {
+    "minimum": 12,
+    "verified": 13
+  },
+  "license": "LICENSE",
+  "esmodules": ["cog.mjs"],
+  "styles": ["styles/cog.css"],
+  "flags": {
+    "hotReload": {
+      "extensions": ["css", "hbs", "json"],
+      "paths": ["styles/cog.css", "templates/**/*.hbs", "lang/*.json"]
+    }
+  },
+  "packs": [],
+  "packFolders": [],
+  "languages": [
+    {
+      "lang": "fr",
+      "name": "Français",
+      "path": "lang/fr.json"
+    }
+  ],
+  "documentTypes": {
+    "Actor": {
+      "character": {},
+      "npc": {}
+    }
+  },
+  "grid": {
+    "type": 1,
+    "distance": 1,
+    "units": "m",
+    "diagonals": 1
+  },
+  "socket": true,
+  "primaryTokenAttribute": "health.hitPoints"
+}

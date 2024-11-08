@@ -1,0 +1,63 @@
+/* ----------------------------------------- */
+/*  Config Sheet                              */
+/* ----------------------------------------- */
+
+.cog.sheet.config {
+  .window-header {
+    button[data-action="copyUuid"] {
+      display: none;
+    }
+  }
+
+  /* ----------------------------------------- */
+  /*  Sheet Body                               */
+  /* ----------------------------------------- */
+
+  .sheet-body {
+    gap: var(--spacing-100);
+    height: 100%;
+  }
+
+  /* ----------------------------------------- */
+  /*  Sheet header                             */
+  /* ----------------------------------------- */
+
+  .sheet-header {
+    color: var(--color-text-75);
+  }
+
+  /* ----------------------------------------- */
+  /*  Sheet Content                            */
+  /* ----------------------------------------- */
+
+  .sheet-content {
+    gap: var(--spacing-100);
+
+    &.scrolling::before {
+      --scrolled-shadow-height: var(--spacing-100);
+
+      position: sticky;
+      content: "";
+      top: 0;
+      min-height: var(--scrolled-shadow-height);
+
+      background: radial-gradient(
+        farthest-side at 50% 0,
+        var(--color-drop-shadow),
+        rgba(0, 0, 0, 0)
+      );
+      background-repeat: no-repeat;
+      background-size: 100% var(--scrolled-shadow-height);
+    }
+  }
+
+  /* ----------------------------------------- */
+  /*  Hit Die Config                           */
+  /* ----------------------------------------- */
+  &.hit-die {
+    .incomplete {
+      font-size: var(--font-size-12);
+      color: var(--color-primary);
+    }
+  }
+}

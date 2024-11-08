@@ -1,0 +1,268 @@
+.cog {
+  /* ----------------------------------------- */
+  /*  Typography                               */
+  /* ----------------------------------------- */
+
+  color: var(--color-text);
+  font-size: var(--font-size-12);
+  font-family: var(--font-body);
+  text-shadow: 0 0 5px var(--color-drop-shadow);
+
+  *::before {
+    text-shadow: none;
+  }
+
+  h1 {
+    font-family: var(--font-h1);
+    color: var(--color-primary);
+    font-size: var(--font-size-20);
+    line-height: normal;
+    margin: 0;
+    border: 0;
+  }
+
+  h2 {
+    font-family: var(--font-h2);
+    color: var(--color-primary);
+    font-size: var(--font-size-12);
+    border: 0;
+    margin: 0;
+    text-shadow: 0 0 5px var(--color-drop-shadow);
+    line-height: normal;
+
+    &.divider {
+      --divider-height: 2px;
+
+      align-self: flex-start;
+    }
+
+    &.divider::before,
+    &.divider::after {
+      width: var(--spacing-250);
+      height: var(--divider-height);
+      background-color: var(--color-frame-bg);
+      mask-image: none;
+      border: 0;
+      margin-right: var(--spacing-50);
+    }
+
+    &.divider::before {
+      clip-path: path("M3 0L0 2H40V0H3Z");
+    }
+
+    &.divider::after {
+      clip-path: path("M0 0V2H40L37 0H0Z");
+    }
+  }
+
+  h3 {
+    font-family: var(--font-h3);
+    font-size: var(--font-size-14);
+    color: var(--color-text);
+    line-height: normal;
+    margin: 0;
+    border: 0;
+  }
+
+  /* ----------------------------------------- */
+  /*  Tooltip                                  */
+  /* ----------------------------------------- */
+
+  &#tooltip {
+    --tooltip-border-with: 2px;
+
+    background-color: var(--color-frame-bg);
+    border-color: var(--color-secondary);
+    border-width: var(--tooltip-border-with);
+    font-family: var(--font-body);
+    font-size: var(--font-size-14);
+    box-shadow: 0 0 15px var(--color-drop-shadow);
+    padding: var(--spacing-50);
+    border-radius: var(--border-radius);
+  }
+
+  /* ----------------------------------------- */
+  /* Frame                                     */
+  /* ----------------------------------------- */
+
+  .framed-section {
+    position: relative;
+    background-color: var(--color-frame-bg-50);
+    border: 1px solid var(--color-secondary-25);
+    border-radius: var(--border-radius);
+    backdrop-filter: blur(1px);
+    padding: var(--spacing-50);
+
+    &:has(> h2) {
+      padding: var(--spacing-100) var(--spacing-175) var(--spacing-50) var(--spacing-100);
+
+      h2 {
+        position: absolute;
+        margin: 0;
+        height: var(--spacing-150);
+        padding: calc(var(--spacing-50) - 2px) var(--spacing-50);
+        background: var(--color-frame-bg);
+        border: 1px solid var(--color-secondary-25);
+        box-shadow: 0 0 4px var(--color-secondary-25);
+        border-radius: var(--border-radius);
+        top: calc(-1 * (var(--spacing-50)));
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  }
+
+  /* ----------------------------------------- */
+  /*  Forms                                    */
+  /* ----------------------------------------- */
+
+  &.application input,
+  &.application select {
+    --input-background-color: var(--color-frame-bg-50);
+    --input-border-color: var(--color-secondary-25);
+    --input-text-color: var(--color-text);
+    --color-select-option-bg: var(--color-frame);
+    --input-focus-outline-color: var(--color-secondary);
+    --input-height: var(--spacing-175);
+    --input-placeholder-color: var(--color-secondary-50);
+
+    flex-basis: content;
+    flex-grow: 0;
+    font-family: var(--font-h3);
+    border-radius: var(--border-radius-half);
+    transition:
+      outline-color 0.5s,
+      border-color 0.5s,
+      box-shadow 0.5s;
+    text-shadow: 0 0 5px var(--color-drop-shadow);
+
+    &:hover {
+      --input-border-color: var(--color-secondary-50);
+    }
+
+    &:focus {
+      --input-text-color: var(--color-text);
+
+      box-shadow: 0 0 5px var(--color-secondary);
+    }
+
+    &:disabled {
+      --input-text-color: var(--color-tertiary-50);
+      --input-background-color: var(--color-frame-bg-25);
+    }
+  }
+
+  &.application select {
+    cursor: pointer;
+
+    option {
+      --color-select-option-bg: var(--color-frame-bg);
+
+      font-size: var(--font-size-12);
+      color: var(--color-text-75);
+    }
+  }
+
+  .framed-section > input,
+  .framed-section > select {
+    --input-background-color: var(--color-frame-bg);
+
+    &:disabled {
+      --input-background-color: var(--color-frame-bg-75);
+    }
+  }
+
+  &.application fieldset {
+    --color-fieldset-border: var(--color-secondary);
+
+    border-radius: var(--border-radius);
+
+    legend {
+      color: var(--color-primary);
+      font-family: var(--font-h3);
+    }
+  }
+
+  &.application .form-group {
+    gap: var(--spacing-50);
+
+    > label {
+      --color-form-label: var(--color-text);
+      --color-form-label-hover: var(--color-primary);
+
+      display: flex;
+      gap: var(--spacing-50);
+      align-items: center;
+      //font-family: var(--font-h3);
+      font-weight: normal;
+      font-size: var(--font-size-14);
+      line-height: normal;
+    }
+
+    > .hint {
+      --color-form-hint: var(--color-text-50);
+      --color-form-hint-hover: var(--color-text-75);
+
+      font-size: var(--font-size-12);
+      line-height: normal;
+    }
+
+    &:has(input:disabled, select:disabled) {
+      cursor: not-allowed;
+
+      label {
+        --color-form-label: var(--color-tertiary-75);
+        --color-form-label-hover: var(--color-tertiary-75);
+
+        cursor: not-allowed;
+      }
+
+      .hint {
+        --color-form-hint: var(--color-tertiary-50);
+        --color-form-hint-hover: var(--color-tertiary-50);
+      }
+    }
+  }
+
+  /* ----------------------------------------- */
+  /*  Button                                   */
+  /* ----------------------------------------- */
+
+  .cog-button {
+    display: inline-flex;
+    flex: 0;
+    align-items: center;
+    gap: var(--spacing-50);
+    height: var(--spacing-175);
+    padding: var(--spacing-50);
+    font-family: var(--font-h3);
+    font-size: var(--font-size-14);
+    background-color: var(--color-frame-bg-50);
+    border: 1px solid var(--color-secondary-25);
+    border-radius: var(--border-radius-half);
+    backdrop-filter: blur(1px);
+    transition: border-color 0.5s;
+
+    &.raised {
+      box-shadow: 0 0 5px var(--color-drop-shadow);
+    }
+
+    &:hover {
+      border-color: var(--color-primary);
+      text-shadow: inherit;
+    }
+
+    i {
+      color: var(--color-secondary);
+      transition: color 0.5s;
+    }
+
+    &:hover i {
+      color: var(--color-primary);
+    }
+
+    &.highlighted i {
+      color: var(--color-primary);
+    }
+  }
+}

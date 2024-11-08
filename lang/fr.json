@@ -1,0 +1,105 @@
+{
+  "TYPES": {
+    "Actor": {
+      "character": "PJ ",
+      "npc": "PNJ "
+    }
+  },
+
+  "SHEET": {
+    "ACTOR": {
+      "MODES": {
+        "Play": "Jouer",
+        "Edit": "Modifier la fiche"
+      },
+
+      "TABS": {
+        "Attributes": "Caractéristiques",
+        "Actions": "Actions",
+        "Inventory": "Inventaire",
+        "Paths": "Voies",
+        "Effects": "Effets",
+        "Biography": "Biographie"
+      },
+
+      "LABELS": {
+        "Configure_hit_die": "Configuration du dé de vie",
+        "Configure_hit_points": "Configuration des points de vie",
+        "Favorite_actions": "Favoris"
+      }
+    },
+
+    "CONFIG": {
+      "HIT_DIE": {
+        "LABELS": {
+          "Window_title": "Configuration : dé de vie ({name})",
+          "Description": "Configuration des points de vie gagnés par le personnage à chaque niveau."
+        }
+      },
+      "HIT_POINTS": {
+        "LABELS": {
+          "Window_title": "Configuration : points de vie ({name})"
+        }
+      }
+    }
+  },
+
+  "SCHEMA": {
+    "DICE": {
+      "Die_4": "Dé 4",
+      "Die_6": "Dé 6",
+      "Die_8": "Dé 8",
+      "Die_10": "Dé 10",
+      "Die_12": "Dé 12",
+      "Die_20": "Dé 20"
+    },
+
+    "ACTOR": {
+      "SIZES": {
+        "Tiny": "Minuscule",
+        "Very_small": "Très petite",
+        "Small": "Petite",
+        "Medium": "Moyenne",
+        "Large": "Grande",
+        "Huge": "Énorme",
+        "Gargantuan": "Colossale"
+      },
+
+      "HIT_DIE_LEVEL_TYPES": {
+        "Hitdie_con": "Défini par le profil",
+        "Hitdie": "Résultat du Dé de vie + Constitution si négative (minimum de 0)",
+        "Con": "Constitution (minimum de 0)"
+      },
+
+      "HEALTH": {
+        "HitPoints": {
+          "Label": "Points de vie"
+        },
+        "TempDmgs": {
+          "Label": "Dommages temporaires",
+          "Abbreviation": "TMP"
+        },
+        "HitDie": {
+          "Label": "Dé de vie",
+          "History.Level.Label": "Niveau {level}"
+        }
+      },
+
+      "ADVANCEMENT": {
+        "Level": {
+          "Label": "Niveau"
+        },
+        "Cr": {
+          "Label": "NC",
+          "Hint": "Niveau de créature avant ajout des gabarits et des capacités"
+        }
+      },
+
+      "ATTRIBUTES": {
+        "Size": {
+          "Label": "Taille"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{{! Content }}
+<div class="sheet-content flexcol flex1 scrollable">
+    {{#each history as |level|}}
+        <div class="level flexrow">
+            <div class="form-group">
+                {{! Level Label }}
+                <label>
+                    {{level.label}}
+                    {{#unless level.value}}
+                        <span class="incomplete">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </span>
+                    {{/unless}}
+                </label>
+
+                {{! Level field }}
+                <div class="form-fields">
+                    {{#with (lookup @root.systemFields.history.fields id) as |lvl|}}
+                        {{formInput
+                            lvl.fields.value
+                            value=level.value
+                            label=level.label
+                            hint=level.hint
+                            disabled=(ifThen level.rollable false true)
+                        }}
+                    {{/with}}
+                </div>
+
+                {{! PC Hint }}
+                <p class="hint">{{level.hint}}</p>
+            </div>
+        </div>
+    {{/each}}
+</div>
