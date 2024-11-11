@@ -8,7 +8,7 @@ export default class COGActor extends Actor {
    * @returns {boolean}
    */
   get hasHitDie() {
-    return "hitDie" in this.system.health;
+    return "HIT_DIE" in this.system;
   }
 
   /* -------------------------------------------- */
@@ -43,5 +43,28 @@ export default class COGActor extends Actor {
     }
 
     this.updateSource({ prototypeToken });
+  }
+
+  /* -------------------------------------------- */
+
+  /** @inheritDoc */
+  async _preUpdate(data, options, user) {
+    await super._preUpdate(data, options, user);
+
+    const updates = {};
+
+    // Reset Hit Die History when level changes
+    const newLevel = data.system?.ADVANCEMENT?.level?.value;
+    if (newLevel) {
+      for (const key of Object.keys(this.system.HIT_DIE.history)) {
+        if (parseInt(key.replace("level", "")) > newLevel) {
+          updates[`system.HIT_DIE.history.${key}.value`] =
+            SYSTEM.ACTOR.HIT_DIE.history[key].value_initial;
+        }
+      }
+    }
+
+    // Apply new updates
+    Object.assign(data, updates);
   }
 }

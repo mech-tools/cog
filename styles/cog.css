@@ -744,6 +744,16 @@ slide-toggle[checked] .slide-toggle-thumb {
   gap: var(--spacing-50);
 }
 /* ----------------------------------------- */
+/*  Creation Steps Tooltip                   */
+/* ----------------------------------------- */
+#tooltip.cog.creation-steps p {
+  color: var(--color-primary);
+}
+#tooltip.cog.creation-steps li span {
+  font-size: var(--font-size-12);
+  margin-left: calc(-1 * var(--spacing-25));
+}
+/* ----------------------------------------- */
 /*  Config Sheet                              */
 /* ----------------------------------------- */
 .cog.sheet.config {

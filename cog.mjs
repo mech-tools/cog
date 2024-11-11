@@ -62,6 +62,7 @@ Hooks.once("i18nInit", function () {
     "ACTOR.HIT_DIE_TYPES",
     "ACTOR.HIT_DIE_LEVEL_TYPES",
     "ACTOR.SIZES",
+    "ACTOR.HIT_DIE",
     "ACTOR.HEALTH",
     "ACTOR.ADVANCEMENT",
     "ACTOR.ATTRIBUTES",

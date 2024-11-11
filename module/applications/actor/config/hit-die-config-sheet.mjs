@@ -12,7 +12,7 @@ export default class HitDieConfigSheet extends BaseConfigSheet {
   static DEFAULT_OPTIONS = {
     position: {
       width: 375,
-      height: 500,
+      height: 400,
     },
     config: {
       type: "hit-die",
@@ -47,30 +47,31 @@ export default class HitDieConfigSheet extends BaseConfigSheet {
       ...context,
 
       // Document
-      systemFields: this.document.system.schema.fields.health.fields.hitDie.fields,
+      systemFields: this.document.system.schema.fields.HIT_DIE.fields,
 
       // Data
-      history: this.#prepareHistory(),
+      HISTORY: this.#prepareHistory(),
     };
   }
 
   /**
    * Prepare and format the display of Hie Die History on the Config sheet.
-   * @returns {SCHEMA.ACTOR.HEALTH["hitDie"]["history"] &
-   *   SYSTEM.ACTOR.HEALTH["hitDie"]["history"]}
+   * @returns {SCHEMA.ACTOR.HIT_DIE["history"] & SYSTEM.ACTOR.HIT_DIE["history"]}
    */
   #prepareHistory() {
     // Merge Data with System Config
-    let data = foundry.utils.mergeObject(
-      this.document.system.health.hitDie.history,
-      SYSTEM.ACTOR.HEALTH.hitDie.history,
-      { inplace: false },
+    const data = foundry.utils.mergeObject(
+      this.document.system.HIT_DIE.history,
+      SYSTEM.ACTOR.HIT_DIE.history,
+      {
+        inplace: false,
+      },
     );
 
     // Remove entries that are under current Actor Level and reverse order
     const history = Object.fromEntries(
       Object.entries(data)
-        .filter(([key, value]) => value.level <= this.document.system.advancement.level.value)
+        .filter(([key, value]) => value.level <= this.document.system.ADVANCEMENT.level.value)
         .reverse(),
     );
 

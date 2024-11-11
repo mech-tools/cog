@@ -52,7 +52,7 @@ export default class BaseConfigSheet extends HandlebarsApplicationMixin(api.Docu
   /** @override */
   async _prepareContext(_options) {
     return {
-      // Data
+      // Sheet
       header: this.options.config.includesHeader,
     };
   }

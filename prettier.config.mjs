@@ -1,6 +1,6 @@
 export default {
   printWidth: 100,
-  plugins: ["./tools/prettierPluginJsdoc.mjs", "@yikes2000/prettier-plugin-merge-extras"],
+  plugins: ["@homer0/prettier-plugin-jsdoc", "@yikes2000/prettier-plugin-merge-extras"],
 
   // JsDoc configuration
   jsdocEnforceAccessTag: false,
@@ -12,6 +12,7 @@ export default {
   jsdocUseInlineCommentForASingleTagBlock: true,
   jsdocEnsureDescriptionsAreSentences: true,
   jsdocExperimentalFormatCommentsWithoutTags: true,
+  jsdocExperimentalIgnoreInlineForCommentsWithoutTags: true,
 
   // Merge extras configuration
   alignObjectProperties: "none",

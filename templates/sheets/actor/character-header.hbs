@@ -6,29 +6,32 @@
             {{#if editMode}}
                 {{formInput
                     fields.name
-                    value=source.name
+                    value=actor.name
                 }}
             {{else}}
-                {{source.name}}
+                {{actor.name}}
             {{/if}}
         </h1>
 
         {{! Incomplete Level }}
-        <span class="incomplete cog-button flex0" data-tooltip="test" data-tooltip-class="cog">
-            <i class="fa-solid fa-triangle-exclamation"></i>
-        </span>
+        {{#if creationSteps.incomplete}}
+            <span class="incomplete cog-button flex0" data-tooltip="{{creationSteps.details}}"
+                data-tooltip-class="cog creation-steps">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </span>
+        {{/if}}
 
         {{! PC Level }}
         <div class="level flexrow flex0">
-            <span class="label">{{advancement.level.label}}</span>
+            <span class="label">{{ADVANCEMENT.level.value_label}}</span>
             {{#if editMode}}
                 {{formInput
-                    systemFields.advancement.fields.level.fields.value
-                    value=advancement.level.value
+                    systemFields.ADVANCEMENT.fields.level.fields.value
+                    value=ADVANCEMENT.level.value
                     type="number"
                 }}
             {{else}}
-                <span class="value">{{advancement.level.value}}</span>
+                <span class="value">{{ADVANCEMENT.level.value}}</span>
             {{/if}}
         </div>
     </header>

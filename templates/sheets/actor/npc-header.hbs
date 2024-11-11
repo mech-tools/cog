@@ -5,38 +5,40 @@
             {{#if editMode}}
                 {{formInput
                     fields.name
-                    value=source.name
+                    value=actor.name
                 }}
             {{else}}
-                {{source.name}}
+                {{actor.name}}
             {{/if}}
         </h1>
 
         {{! NPC CR }}
         <div class="level flexrow flex0">
-            <span class="label">{{advancement.cr.label}}</span>
+            <span class="label">{{ADVANCEMENT.cr.value_label}}</span>
             {{#if editMode}}
-                <span data-tooltip="{{advancement.cr.hint}}" data-tooltip-class="cog">
+                <span data-tooltip="{{ADVANCEMENT.cr.value_hint}}" data-tooltip-class="cog">
                     {{formInput
-                        systemFields.advancement.fields.cr.fields.value
-                        value=advancement.cr.value
+                        systemFields.ADVANCEMENT.fields.cr.fields.value
+                        value=ADVANCEMENT.cr.value
                     }}
                 </span>
             {{else}}
-                <span class="value">{{advancement.cr.value}}</span>
+                <span class="value">{{ADVANCEMENT.cr.value}}</span>
                 /
             {{/if}}
         </div>
 
         {{! NPC Size }}
-        <div class="size flexrow flex0" data-tooltip="{{attributes.size.label}}" data-tooltip-class="cog">
+        <div class="size flexrow flex0" data-tooltip="{{ATTRIBUTES.size.value_label}}" data-tooltip-class="cog">
             {{#if editMode}}
                 {{formInput
-                    systemFields.attributes.fields.size.fields.value
-                    value=attributes.size.value
+                    systemFields.ATTRIBUTES.fields.size.fields.value
+                    value=ATTRIBUTES.size.value
                 }}
             {{else}}
-                <span class="value">{{attributes.size.formattedValue}}</span>
+                {{#with (lookup ATTRIBUTES.size.value_choices ATTRIBUTES.size.value) as |value|}}
+                    <span class="value">{{value}}</span>
+                {{/with}}
             {{/if}}
         </div>
     </header>

@@ -18,50 +18,43 @@ export default class COGCharacter extends COGActorType {
     const requiredString = { required: true, nullable: false };
     const schema = super.defineSchema();
 
-    // Health Pool
-    schema.health = new fields.SchemaField({
-      [SYSTEM.ACTOR.HEALTH.hitPoints.id]: new fields.SchemaField({
-        value: new fields.NumberField({
-          ...requiredInteger,
-          initial: 0,
-          min: 0,
-        }),
-      }),
-      [SYSTEM.ACTOR.HEALTH.tempDmgs.id]: new fields.SchemaField({
-        value: new fields.NumberField({
-          ...requiredInteger,
-          initial: 0,
-          min: 0,
-        }),
-      }),
-      [SYSTEM.ACTOR.HEALTH.hitDie.id]: new fields.SchemaField({
+    // Hit Die
+    schema.HIT_DIE = new fields.SchemaField({
+      type: new fields.SchemaField({
         value: new fields.StringField({
           ...requiredString,
-          initial: SYSTEM.ACTOR.HEALTH.hitDie.initial,
-          choices: SYSTEM.ACTOR.HEALTH.hitDie.choices,
+          initial: SYSTEM.ACTOR.HIT_DIE.type.value_initial,
+          choices: SYSTEM.ACTOR.HIT_DIE.type.value_choices,
         }),
-        history: new fields.SchemaField(
-          Object.values(SYSTEM.ACTOR.HEALTH.hitDie.history).reduce((obj, level) => {
-            obj[level.id] = new fields.SchemaField({
-              value: new fields.NumberField({ ...nullableInteger, initial: null, min: 0 }),
-            });
-            return obj;
-          }, {}),
-        ),
       }),
+      history: new fields.SchemaField(
+        Object.entries(SYSTEM.ACTOR.HIT_DIE.history).reduce((obj, [id, level]) => {
+          obj[id] = new fields.SchemaField({
+            value: new fields.NumberField({
+              ...nullableInteger,
+              initial: level.value_initial,
+              min: level.value_min,
+            }),
+          });
+          return obj;
+        }, {}),
+      ),
     });
 
     // Advancement
-    schema.advancement = new fields.SchemaField({
-      [SYSTEM.ACTOR.ADVANCEMENT.level.id]: new fields.SchemaField({
+    schema.ADVANCEMENT = new fields.SchemaField({
+      level: new fields.SchemaField({
         value: new fields.NumberField({
           ...requiredInteger,
-          initial: SYSTEM.ACTOR.ADVANCEMENT.level.min,
-          min: SYSTEM.ACTOR.ADVANCEMENT.level.min,
-          max: SYSTEM.ACTOR.ADVANCEMENT.level.max,
+          initial: SYSTEM.ACTOR.ADVANCEMENT.level.value_min,
+          min: SYSTEM.ACTOR.ADVANCEMENT.level.value_min,
+          max: SYSTEM.ACTOR.ADVANCEMENT.level.value_max,
         }),
       }),
     });
+
+    // Characters have their base HP derived from Hit Die History
+    delete schema.HEALTH.fields.hitPoints.fields.base;
 
     return schema;
   }
@@ -70,20 +63,23 @@ export default class COGCharacter extends COGActorType {
   /*  Data Preparation                            */
   /* -------------------------------------------- */
 
-  /**
-   * Derived data preparation workflows used by all Actor subtypes.
-   * @override
-   */
-  prepareDerivedData() {
-    this.health.hitPoints.max = Object.values(this.health.hitDie.history).reduce(
+  /** @override */
+  _prepareBaseHealth() {
+    // Compute max Hit Points based on Hit Die history
+    this.HEALTH.hitPoints.base = Object.values(this.HIT_DIE.history).reduce(
       (max, level) => max + level.value,
       0,
     );
 
-    this.health.hitPoints.value = Math.clamp(
-      this.health.hitPoints.value,
-      0,
-      this.health.hitPoints.max,
-    );
+    super._prepareBaseHealth();
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  _prepareDerivedHealth() {
+    this.HEALTH.hitPoints.max = this.HEALTH.hitPoints.base;
+
+    super._prepareDerivedHealth();
   }
 }

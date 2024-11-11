@@ -8,21 +8,26 @@
 
 /**
  * @typedef {Object} SCHEMA.ACTOR
- * @property {SCHEMA.ACTOR.HEALTH}      health       The schema definition of Hit Points.
- * @property {SCHEMA.ACTOR.ADVANCEMENT} advancement  The schema definition of Advancement.
- * @property {SCHEMA.ACTOR.ATTRIBUTES}  attributes   The schema definition of Attributes.
+ * @property {SCHEMA.ACTOR.HIT_DIE}     [HIT_DIE]    The schema definition of Hit Die.
+ * @property {SCHEMA.ACTOR.HEALTH}      HEALTH       The schema definition of Hit Points.
+ * @property {SCHEMA.ACTOR.ADVANCEMENT} ADVANCEMENT  The schema definition of Advancement.
+ * @property {SCHEMA.ACTOR.ATTRIBUTES}  ATTRIBUTES   The schema definition of Attributes.
+ */
+
+/**
+ * @typedef {Object} SCHEMA.ACTOR.HIT_DIE
+ * @property {{ value: number }} type
+ * The schema definition of Hit Die.
+ * @property {{ levels: Record<string, { value: number }> }} history
+ * The schema definition of Health Points per level.
  */
 
 /**
  * @typedef {Object} SCHEMA.ACTOR.HEALTH
- * @property {{ value: number; max: number }} hitPoints
+ * @property {{ value: number; base: number; max: number }} hitPoints
  * The schema definition of Hit Points.
  * @property {{ value: number }} tempDmgs
  * The schema definition of Temporary Damages.
- * @property {{
- *   history: { levels: Record<string, { value: number }> };
- * }} [hitDie]
- * The schema definition of a Hit Die.
  */
 
 /**

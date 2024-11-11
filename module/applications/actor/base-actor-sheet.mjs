@@ -191,7 +191,6 @@ export default class COGBaseActorSheet extends HandlebarsApplicationMixin(sheets
       fields: this.document.schema.fields,
       systemFields: this.document.system.schema.fields,
       isEditable: this.isEditable,
-      source: this.document.toObject(),
 
       // Sheet
       tabGroups,
@@ -199,9 +198,9 @@ export default class COGBaseActorSheet extends HandlebarsApplicationMixin(sheets
       editMode: this.isEditable && this.#mode === this.constructor.MODES.EDIT,
 
       // Data
-      health: this.#prepareHealth(),
-      advancement: this.#prepareAdvancement(),
-      attributes: this.#prepareAttributes(),
+      HEALTH: this.#prepareHealth(),
+      ADVANCEMENT: this.#prepareAdvancement(),
+      ATTRIBUTES: this.#prepareAttributes(),
     };
   }
 
@@ -214,31 +213,29 @@ export default class COGBaseActorSheet extends HandlebarsApplicationMixin(sheets
    *     fgPath: string;
    *     hitPoints: { pct: string; cssPct: string };
    *     tempDmgs: { pct: string; cssPct: string };
-   *     hitDie?: { icon: string };
    *   }}
    */
   #prepareHealth() {
     // Merge Data with System Config
-    const health = foundry.utils.mergeObject(this.document.system.health, SYSTEM.ACTOR.HEALTH, {
+    const health = foundry.utils.mergeObject(this.document.system.HEALTH, SYSTEM.ACTOR.HEALTH, {
       inplace: false,
     });
 
     // Hit Points percentage
-    health.hitPoints.pct = Math.round((health.hitPoints.value * 100) / health.hitPoints.max);
+    health.hitPoints.pct = health.hitPoints.max
+      ? Math.round((health.hitPoints.value * 100) / health.hitPoints.max)
+      : 0;
     health.hitPoints.cssPct = `--hitPoints-pct: ${health.hitPoints.pct}%;`;
 
     // Temp Damages percentage
-    health.tempDmgs.pct = Math.min(
-      Math.round((health.tempDmgs.value * 100) / health.hitPoints.max) || 0,
-      100,
-    );
+    health.tempDmgs.pct = health.hitPoints.max
+      ? Math.min(Math.round((health.tempDmgs.value * 100) / health.hitPoints.max) || 0, 100)
+      : 0;
     health.tempDmgs.cssPct = `--tempDmgs-pct: ${health.tempDmgs.pct}%;`;
     if (health.tempDmgs.value === 0) health.tempDmgs.value = null;
 
-    // Icons
+    // Foreground
     health.fgPath = `systems/cog/ui/actor/health/${this.document.type}-health-pool.webp`;
-    if (this.document.hasHitDie)
-      health.hitDie.icon = `systems/cog/ui/dice/d${this.document.system.health.hitDie.value}.svg`;
 
     return health;
   }
@@ -247,13 +244,12 @@ export default class COGBaseActorSheet extends HandlebarsApplicationMixin(sheets
 
   /**
    * Prepare and format the display of Health attributes on the actor sheet.
-   * @returns {SCHEMA.ACTOR.ADVANCEMENT &
-   *   SYSTEM.ACTOR.ADVANCEMENT & { nc?: { formattedValue: string } }}
+   * @returns {SCHEMA.ACTOR.ADVANCEMENT & SYSTEM.ACTOR.ADVANCEMENT}
    */
   #prepareAdvancement() {
     // Merge Data with System Config
     const advancement = foundry.utils.mergeObject(
-      this.document.system.advancement,
+      this.document.system.ADVANCEMENT,
       SYSTEM.ACTOR.ADVANCEMENT,
       { inplace: false },
     );
@@ -265,19 +261,15 @@ export default class COGBaseActorSheet extends HandlebarsApplicationMixin(sheets
 
   /**
    * Prepare and format the display of Attributes on the actor sheet.
-   * @returns {SCHEMA.ACTOR.ATTRIBUTES &
-   *   SYSTEM.ACTOR.ATTRIBUTES & { size: { formattedValue: string } }}
+   * @returns {SCHEMA.ACTOR.ATTRIBUTES & SYSTEM.ACTOR.ATTRIBUTES}
    */
   #prepareAttributes() {
     // Merge Data with System Config
     const attributes = foundry.utils.mergeObject(
-      this.document.system.attributes,
+      this.document.system.ATTRIBUTES,
       SYSTEM.ACTOR.ATTRIBUTES,
       { inplace: false },
     );
-
-    // Format Size value
-    attributes.size.formattedValue = SYSTEM.ACTOR.SIZES.label(attributes.size.value);
 
     return attributes;
   }

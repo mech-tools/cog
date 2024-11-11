@@ -25,7 +25,11 @@
       "LABELS": {
         "Configure_hit_die": "Configuration du dé de vie",
         "Configure_hit_points": "Configuration des points de vie",
-        "Favorite_actions": "Favoris"
+        "Favorite_actions": "Favoris",
+        "Creation_steps": {
+          "Title": "Personnage incomplet !",
+          "Hit_die_count": "Points de vie manquant sur {count} niveau(x)."
+        }
       }
     },
 
@@ -66,39 +70,30 @@
       },
 
       "HIT_DIE_LEVEL_TYPES": {
-        "Hitdie_con": "Défini par le profil",
-        "Hitdie": "Résultat du Dé de vie + Constitution si négative (minimum de 0)",
-        "Con": "Constitution (minimum de 0)"
+        "Profile": "Défini par le profil.",
+        "Hitdie": "Résultat du Dé de vie + Constitution si négative (minimum de 0).",
+        "Con": "Constitution (minimum de 0)."
+      },
+
+      "HIT_DIE": {
+        "Type.Value_label": "Dé de vie",
+        "History.Level.Value_label": "Niveau {level}"
       },
 
       "HEALTH": {
-        "HitPoints": {
-          "Label": "Points de vie"
-        },
-        "TempDmgs": {
-          "Label": "Dommages temporaires",
-          "Abbreviation": "TMP"
-        },
-        "HitDie": {
-          "Label": "Dé de vie",
-          "History.Level.Label": "Niveau {level}"
-        }
+        "Hit_points.Value_label": "Points de vie",
+        "Temp_dmgs.Value_label": "Dommages temporaires",
+        "Temp_dmgs.Value_abbreviation": "TMP"
       },
 
       "ADVANCEMENT": {
-        "Level": {
-          "Label": "Niveau"
-        },
-        "Cr": {
-          "Label": "NC",
-          "Hint": "Niveau de créature avant ajout des gabarits et des capacités"
-        }
+        "Level.Value_label": "Niveau",
+        "Cr.Value_label": "NC",
+        "Cr.Value_hint": "Niveau de créature avant ajout des gabarits et des capacités."
       },
 
       "ATTRIBUTES": {
-        "Size": {
-          "Label": "Taille"
-        }
+        "Size.Value_label": "Taille"
       }
     }
   }

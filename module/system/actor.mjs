@@ -19,6 +19,18 @@ export const HIT_DIE_TYPES = new Enum({
 /* -------------------------------------------- */
 
 /**
+ * Possible types of Hit Die history.
+ * @type {SYSTEM.ACTOR.HIT_DIE_LEVEL_TYPES}
+ */
+export const HIT_DIE_LEVEL_TYPES = new Enum({
+  PROFILE: { label: "SCHEMA.ACTOR.HIT_DIE_LEVEL_TYPES.Profile", value: "PROFILE" },
+  HITDIE: { label: "SCHEMA.ACTOR.HIT_DIE_LEVEL_TYPES.Hitdie", value: "HITDIE" },
+  CON: { label: "SCHEMA.ACTOR.HIT_DIE_LEVEL_TYPES.Con", value: "CON" },
+});
+
+/* -------------------------------------------- */
+
+/**
  * Possible sizes of an Actor.
  * @type {SYSTEM.ACTOR.SIZES}
  */
@@ -30,18 +42,6 @@ export const SIZES = new Enum({
   LARGE: { label: "SCHEMA.ACTOR.SIZES.Large", value: 5 },
   HUGE: { label: "SCHEMA.ACTOR.SIZES.Huge", value: 6 },
   GARGANTUAN: { label: "SCHEMA.ACTOR.SIZES.Gargantuan", value: 7 },
-});
-
-/* -------------------------------------------- */
-
-/**
- * Possible types of Hit Die history.
- * @type {SYSTEM.ACTOR.HIT_DIE_LEVEL_TYPES}
- */
-export const HIT_DIE_LEVEL_TYPES = new Enum({
-  HITDIE_CON: { label: "SCHEMA.ACTOR.HIT_DIE_LEVEL_TYPES.Hitdie_con", value: "HITDIE_CON" },
-  HITDIE: { label: "SCHEMA.ACTOR.HIT_DIE_LEVEL_TYPES.Hitdie", value: "HITDIE" },
-  CON: { label: "SCHEMA.ACTOR.HIT_DIE_LEVEL_TYPES.Con", value: "CON" },
 });
 
 /* -------------------------------------------- */
@@ -57,23 +57,34 @@ function generateHitDieLevelHistory() {
 
   for (let i = 1; i <= 20; i++) {
     const id = `level${i}`;
-    const label = "SCHEMA.ACTOR.HEALTH.HitDie.History.Level.Label";
-    const labelData = { level: i };
+    const value_initial = null;
+    const value_min = 0;
+    const value_label = "SCHEMA.ACTOR.HIT_DIE.History.Level.Value_label";
+    const value_labelData = { level: i };
 
     const isLevel1 = i === 1;
     const isLevelUpTo10 = i <= 10;
     const isEvenLevel = i % 2 === 0;
 
     const type = isLevel1
-      ? HIT_DIE_LEVEL_TYPES.HITDIE_CON
+      ? HIT_DIE_LEVEL_TYPES.PROFILE
       : isLevelUpTo10 && isEvenLevel
         ? HIT_DIE_LEVEL_TYPES.HITDIE
         : HIT_DIE_LEVEL_TYPES.CON;
 
     const rollable = !isLevel1 && isEvenLevel && isLevelUpTo10;
-    const hint = HIT_DIE_LEVEL_TYPES.label(type);
+    const value_hint = HIT_DIE_LEVEL_TYPES.label(type);
 
-    levels[id] = { id, level: i, type, rollable, label, labelData, hint };
+    levels[id] = {
+      level: i,
+      type,
+      rollable,
+      value_initial,
+      value_min,
+      value_label,
+      value_labelData,
+      value_hint,
+    };
   }
 
   return levels;
@@ -85,24 +96,34 @@ function generateHitDieLevelHistory() {
 
 /**
  * Health representation of an Actor.
+ * @type {SYSTEM.ACTOR.HIT_DIE}
+ */
+export const HIT_DIE = Object.freeze({
+  type: {
+    value_initial: HIT_DIE_TYPES.D6,
+    value_choices: HIT_DIE_TYPES.choices,
+    value_label: "SCHEMA.ACTOR.HIT_DIE.Type.Value_label",
+  },
+  history: generateHitDieLevelHistory(),
+});
+
+/**
+ * Health representation of an Actor.
  * @type {SYSTEM.ACTOR.HEALTH}
  */
 export const HEALTH = Object.freeze({
   hitPoints: {
-    id: "hitPoints",
-    label: "SCHEMA.ACTOR.HEALTH.HitPoints.Label",
+    value_initial: 0,
+    value_min: 0,
+    value_label: "SCHEMA.ACTOR.HEALTH.Hit_points.Value_label",
+    base_initial: 0,
+    base_min: 0,
   },
   tempDmgs: {
-    id: "tempDmgs",
-    label: "SCHEMA.ACTOR.HEALTH.TempDmgs.Label",
-    abbreviation: "SCHEMA.ACTOR.HEALTH.TempDmgs.Abbreviation",
-  },
-  hitDie: {
-    id: "hitDie",
-    initial: HIT_DIE_TYPES.D6,
-    choices: HIT_DIE_TYPES.choices,
-    label: "SCHEMA.ACTOR.HEALTH.HitDie.Label",
-    history: generateHitDieLevelHistory(),
+    value_initial: 0,
+    value_min: 0,
+    value_label: "SCHEMA.ACTOR.HEALTH.Temp_dmgs.Value_label",
+    value_abbreviation: "SCHEMA.ACTOR.HEALTH.Temp_dmgs.Value_abbreviation",
   },
 });
 
@@ -114,16 +135,16 @@ export const HEALTH = Object.freeze({
  */
 export const ADVANCEMENT = Object.freeze({
   level: {
-    id: "level",
-    min: 1,
-    max: 20,
-    label: "SCHEMA.ACTOR.ADVANCEMENT.Level.Label",
+    value_min: 1,
+    value_max: 20,
+    value_label: "SCHEMA.ACTOR.ADVANCEMENT.Level.Value_label",
   },
   cr: {
-    id: "cr",
-    step: 0.5,
-    label: "SCHEMA.ACTOR.ADVANCEMENT.Cr.Label",
-    hint: "SCHEMA.ACTOR.ADVANCEMENT.Cr.Hint",
+    value_initial: 0,
+    value_min: 0,
+    value_step: 0.5,
+    value_label: "SCHEMA.ACTOR.ADVANCEMENT.Cr.Value_label",
+    value_hint: "SCHEMA.ACTOR.ADVANCEMENT.Cr.Value_hint",
   },
 });
 
@@ -135,11 +156,10 @@ export const ADVANCEMENT = Object.freeze({
  */
 export const ATTRIBUTES = Object.freeze({
   size: {
-    id: "size",
-    initial: SIZES.MEDIUM,
-    choices: SIZES.choices,
-    min: SIZES.TINY,
-    max: SIZES.GARGANTUAN,
-    label: "SCHEMA.ACTOR.ATTRIBUTES.Size.Label",
+    value_initial: SIZES.MEDIUM,
+    value_choices: SIZES.choices,
+    value_min: SIZES.TINY,
+    value_max: SIZES.GARGANTUAN,
+    value_label: "SCHEMA.ACTOR.ATTRIBUTES.Size.Value_label",
   },
 });
