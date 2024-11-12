@@ -76,24 +76,24 @@
       },
 
       "HIT_DIE": {
-        "Type.Value_label": "Dé de vie",
+        "Type.Label": "Dé de vie",
         "History.Level.Value_label": "Niveau {level}"
       },
 
       "HEALTH": {
-        "Hit_points.Value_label": "Points de vie",
-        "Temp_dmgs.Value_label": "Dommages temporaires",
+        "Hit_points.Label": "Points de vie",
+        "Temp_dmgs.Label": "Dommages temporaires",
         "Temp_dmgs.Value_abbreviation": "TMP"
       },
 
       "ADVANCEMENT": {
-        "Level.Value_label": "Niveau",
-        "Cr.Value_label": "NC",
+        "Level.Label": "Niveau",
+        "Cr.Label": "NC",
         "Cr.Value_hint": "Niveau de créature avant ajout des gabarits et des capacités."
       },
 
       "ATTRIBUTES": {
-        "Size.Value_label": "Taille"
+        "Size.Label": "Taille"
       }
     }
   }

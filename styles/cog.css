@@ -93,7 +93,7 @@
   /*  Forms                                    */
   /* ----------------------------------------- */
   /* ----------------------------------------- */
-  /*  Button                                   */
+  /*  Buttons                                  */
   /* ----------------------------------------- */
 }
 .cog *::before {
@@ -245,6 +245,12 @@
   font-size: var(--font-size-14);
   line-height: normal;
 }
+.cog.application .form-group > label i {
+  font-size: var(--font-size-12);
+}
+.cog.application .form-group > .form-fields {
+  gap: var(--spacing-50);
+}
 .cog.application .form-group > .hint {
   --color-form-hint: var(--color-text-50);
   --color-form-hint-hover: var(--color-text-75);
@@ -263,7 +269,7 @@
   --color-form-hint: var(--color-tertiary-50);
   --color-form-hint-hover: var(--color-tertiary-50);
 }
-.cog .cog-button {
+.cog .standard-button {
   display: inline-flex;
   flex: 0;
   align-items: center;
@@ -278,21 +284,36 @@
   backdrop-filter: blur(1px);
   transition: border-color 0.5s;
 }
-.cog .cog-button.raised {
+.cog .standard-button.raised {
   box-shadow: 0 0 5px var(--color-drop-shadow);
 }
-.cog .cog-button:hover {
+.cog .standard-button:hover {
   border-color: var(--color-primary);
   text-shadow: inherit;
 }
-.cog .cog-button i {
+.cog .standard-button i {
   color: var(--color-secondary);
   transition: color 0.5s;
 }
-.cog .cog-button:hover i {
+.cog .standard-button:hover i {
   color: var(--color-primary);
 }
-.cog .cog-button.highlighted i {
+.cog .standard-button.highlighted i {
+  color: var(--color-primary);
+}
+.cog .icon-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-tertiary-75);
+  cursor: pointer;
+  transition: color 0.5s;
+  font-size: var(--font-size-14);
+}
+.cog .icon-button::before {
+  text-shadow: 0 0 5px var(--color-drop-shadow);
+}
+.cog .icon-button:hover {
   color: var(--color-primary);
 }
 /* ---------------------------------- */
@@ -479,21 +500,6 @@ slide-toggle[checked] .slide-toggle-thumb {
 .cog.sheet.actor.minimizing .mode-slider {
   display: none;
 }
-.cog.sheet.actor .edit-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--color-tertiary-75);
-  cursor: pointer;
-  transition: color 0.5s;
-  font-size: var(--font-size-14);
-}
-.cog.sheet.actor .edit-button::before {
-  text-shadow: 0 0 5px var(--color-drop-shadow);
-}
-.cog.sheet.actor .edit-button:hover {
-  color: var(--color-primary);
-}
 .cog.sheet.actor .sheet-tabs {
   --tab-size: 38px;
   --icon-size: 20px;
@@ -596,7 +602,7 @@ slide-toggle[checked] .slide-toggle-thumb {
   align-items: stretch;
   justify-content: center;
 }
-.cog.sheet.actor .sheet-sidebar .health .hit-die .edit-button {
+.cog.sheet.actor .sheet-sidebar .health .hit-die .icon-button {
   font-size: var(--font-size-24);
 }
 .cog.sheet.actor .sheet-sidebar .health .hit-die .dice-icon {
@@ -651,12 +657,12 @@ slide-toggle[checked] .slide-toggle-thumb {
   z-index: 1;
   text-align: center;
 }
-.cog.sheet.actor .sheet-sidebar .health .hit-points .edit-button {
-  --edit-button-position-top: -23px;
-  --edit-button--position-right: -49px;
+.cog.sheet.actor .sheet-sidebar .health .hit-points .icon-button {
+  --icon-button-position-top: -23px;
+  --icon-button--position-right: -49px;
   position: absolute;
-  top: var(--edit-button-position-top);
-  right: var(--edit-button--position-right);
+  top: var(--icon-button-position-top);
+  right: var(--icon-button--position-right);
 }
 .cog.sheet.actor .sheet-sidebar .health .tmp-dmgs {
   --border-width: 3px;
@@ -797,6 +803,8 @@ slide-toggle[checked] .slide-toggle-thumb {
   padding-top: var(--spacing-25);
 }
 .cog.sheet.config.hit-die .incomplete {
-  font-size: var(--font-size-12);
   color: var(--color-primary);
+}
+.cog.sheet.config.hit-die .icon-button {
+  font-size: var(--font-size-18);
 }

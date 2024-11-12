@@ -55,24 +55,6 @@
     }
   }
 
-  .edit-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--color-tertiary-75);
-    cursor: pointer;
-    transition: color 0.5s;
-    font-size: var(--font-size-14);
-
-    &::before {
-      text-shadow: 0 0 5px var(--color-drop-shadow);
-    }
-
-    &:hover {
-      color: var(--color-primary);
-    }
-  }
-
   /* ----------------------------------------- */
   /*  Sheet Tabs                               */
   /* ----------------------------------------- */
@@ -203,7 +185,7 @@
         align-items: stretch;
         justify-content: center;
 
-        .edit-button {
+        .icon-button {
           font-size: var(--font-size-24);
         }
 
@@ -277,13 +259,13 @@
           text-align: center;
         }
 
-        .edit-button {
-          --edit-button-position-top: -23px;
-          --edit-button--position-right: -49px;
+        .icon-button {
+          --icon-button-position-top: -23px;
+          --icon-button--position-right: -49px;
 
           position: absolute;
-          top: var(--edit-button-position-top);
-          right: var(--edit-button--position-right);
+          top: var(--icon-button-position-top);
+          right: var(--icon-button--position-right);
         }
       }
 

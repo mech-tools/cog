@@ -100,9 +100,9 @@ function generateHitDieLevelHistory() {
  */
 export const HIT_DIE = Object.freeze({
   type: {
+    label: "SCHEMA.ACTOR.HIT_DIE.Type.Label",
     value_initial: HIT_DIE_TYPES.D6,
     value_choices: HIT_DIE_TYPES.choices,
-    value_label: "SCHEMA.ACTOR.HIT_DIE.Type.Value_label",
   },
   history: generateHitDieLevelHistory(),
 });
@@ -113,16 +113,16 @@ export const HIT_DIE = Object.freeze({
  */
 export const HEALTH = Object.freeze({
   hitPoints: {
+    label: "SCHEMA.ACTOR.HEALTH.Hit_points.Label",
     value_initial: 0,
     value_min: 0,
-    value_label: "SCHEMA.ACTOR.HEALTH.Hit_points.Value_label",
     base_initial: 0,
     base_min: 0,
   },
   tempDmgs: {
+    label: "SCHEMA.ACTOR.HEALTH.Temp_dmgs.Label",
     value_initial: 0,
     value_min: 0,
-    value_label: "SCHEMA.ACTOR.HEALTH.Temp_dmgs.Value_label",
     value_abbreviation: "SCHEMA.ACTOR.HEALTH.Temp_dmgs.Value_abbreviation",
   },
 });
@@ -135,15 +135,15 @@ export const HEALTH = Object.freeze({
  */
 export const ADVANCEMENT = Object.freeze({
   level: {
+    label: "SCHEMA.ACTOR.ADVANCEMENT.Level.Label",
     value_min: 1,
     value_max: 20,
-    value_label: "SCHEMA.ACTOR.ADVANCEMENT.Level.Value_label",
   },
   cr: {
+    label: "SCHEMA.ACTOR.ADVANCEMENT.Cr.Label",
     value_initial: 0,
     value_min: 0,
     value_step: 0.5,
-    value_label: "SCHEMA.ACTOR.ADVANCEMENT.Cr.Value_label",
     value_hint: "SCHEMA.ACTOR.ADVANCEMENT.Cr.Value_hint",
   },
 });
@@ -156,10 +156,10 @@ export const ADVANCEMENT = Object.freeze({
  */
 export const ATTRIBUTES = Object.freeze({
   size: {
+    label: "SCHEMA.ACTOR.ATTRIBUTES.Size.Label",
     value_initial: SIZES.MEDIUM,
     value_choices: SIZES.choices,
     value_min: SIZES.TINY,
     value_max: SIZES.GARGANTUAN,
-    value_label: "SCHEMA.ACTOR.ATTRIBUTES.Size.Value_label",
   },
 });

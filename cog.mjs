@@ -68,7 +68,7 @@ Hooks.once("i18nInit", function () {
     "ACTOR.ATTRIBUTES",
   ];
 
-  for (let path of objectsToLocalize) {
+  for (const path of objectsToLocalize) {
     const obj = foundry.utils.getProperty(SYSTEM, path);
 
     // Special handling for enums
@@ -82,8 +82,8 @@ Hooks.once("i18nInit", function () {
     }
 
     // Localize keys that ends with specific terms, also formatting data if a `${key}Data` property is found
-    for (let [key, value] of Object.entries(foundry.utils.flattenObject(obj))) {
-      for (let toLocalize of ["label", "hint", "abbreviation"]) {
+    for (const [key, value] of Object.entries(foundry.utils.flattenObject(obj))) {
+      for (const toLocalize of ["label", "hint", "abbreviation"]) {
         if (key.toLowerCase().endsWith(toLocalize)) {
           const formatData = foundry.utils.getProperty(obj, `${key}Data`) || {};
           foundry.utils.setProperty(obj, key, game.i18n.format(value, formatData));

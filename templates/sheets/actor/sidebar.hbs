@@ -11,13 +11,12 @@
         {{#if actor.hasHitDie}}
             <div class="hit-die flexrow">
                 {{#if editMode}}
-                    <i class="fas fa-cog edit-button" data-action="configure" data-configure-profile="hitDice"
+                    <i class="fas fa-cog icon-button" data-action="configure" data-configure-profile="hitDice"
                         data-tooltip="{{localize 'SHEET.ACTOR.LABELS.Configure_hit_die'}}" data-tooltip-class="cog"
                         data-tooltip-direction="UP"></i>
                 {{else}}
                     <div class="dice-icon" style="mask-image: url({{HIT_DIE.type.icon}})"
-                        data-tooltip="{{HIT_DIE.type.value_label}}" data-tooltip-class="cog"
-                        data-tooltip-direction="UP">
+                        data-tooltip="{{HIT_DIE.type.label}}" data-tooltip-class="cog" data-tooltip-direction="UP">
                     </div>
                 {{/if}}
             </div>
@@ -25,7 +24,7 @@
 
         {{! Hit Points }}
         <div class="hit-points flexrow" style="{{HEALTH.hitPoints.cssPct}} {{HEALTH.tempDmgs.cssPct}}">
-            <div class="label flexrow" data-tooltip="{{HEALTH.hitPoints.value_label}}" data-tooltip-class="cog">
+            <div class="label flexrow" data-tooltip="{{HEALTH.hitPoints.label}}" data-tooltip-class="cog">
                 <span class="value flex0">{{HEALTH.hitPoints.value}}</span>
                 <span class="separator flex0">/</span>
                 <span class="max flex0">{{HEALTH.hitPoints.max}}</span>
@@ -37,7 +36,7 @@
                 }}
             </div>
             {{#if editMode}}
-                <i class="fas fa-cog edit-button" data-action="configure" data-configure-profile="hitPoints"
+                <i class="fas fa-cog icon-button" data-action="configure" data-configure-profile="hitPoints"
                     data-tooltip="{{localize 'SHEET.ACTOR.LABELS.Configure_hit_points'}}" data-tooltip-class="cog"
                     data-tooltip-direction="UP"></i>
             {{/if}}
@@ -45,7 +44,7 @@
 
         {{! Temp damages }}
         <div class="tmp-dmgs flexrow flex0">
-            <span data-tooltip="{{HEALTH.tempDmgs.value_label}}" data-tooltip-class="cog">
+            <span data-tooltip="{{HEALTH.tempDmgs.label}}" data-tooltip-class="cog">
                 {{formInput
                     systemFields.HEALTH.fields.tempDmgs.fields.value
                     value=HEALTH.tempDmgs.value

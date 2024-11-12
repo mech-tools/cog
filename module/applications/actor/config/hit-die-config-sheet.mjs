@@ -72,6 +72,9 @@ export default class HitDieConfigSheet extends BaseConfigSheet {
     const history = Object.fromEntries(
       Object.entries(data)
         .filter(([key, value]) => value.level <= this.document.system.ADVANCEMENT.level.value)
+        .map(([key, level]) => {
+          return [key, Object.assign(level, { isNull: level.value === null })];
+        })
         .reverse(),
     );
 

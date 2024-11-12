@@ -14,7 +14,7 @@
 
         {{! NPC CR }}
         <div class="level flexrow flex0">
-            <span class="label">{{ADVANCEMENT.cr.value_label}}</span>
+            <span class="label">{{ADVANCEMENT.cr.label}}</span>
             {{#if editMode}}
                 <span data-tooltip="{{ADVANCEMENT.cr.value_hint}}" data-tooltip-class="cog">
                     {{formInput
@@ -29,26 +29,24 @@
         </div>
 
         {{! NPC Size }}
-        <div class="size flexrow flex0" data-tooltip="{{ATTRIBUTES.size.value_label}}" data-tooltip-class="cog">
+        <div class="size flexrow flex0" data-tooltip="{{ATTRIBUTES.size.label}}" data-tooltip-class="cog">
             {{#if editMode}}
                 {{formInput
                     systemFields.ATTRIBUTES.fields.size.fields.value
                     value=ATTRIBUTES.size.value
                 }}
             {{else}}
-                {{#with (lookup ATTRIBUTES.size.value_choices ATTRIBUTES.size.value) as |value|}}
-                    <span class="value">{{value}}</span>
-                {{/with}}
+                <span class="value">{{lookup ATTRIBUTES.size.value_choices ATTRIBUTES.size.value}}</span>
             {{/if}}
         </div>
     </header>
 
     {{! NPC Traits }}
     <div class="subtitle flexrow">
-        <a class="cog-button highlighted"><i class="fa-solid fa-octagon-plus"></i></i></i> Espèce</a>
-        <a class="cog-button"><i class="fa-solid fa-id-card-clip"></i> Archétype</a>
-        <a class="cog-button"><i class="fa-regular fa-microchip"></i> Expertise</a>
-        <a class="cog-button"><i class="fa-regular fa-microchip"></i> Rôle</a>
-        <a class="cog-button"><i class="fa-regular fa-microchip"></i> Trait</a>
+        <a class="standard-button highlighted"><i class="fa-solid fa-octagon-plus"></i></i></i> Espèce</a>
+        <a class="standard-button"><i class="fa-solid fa-id-card-clip"></i> Archétype</a>
+        <a class="standard-button"><i class="fa-regular fa-microchip"></i> Expertise</a>
+        <a class="standard-button"><i class="fa-regular fa-microchip"></i> Rôle</a>
+        <a class="standard-button"><i class="fa-regular fa-microchip"></i> Trait</a>
     </div>
 </section>

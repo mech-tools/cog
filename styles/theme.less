@@ -197,6 +197,14 @@
       font-weight: normal;
       font-size: var(--font-size-14);
       line-height: normal;
+
+      i {
+        font-size: var(--font-size-12);
+      }
+    }
+
+    > .form-fields {
+      gap: var(--spacing-50);
     }
 
     > .hint {
@@ -225,10 +233,10 @@
   }
 
   /* ----------------------------------------- */
-  /*  Button                                   */
+  /*  Buttons                                  */
   /* ----------------------------------------- */
 
-  .cog-button {
+  .standard-button {
     display: inline-flex;
     flex: 0;
     align-items: center;
@@ -262,6 +270,24 @@
     }
 
     &.highlighted i {
+      color: var(--color-primary);
+    }
+  }
+
+  .icon-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-tertiary-75);
+    cursor: pointer;
+    transition: color 0.5s;
+    font-size: var(--font-size-14);
+
+    &::before {
+      text-shadow: 0 0 5px var(--color-drop-shadow);
+    }
+
+    &:hover {
       color: var(--color-primary);
     }
   }

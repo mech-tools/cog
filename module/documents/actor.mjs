@@ -53,11 +53,22 @@ export default class COGActor extends Actor {
 
     const updates = {};
 
-    // Reset Hit Die History when level changes
+    // Reset Hit Die History when the level changes
     const newLevel = data.system?.ADVANCEMENT?.level?.value;
-    if (newLevel) {
-      for (const key of Object.keys(this.system.HIT_DIE.history)) {
-        if (parseInt(key.replace("level", "")) > newLevel) {
+
+    if (newLevel && newLevel < this.system.ADVANCEMENT.level.value) {
+      // Merge Data with System Config
+      const history = foundry.utils.mergeObject(
+        this.system.HIT_DIE.history,
+        SYSTEM.ACTOR.HIT_DIE.history,
+        {
+          inplace: false,
+        },
+      );
+
+      // Reset
+      for (const [key, { level }] of Object.entries(history)) {
+        if (level > newLevel) {
           updates[`system.HIT_DIE.history.${key}.value`] =
             SYSTEM.ACTOR.HIT_DIE.history[key].value_initial;
         }

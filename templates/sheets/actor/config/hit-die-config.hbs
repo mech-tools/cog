@@ -5,11 +5,9 @@
                 {{! Level Label }}
                 <label>
                     {{level.value_label}}
-                    {{#unless level.value}}
-                        <span class="incomplete">
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-                        </span>
-                    {{/unless}}
+                    {{#if level.isNull}}
+                        <i class="incomplete fa-solid fa-triangle-exclamation"></i>
+                    {{/if}}
                 </label>
 
                 {{! Level field }}
@@ -21,6 +19,9 @@
                             disabled=(ifThen level.rollable false true)
                         }}
                     {{/with}}
+                    {{#if level.rollable}}
+                        <i class="icon-button fa-regular fa-dice"></i>
+                    {{/if}}
                 </div>
 
                 {{! PC Hint }}
