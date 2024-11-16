@@ -84,6 +84,9 @@
   font-family: var(--font-body);
   text-shadow: 0 0 5px var(--color-drop-shadow);
   /* ----------------------------------------- */
+  /*  Image                                    */
+  /* ----------------------------------------- */
+  /* ----------------------------------------- */
   /*  Tooltip                                  */
   /* ----------------------------------------- */
   /* ----------------------------------------- */
@@ -91,6 +94,9 @@
   /* ----------------------------------------- */
   /* ----------------------------------------- */
   /*  Forms                                    */
+  /* ----------------------------------------- */
+  /* ----------------------------------------- */
+  /*  Buttons                                  */
   /* ----------------------------------------- */
   /* ----------------------------------------- */
   /*  Buttons                                  */
@@ -143,6 +149,9 @@
   margin: 0;
   border: 0;
 }
+.cog img {
+  border: 0;
+}
 .cog#tooltip {
   --tooltip-border-with: 2px;
   background-color: var(--color-frame-bg);
@@ -188,7 +197,6 @@
   --input-height: var(--spacing-175);
   --input-placeholder-color: var(--color-secondary-50);
   flex-basis: content;
-  flex-grow: 0;
   font-family: var(--font-h3);
   border-radius: var(--border-radius-half);
   transition: outline-color 0.5s, border-color 0.5s, box-shadow 0.5s;
@@ -315,6 +323,23 @@
 }
 .cog .icon-button:hover {
   color: var(--color-primary);
+}
+.cog .value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-h3);
+  background-repeat: no-repeat;
+  width: var(--value-size);
+  height: var(--value-size);
+  max-width: var(--value-size);
+  max-height: var(--value-size);
+  text-align: center;
+}
+.cog .value.mini {
+  --value-size: 50px;
+  font-size: var(--font-size-14);
+  background-image: url(/systems/cog/ui/values/mini.webp);
 }
 /* ---------------------------------- */
 /*  Slide Toggles                     */
@@ -575,7 +600,6 @@ slide-toggle[checked] .slide-toggle-thumb {
 }
 .cog.sheet.actor .sheet-sidebar .health img.foreground {
   position: absolute;
-  border: 0;
   z-index: 1;
   pointer-events: none;
 }
@@ -784,8 +808,10 @@ slide-toggle[checked] .slide-toggle-thumb {
   height: 100%;
 }
 .cog.sheet.config .sheet-header {
-  color: var(--color-text-75);
   position: relative;
+}
+.cog.sheet.config .sheet-header .description {
+  color: var(--color-text-75);
 }
 .cog.sheet.config:has(.sheet-content.scrolling) .sheet-header::after {
   --scrolled-shadow-height: var(--spacing-100);

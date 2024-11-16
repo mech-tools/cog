@@ -1,11 +1,11 @@
-import { HandlebarsApplicationMixin } from "../../api/_module.mjs";
+import COGBaseSheet from "../../api/base-sheet.mjs";
 
 const { api } = foundry.applications;
 
 /**
  * A base ConfigSheet built on top of ApplicationV2 and the Handlebars rendering backend.
  */
-export default class BaseConfigSheet extends HandlebarsApplicationMixin(api.DocumentSheetV2) {
+export default class BaseConfigSheet extends COGBaseSheet(api.DocumentSheetV2) {
 
   /** @inheritDoc */
   static DEFAULT_OPTIONS = {
@@ -13,20 +13,6 @@ export default class BaseConfigSheet extends HandlebarsApplicationMixin(api.Docu
     sheetConfig: false,
     config: {
       type: undefined, // Defined by subclass
-      includesHeader: false,
-    },
-  };
-
-  /** @override */
-  static PARTS = {
-    body: {
-      id: "body",
-      template: "systems/cog/templates/sheets/actor/config/body.hbs",
-    },
-    config: {
-      id: "config",
-      template: undefined, // Defined during _initializeConfigSheetClass,
-      scrollable: [""],
     },
   };
 
@@ -38,23 +24,9 @@ export default class BaseConfigSheet extends HandlebarsApplicationMixin(api.Docu
    */
   static _initializeConfigSheetClass() {
     const config = this.DEFAULT_OPTIONS.config;
-    this.PARTS = foundry.utils.deepClone(this.PARTS);
 
     // Config Type Configuration
-    this.PARTS.config.template = `systems/cog/templates/sheets/actor/config/${config.type}-config.hbs`;
     this.DEFAULT_OPTIONS.classes = [config.type];
-  }
-
-  /* -------------------------------------------- */
-  /*  Sheet Context                               */
-  /* -------------------------------------------- */
-
-  /** @override */
-  async _prepareContext(_options) {
-    return {
-      // Sheet
-      header: this.options.config.includesHeader,
-    };
   }
 
   /* -------------------------------------------- */

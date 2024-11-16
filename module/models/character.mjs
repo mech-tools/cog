@@ -23,8 +23,8 @@ export default class COGCharacter extends COGActorType {
       type: new fields.SchemaField({
         value: new fields.StringField({
           ...requiredString,
-          initial: SYSTEM.ACTOR.HIT_DIE.type.value_initial,
-          choices: SYSTEM.ACTOR.HIT_DIE.type.value_choices,
+          initial: SYSTEM.ACTOR.HIT_DIE.type.value.initial,
+          choices: SYSTEM.ACTOR.HIT_DIE.type.value.choices,
         }),
       }),
       history: new fields.SchemaField(
@@ -32,8 +32,8 @@ export default class COGCharacter extends COGActorType {
           obj[id] = new fields.SchemaField({
             value: new fields.NumberField({
               ...nullableInteger,
-              initial: level.value_initial,
-              min: level.value_min,
+              initial: level.value.initial,
+              min: level.value.min,
             }),
           });
           return obj;
@@ -46,15 +46,12 @@ export default class COGCharacter extends COGActorType {
       level: new fields.SchemaField({
         value: new fields.NumberField({
           ...requiredInteger,
-          initial: SYSTEM.ACTOR.ADVANCEMENT.level.value_min,
-          min: SYSTEM.ACTOR.ADVANCEMENT.level.value_min,
-          max: SYSTEM.ACTOR.ADVANCEMENT.level.value_max,
+          initial: SYSTEM.ACTOR.ADVANCEMENT.level.value.min,
+          min: SYSTEM.ACTOR.ADVANCEMENT.level.value.min,
+          max: SYSTEM.ACTOR.ADVANCEMENT.level.value.max,
         }),
       }),
     });
-
-    // Characters have their base HP derived from Hit Die History
-    delete schema.HEALTH.fields.hitPoints.fields.base;
 
     return schema;
   }
@@ -65,7 +62,7 @@ export default class COGCharacter extends COGActorType {
 
   /** @override */
   _prepareBaseHealth() {
-    // Compute max Hit Points based on Hit Die history
+    // Compute base Hit Points based on Hit Die history
     this.HEALTH.hitPoints.base = Object.values(this.HIT_DIE.history).reduce(
       (max, level) => max + level.value,
       0,
@@ -78,7 +75,9 @@ export default class COGCharacter extends COGActorType {
 
   /** @override */
   _prepareDerivedHealth() {
-    this.HEALTH.hitPoints.max = this.HEALTH.hitPoints.base;
+
+    // Compute max Hit Points based on base + bonus
+    this.HEALTH.hitPoints.max = this.HEALTH.hitPoints.base + this.HEALTH.hitPoints.bonus;
 
     super._prepareDerivedHealth();
   }

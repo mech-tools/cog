@@ -7,13 +7,6 @@ const { HandlebarsApplicationMixin } = foundry.applications.api;
  */
 export default (Base) =>
   class extends HandlebarsApplicationMixin(Base) {
-    /** @override */
-    static DEFAULT_OPTIONS = {
-      classes: ["cog", "standard-form"],
-      form: {
-        submitOnChange: true,
-      },
-    };
 
     /* -------------------------------------------- */
     /*  Rendering                                   */

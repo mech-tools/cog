@@ -1,4 +1,24 @@
-{{! Content }}
-<div class="sheet-content flexcol flex1">
-    Hit Points
-</div>
+<section class="sheet-body flexcol">
+    {{! Header }}
+    <header class="sheet-header flexcol">
+        <span class="description">{{localize "COG.SHEET.CONFIG.HIT_POINTS.LABELS.Description"}}</span>
+        <span class="value mini">{{HEALTH.hitPoints.max.value}}</span>
+    </header>
+
+    {{! Content }}
+    <div class="sheet-content flexcol flex1">
+        {{formGroup
+            HEALTH.hitPoints.base.field
+            value=HEALTH.hitPoints.base.value
+            label=HEALTH.hitPoints.base.label
+            hint=HEALTH.hitPoints.base.hint
+            disabled=true
+        }}
+        {{formGroup
+            HEALTH.hitPoints.bonus.field
+            value=HEALTH.hitPoints.bonus.value
+            label=HEALTH.hitPoints.bonus.label
+            hint=HEALTH.hitPoints.bonus.hint
+        }}
+    </div>
+</section>

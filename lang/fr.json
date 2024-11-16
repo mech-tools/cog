@@ -6,7 +6,7 @@
     }
   },
 
-  "SHEET": {
+  "COG.SHEET": {
     "ACTOR": {
       "MODES": {
         "Play": "Jouer",
@@ -37,18 +37,20 @@
       "HIT_DIE": {
         "LABELS": {
           "Window_title": "Configuration : dé de vie ({name})",
-          "Description": "Configuration des points de vie gagnés par le personnage à chaque niveau."
+          "Description": "Configuration des points de vie gagnés par le personnage à chaque niveau.",
+          "Roll_hit_die": "Faire le jet"
         }
       },
       "HIT_POINTS": {
         "LABELS": {
-          "Window_title": "Configuration : points de vie ({name})"
+          "Window_title": "Configuration : points de vie ({name})",
+          "Description": "Configuration des points de vie maximum du personnage."
         }
       }
     }
   },
 
-  "SCHEMA": {
+  "COG.SCHEMA": {
     "DICE": {
       "Die_4": "Dé 4",
       "Die_6": "Dé 6",
@@ -76,24 +78,42 @@
       },
 
       "HIT_DIE": {
-        "Type.Label": "Dé de vie",
-        "History.Level.Value_label": "Niveau {level}"
+        "Type": {
+          "Value.Label": "Dé de vie"
+        },
+        "History.Level": {
+          "Value.Label": "Niveau {level}"
+        }
       },
 
       "HEALTH": {
-        "Hit_points.Label": "Points de vie",
-        "Temp_dmgs.Label": "Dommages temporaires",
-        "Temp_dmgs.Value_abbreviation": "TMP"
+        "HitPoints": {
+          "Value.Label": "Points de vie",
+          "Base.Label": "Base",
+          "Base.Hint": "Maximum de points de vie (avant modificateurs) calculé en fonction du niveau du personnage.",
+          "Bonus.Label": "Bonus",
+          "Bonus.Hint": "Bonus manuel ajouté aux points de vie maximum."
+        },
+        "TempDmgs": {
+          "Value.Label": "Dommages temporaires",
+          "Value.Abbreviation": "TMP"
+        }
       },
 
       "ADVANCEMENT": {
-        "Level.Label": "Niveau",
-        "Cr.Label": "NC",
-        "Cr.Value_hint": "Niveau de créature avant ajout des gabarits et des capacités."
+        "Level": {
+          "Value.Label": "Niveau"
+        },
+        "Cr": {
+          "Value.Label": "NC",
+          "Value.Hint": "Niveau de créature avant ajout des gabarits et des capacités."
+        }
       },
 
       "ATTRIBUTES": {
-        "Size.Label": "Taille"
+        "Size": {
+          "Value.Label": "Taille"
+        }
       }
     }
   }

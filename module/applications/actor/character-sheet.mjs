@@ -1,8 +1,6 @@
-/** @import {SYSTEM} from  "SYSTEM" */
-/** @import {SCHEMA} from  "MODELS" */
-
 import COGBaseActorSheet from "./base-actor-sheet.mjs";
 import HitDieConfigSheet from "./config/hit-die-config-sheet.mjs";
+import HitPointsConfigSheet from "./config/hit-points-config-sheet.mjs";
 
 /**
  * A COGBaseActorSheet subclass used to configure Actors of the "character" type.
@@ -21,7 +19,8 @@ export default class CharacterSheet extends COGBaseActorSheet {
       includesBiography: true,
     },
     configureProfiles: {
-      hitDice: HitDieConfigSheet,
+      hitDie: HitDieConfigSheet,
+      hitPoints: HitPointsConfigSheet,
     },
   };
 
@@ -56,24 +55,20 @@ export default class CharacterSheet extends COGBaseActorSheet {
    */
   #prepareCreationSteps() {
     // Hit Die History
-    const history = foundry.utils.mergeObject(
-      this.document.system.HIT_DIE.history,
-      SYSTEM.ACTOR.HIT_DIE.history,
-      { inplace: false },
-    );
-
     const hitDieHistory = Object.values(history)
       .reduce((count, { level, value }) => {
-        return level <= this.actor.system.ADVANCEMENT.level.value && !value ? count + 1 : count;
+        return level <= this.actor.system.ADVANCEMENT.level.value && !value.value
+          ? count + 1
+          : count;
       }, 0);
 
     // Create the tooltip
     const incomplete = !!hitDieHistory;
-    let details = `<p>${game.i18n.localize("SHEET.ACTOR.LABELS.Creation_steps.Title")}</p><ul>`;
+    let details = `<p>${game.i18n.localize("COG.SHEET.ACTOR.LABELS.Creation_steps.Title")}</p><ul>`;
 
     if (hitDieHistory > 0) {
       const hitDieHistoryLabel = game.i18n.format(
-        "SHEET.ACTOR.LABELS.Creation_steps.Hit_die_count",
+        "COG.SHEET.ACTOR.LABELS.Creation_steps.Hit_die_count",
         {
           count: hitDieHistory,
         },
@@ -97,12 +92,12 @@ export default class CharacterSheet extends COGBaseActorSheet {
    */
   #prepareHitDie() {
     // Merge Data with System Config
-    const hitDie = foundry.utils.mergeObject(this.document.system.HIT_DIE, SYSTEM.ACTOR.HIT_DIE, {
-      inplace: false,
-    });
+    const hitDie = {
+      type: this.getField("HIT_DIE.type"),
+    };
 
     // Icon
-    hitDie.type.icon = `systems/cog/ui/dice/d${hitDie.type.value}.svg`;
+    hitDie.type.icon = `systems/cog/ui/dice/d${hitDie.type.value.value}.svg`;
 
     return hitDie;
   }

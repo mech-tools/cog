@@ -14,7 +14,6 @@ import * as applications from "./module/applications/_module.mjs";
 import * as documents from "./module/documents/_module.mjs";
 import * as models from "./module/models/_module.mjs";
 import * as components from "./module/components/_module.mjs";
-import * as utils from "./module/utils/_modules.mjs";
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -31,7 +30,6 @@ Hooks.once("init", async function () {
     models,
     documents,
     components,
-    utils,
   };
 
   // Actor Document configuration
@@ -72,7 +70,7 @@ Hooks.once("i18nInit", function () {
     const obj = foundry.utils.getProperty(SYSTEM, path);
 
     // Special handling for enums
-    if (obj instanceof utils.Enum) {
+    if (obj instanceof SYSTEM.API.Enum) {
       for (const [key, label] of Object.entries(obj.labels)) {
         obj.labels[key] = game.i18n.localize(label);
       }

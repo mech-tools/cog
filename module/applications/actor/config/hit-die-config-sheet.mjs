@@ -1,6 +1,3 @@
-/** @import {SYSTEM} from  "SYSTEM" */
-/** @import {SCHEMA} from  "MODELS" */
-
 import BaseConfigSheet from "./base-config-sheet.mjs";
 
 /**
@@ -16,7 +13,15 @@ export default class HitDieConfigSheet extends BaseConfigSheet {
     },
     config: {
       type: "hit-die",
-      includesHeader: { description: "SHEET.CONFIG.HIT_DIE.LABELS.Description" },
+    },
+  };
+
+  /** @override */
+  static PARTS = {
+    config: {
+      id: "config",
+      template: "systems/cog/templates/sheets/actor/config/hit-die-config.hbs",
+      scrollable: [".scrollable"],
     },
   };
 
@@ -30,7 +35,7 @@ export default class HitDieConfigSheet extends BaseConfigSheet {
 
   /** @override */
   get title() {
-    return game.i18n.format("SHEET.CONFIG.HIT_DIE.LABELS.Window_title", {
+    return game.i18n.format("COG.SHEET.CONFIG.HIT_DIE.LABELS.Window_title", {
       name: this.document.name,
     });
   }
@@ -39,20 +44,19 @@ export default class HitDieConfigSheet extends BaseConfigSheet {
   /*  Sheet Context                               */
   /* -------------------------------------------- */
 
-  /** @inheritdoc */
+  /** @override */
   async _prepareContext(options) {
-    const context = await super._prepareContext(options);
-
     return {
-      ...context,
-
       // Document
       systemFields: this.document.system.schema.fields.HIT_DIE.fields,
 
       // Data
+      HIT_POINTS: { base: this.getField("HEALTH.hitPoints.base") },
       HISTORY: this.#prepareHistory(),
     };
   }
+
+  /* -------------------------------------------- */
 
   /**
    * Prepare and format the display of Hie Die History on the Config sheet.
@@ -60,24 +64,14 @@ export default class HitDieConfigSheet extends BaseConfigSheet {
    */
   #prepareHistory() {
     // Merge Data with System Config
-    const data = foundry.utils.mergeObject(
-      this.document.system.HIT_DIE.history,
-      SYSTEM.ACTOR.HIT_DIE.history,
-      {
-        inplace: false,
-      },
-    );
+    const history = this.getField("HIT_DIE.history");
 
     // Remove entries that are under current Actor Level and reverse order
-    const history = Object.fromEntries(
-      Object.entries(data)
-        .filter(([key, value]) => value.level <= this.document.system.ADVANCEMENT.level.value)
-        .map(([key, level]) => {
-          return [key, Object.assign(level, { isNull: level.value === null })];
-        })
-        .reverse(),
-    );
-
-    return history;
+    return Object.entries(history)
+      .filter(([key, level]) => level.level <= this.document.system.ADVANCEMENT.level.value)
+      .map(([key, level]) => {
+        return [key, Object.assign(level, { isNull: level.value.value === null })];
+      })
+      .reverse();
   }
 }

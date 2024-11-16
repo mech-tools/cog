@@ -1,32 +1,45 @@
-<div class="sheet-content flexcol flex1 scrollable">
-    {{#each HISTORY as |level|}}
-        <div class="level flexrow">
-            <div class="form-group">
-                {{! Level Label }}
-                <label>
-                    {{level.value_label}}
-                    {{#if level.isNull}}
-                        <i class="incomplete fa-solid fa-triangle-exclamation"></i>
-                    {{/if}}
-                </label>
+<section class="sheet-body flexcol">
+    {{! Header }}
+    <header class="sheet-header flexcol">
+        <span class="description">{{localize "COG.SHEET.CONFIG.HIT_DIE.LABELS.Description"}}</span>
+        <span class="value mini">{{HIT_POINTS.base.value}}</span>
+    </header>
 
-                {{! Level field }}
-                <div class="form-fields">
-                    {{#with (lookup @root.systemFields.history.fields @key) as |lvl|}}
-                        {{formInput
-                            lvl.fields.value
-                            value=level.value
-                            disabled=(ifThen level.rollable false true)
-                        }}
-                    {{/with}}
-                    {{#if level.rollable}}
-                        <i class="icon-button fa-regular fa-dice"></i>
-                    {{/if}}
+    {{! Content }}
+    <div class="sheet-content flexcol flex1 scrollable">
+        {{#each HISTORY as |value|}}
+            {{#with value.[1] as |level|}}
+                <div class="level flexrow">
+                    <div class="form-group">
+                        {{! Level Label }}
+                        <label>
+                            {{level.value.label}}
+                            {{#if level.isNull}}
+                                <i class="incomplete fa-solid fa-triangle-exclamation"></i>
+                            {{/if}}
+                        </label>
+
+                        {{! Level field }}
+                        <div class="form-fields">
+
+                            {{formInput
+                                level.value.field
+                                value=level.value.value
+                                disabled=(ifThen level.rollable false true)
+                            }}
+
+                            {{#if level.rollable}}
+                                <i class="icon-button fa-regular fa-dice"
+                                    data-tooltip="COG.SHEET.CONFIG.HIT_DIE.LABELS.Roll_hit_die" data-tooltip-class="cog"
+                                    data-tooltip-direction="UP"></i>
+                            {{/if}}
+                        </div>
+
+                        {{! PC Hint }}
+                        <p class="hint">{{level.value.hint}}</p>
+                    </div>
                 </div>
-
-                {{! PC Hint }}
-                <p class="hint">{{level.value_hint}}</p>
-            </div>
-        </div>
-    {{/each}}
-</div>
+            {{/with}}
+        {{/each}}
+    </div>
+</section>

@@ -20,12 +20,15 @@ export default class COGNpc extends COGActorType {
       cr: new fields.SchemaField({
         value: new fields.NumberField({
           ...required,
-          initial: SYSTEM.ACTOR.ADVANCEMENT.cr.value_initial,
-          min: SYSTEM.ACTOR.ADVANCEMENT.cr.value_min,
-          step: SYSTEM.ACTOR.ADVANCEMENT.cr.value_step,
+          initial: SYSTEM.ACTOR.ADVANCEMENT.cr.value.initial,
+          min: SYSTEM.ACTOR.ADVANCEMENT.cr.value.min,
+          step: SYSTEM.ACTOR.ADVANCEMENT.cr.value.step,
         }),
       }),
     });
+
+    // Npc don't have Bonus HP
+    delete schema.HEALTH.fields.hitPoints.fields.bonus;
 
     return schema;
   }

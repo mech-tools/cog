@@ -1,15 +1,11 @@
-/** @import {SYSTEM} from  "SYSTEM" */
-/** @import {SCHEMA} from  "MODELS" */
-
-import { HandlebarsApplicationMixin } from "../api/_module.mjs";
-import HitPointsConfigSheet from "./config/hit-points-config-sheet.mjs";
+import COGBaseSheet from "../api/base-sheet.mjs";
 
 const { sheets } = foundry.applications;
 
 /**
  * A base ActorSheet built on top of ApplicationV2 and the Handlebars rendering backend.
  */
-export default class COGBaseActorSheet extends HandlebarsApplicationMixin(sheets.ActorSheetV2) {
+export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2) {
 
   /** @inheritDoc */
   static DEFAULT_OPTIONS = {
@@ -30,9 +26,7 @@ export default class COGBaseActorSheet extends HandlebarsApplicationMixin(sheets
       includesEffects: false,
       includesBiography: false,
     },
-    configureProfiles: {
-      hitPoints: HitPointsConfigSheet,
-    },
+    configureProfiles: {}, // Defined by subclass
   };
 
   /** @override */
@@ -63,7 +57,7 @@ export default class COGBaseActorSheet extends HandlebarsApplicationMixin(sheets
    * Define the structure of tabs used by this Actor Sheet.
    */
   static TABS = {
-    sheet: [{ id: "attributes", group: "sheet", label: "SHEET.ACTOR.TABS.Attributes" }],
+    sheet: [{ id: "attributes", group: "sheet", label: "COG.SHEET.ACTOR.TABS.Attributes" }],
   };
 
   /** @override */
@@ -111,7 +105,7 @@ export default class COGBaseActorSheet extends HandlebarsApplicationMixin(sheets
       this.TABS.sheet.push({
         id: "actions",
         group: "sheet",
-        label: "SHEET.ACTOR.TABS.Actions",
+        label: "COG.SHEET.ACTOR.TABS.Actions",
       });
     }
 
@@ -124,7 +118,7 @@ export default class COGBaseActorSheet extends HandlebarsApplicationMixin(sheets
       this.TABS.sheet.push({
         id: "inventory",
         group: "sheet",
-        label: "SHEET.ACTOR.TABS.Inventory",
+        label: "COG.SHEET.ACTOR.TABS.Inventory",
       });
     }
 
@@ -137,7 +131,7 @@ export default class COGBaseActorSheet extends HandlebarsApplicationMixin(sheets
       this.TABS.sheet.push({
         id: "paths",
         group: "sheet",
-        label: "SHEET.ACTOR.TABS.Paths",
+        label: "COG.SHEET.ACTOR.TABS.Paths",
       });
     }
 
@@ -150,7 +144,7 @@ export default class COGBaseActorSheet extends HandlebarsApplicationMixin(sheets
       this.TABS.sheet.push({
         id: "effects",
         group: "sheet",
-        label: "SHEET.ACTOR.TABS.Effects",
+        label: "COG.SHEET.ACTOR.TABS.Effects",
       });
     }
 
@@ -163,7 +157,7 @@ export default class COGBaseActorSheet extends HandlebarsApplicationMixin(sheets
       this.TABS.sheet.push({
         id: "biography",
         group: "sheet",
-        label: "SHEET.ACTOR.TABS.Biography",
+        label: "COG.SHEET.ACTOR.TABS.Biography",
       });
     }
   }
@@ -199,8 +193,8 @@ export default class COGBaseActorSheet extends HandlebarsApplicationMixin(sheets
 
       // Data
       HEALTH: this.#prepareHealth(),
-      ADVANCEMENT: this.#prepareAdvancement(),
-      ATTRIBUTES: this.#prepareAttributes(),
+      ADVANCEMENT: this.getField("ADVANCEMENT"),
+      ATTRIBUTES: this.getField("ATTRIBUTES"),
     };
   }
 
@@ -208,70 +202,42 @@ export default class COGBaseActorSheet extends HandlebarsApplicationMixin(sheets
 
   /**
    * Prepare and format the display of Health attributes on the actor sheet.
-   * @returns {SCHEMA.ACTOR.HEALTH &
-   *   SYSTEM.ACTOR.HEALTH & {
-   *     fgPath: string;
-   *     hitPoints: { pct: string; cssPct: string };
-   *     tempDmgs: { pct: string; cssPct: string };
-   *   }}
+   * @returns {Object & {
+   *   fgPath: string;
+   *   hitPoints: { pct: string; cssPct: string };
+   *   tempDmgs: { pct: string; cssPct: string };
+   * }}
    */
   #prepareHealth() {
-    // Merge Data with System Config
-    const health = foundry.utils.mergeObject(this.document.system.HEALTH, SYSTEM.ACTOR.HEALTH, {
-      inplace: false,
-    });
+    // Hit Points
+    const hitPoints = {
+      value: this.getField("HEALTH.hitPoints.value"),
+      max: this.getField("HEALTH.hitPoints.max"),
+    };
 
-    // Hit Points percentage
-    health.hitPoints.pct = health.hitPoints.max
-      ? Math.round((health.hitPoints.value * 100) / health.hitPoints.max)
+    hitPoints.pct = hitPoints.max.value
+      ? Math.round((hitPoints.value.value * 100) / hitPoints.max.value)
       : 0;
-    health.hitPoints.cssPct = `--hitPoints-pct: ${health.hitPoints.pct}%;`;
 
-    // Temp Damages percentage
-    health.tempDmgs.pct = health.hitPoints.max
-      ? Math.min(Math.round((health.tempDmgs.value * 100) / health.hitPoints.max) || 0, 100)
+    hitPoints.cssPct = `--hitPoints-pct: ${hitPoints.pct}%;`;
+
+    // Temp Dmgs
+    const tempDmgs = {
+      value: this.getField("HEALTH.tempDmgs.value"),
+    };
+
+    tempDmgs.pct = hitPoints.max.value
+      ? Math.min(Math.round((tempDmgs.value.value * 100) / hitPoints.max.value) || 0, 100)
       : 0;
-    health.tempDmgs.cssPct = `--tempDmgs-pct: ${health.tempDmgs.pct}%;`;
-    if (health.tempDmgs.value === 0) health.tempDmgs.value = null;
 
-    // Foreground
-    health.fgPath = `systems/cog/ui/actor/health/${this.document.type}-health-pool.webp`;
+    tempDmgs.cssPct = `--tempDmgs-pct: ${tempDmgs.pct}%;`;
+    if (tempDmgs.value.value === 0) tempDmgs.value.value = null;
 
-    return health;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Prepare and format the display of Health attributes on the actor sheet.
-   * @returns {SCHEMA.ACTOR.ADVANCEMENT & SYSTEM.ACTOR.ADVANCEMENT}
-   */
-  #prepareAdvancement() {
-    // Merge Data with System Config
-    const advancement = foundry.utils.mergeObject(
-      this.document.system.ADVANCEMENT,
-      SYSTEM.ACTOR.ADVANCEMENT,
-      { inplace: false },
-    );
-
-    return advancement;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Prepare and format the display of Attributes on the actor sheet.
-   * @returns {SCHEMA.ACTOR.ATTRIBUTES & SYSTEM.ACTOR.ATTRIBUTES}
-   */
-  #prepareAttributes() {
-    // Merge Data with System Config
-    const attributes = foundry.utils.mergeObject(
-      this.document.system.ATTRIBUTES,
-      SYSTEM.ACTOR.ATTRIBUTES,
-      { inplace: false },
-    );
-
-    return attributes;
+    return {
+      fgPath: `systems/cog/ui/actor/health/${this.document.type}-health-pool.webp`,
+      hitPoints,
+      tempDmgs,
+    };
   }
 
   /* -------------------------------------------- */
@@ -361,9 +327,9 @@ export default class COGBaseActorSheet extends HandlebarsApplicationMixin(sheets
     toggle.checked = this.#mode === this.constructor.MODES.EDIT;
 
     // Label and tooltip
-    toggle.dataset.tooltip = "SHEET.ACTOR.MODES.Edit";
+    toggle.dataset.tooltip = "COG.SHEET.ACTOR.MODES.Edit";
     toggle.dataset.tooltipClass = "cog";
-    toggle.setAttribute("aria-label", game.i18n.localize("SHEET.ACTOR.MODES.Edit"));
+    toggle.setAttribute("aria-label", game.i18n.localize("COG.SHEET.ACTOR.MODES.Edit"));
 
     // Add it to the DOM
     header.insertAdjacentElement("afterbegin", toggle);
@@ -468,7 +434,7 @@ export default class COGBaseActorSheet extends HandlebarsApplicationMixin(sheets
     const { MODES } = this.constructor;
 
     const toggle = event.currentTarget;
-    const label = game.i18n.localize(`SHEET.ACTOR.MODES.${toggle.checked ? "Play" : "Edit"}`);
+    const label = game.i18n.localize(`COG.SHEET.ACTOR.MODES.${toggle.checked ? "Play" : "Edit"}`);
 
     toggle.dataset.tooltip = label;
     toggle.setAttribute("aria-label", label);

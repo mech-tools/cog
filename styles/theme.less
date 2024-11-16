@@ -65,6 +65,14 @@
   }
 
   /* ----------------------------------------- */
+  /*  Image                                    */
+  /* ----------------------------------------- */
+
+  img {
+    border: 0;
+  }
+
+  /* ----------------------------------------- */
   /*  Tooltip                                  */
   /* ----------------------------------------- */
 
@@ -127,7 +135,6 @@
     --input-placeholder-color: var(--color-secondary-50);
 
     flex-basis: content;
-    flex-grow: 0;
     font-family: var(--font-h3);
     border-radius: var(--border-radius-half);
     transition:
@@ -289,6 +296,30 @@
 
     &:hover {
       color: var(--color-primary);
+    }
+  }
+
+  /* ----------------------------------------- */
+  /*  Buttons                                  */
+  /* ----------------------------------------- */
+
+  .value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-h3);
+    background-repeat: no-repeat;
+    width: var(--value-size);
+    height: var(--value-size);
+    max-width: var(--value-size);
+    max-height: var(--value-size);
+    text-align: center;
+
+    &.mini {
+      --value-size: 50px;
+
+      font-size: var(--font-size-14);
+      background-image: url(/systems/cog/ui/values/mini.webp);
     }
   }
 }

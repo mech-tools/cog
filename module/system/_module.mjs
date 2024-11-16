@@ -1,4 +1,5 @@
 import * as ACTOR from "./actor.mjs";
+import * as API from "./api/_modules.mjs";
 
 export const SYSTEM_ID = "cog";
 
@@ -10,6 +11,10 @@ export const SYSTEM_ID = "cog";
 export const SYSTEM = {
   id: SYSTEM_ID,
 
+  // Api
+  API,
+
+  // Actor
   ACTOR: {
     // Actor Enums
     HIT_DIE_TYPES: ACTOR.HIT_DIE_TYPES,

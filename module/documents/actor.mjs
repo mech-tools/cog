@@ -1,7 +1,15 @@
+import SystemDocument from "./api/system-document.mjs";
+
 /**
  * The Actor document subclass in the COG system which extends the behavior of the base Actor class.
  */
-export default class COGActor extends Actor {
+export default class COGActor extends SystemDocument(Actor) {
+
+  static SYSTEM_PATH = "ACTOR";
+
+  /* -------------------------------------------- */
+  /*  Properties                                  */
+  /* -------------------------------------------- */
 
   /**
    * Does the Actor have a Hit Dice field.
@@ -58,19 +66,12 @@ export default class COGActor extends Actor {
 
     if (newLevel && newLevel < this.system.ADVANCEMENT.level.value) {
       // Merge Data with System Config
-      const history = foundry.utils.mergeObject(
-        this.system.HIT_DIE.history,
-        SYSTEM.ACTOR.HIT_DIE.history,
-        {
-          inplace: false,
-        },
-      );
+      const history = this.withSystemData("HIT_DIE.history");
 
       // Reset
-      for (const [key, { level }] of Object.entries(history)) {
+      for (const [key, { level, value }] of Object.entries(history)) {
         if (level > newLevel) {
-          updates[`system.HIT_DIE.history.${key}.value`] =
-            SYSTEM.ACTOR.HIT_DIE.history[key].value_initial;
+          updates[`system.HIT_DIE.history.${key}.value`] = value.initial;
         }
       }
     }

@@ -1,5 +1,3 @@
-/** @import {SCHEMA} from  "MODELS" */
-
 /**
  * This class defines data schema, methods, and properties shared by all Actor subtypes in the COG
  * system.
@@ -27,20 +25,30 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
       hitPoints: new fields.SchemaField({
         value: new fields.NumberField({
           ...requiredInteger,
-          initial: SYSTEM.ACTOR.HEALTH.hitPoints.value_initial,
-          min: SYSTEM.ACTOR.HEALTH.hitPoints.value_min,
+          initial: SYSTEM.ACTOR.HEALTH.hitPoints.value.initial,
+          min: SYSTEM.ACTOR.HEALTH.hitPoints.value.min,
         }),
         base: new fields.NumberField({
           ...requiredInteger,
-          initial: SYSTEM.ACTOR.HEALTH.hitPoints.base_initial,
-          min: SYSTEM.ACTOR.HEALTH.hitPoints.base_min,
+          initial: SYSTEM.ACTOR.HEALTH.hitPoints.base.initial,
+          min: SYSTEM.ACTOR.HEALTH.hitPoints.base.min,
+        }),
+        bonus: new fields.NumberField({
+          ...requiredInteger,
+          initial: SYSTEM.ACTOR.HEALTH.hitPoints.bonus.initial,
+          min: SYSTEM.ACTOR.HEALTH.hitPoints.bonus.min,
+        }),
+        max: new fields.NumberField({
+          ...requiredInteger,
+          initial: SYSTEM.ACTOR.HEALTH.hitPoints.max.initial,
+          min: SYSTEM.ACTOR.HEALTH.hitPoints.max.min,
         }),
       }),
       tempDmgs: new fields.SchemaField({
         value: new fields.NumberField({
           ...requiredInteger,
-          initial: SYSTEM.ACTOR.HEALTH.tempDmgs.value_initial,
-          min: SYSTEM.ACTOR.HEALTH.tempDmgs.value_min,
+          initial: SYSTEM.ACTOR.HEALTH.tempDmgs.value.initial,
+          min: SYSTEM.ACTOR.HEALTH.tempDmgs.value.min,
         }),
       }),
     });
@@ -50,10 +58,10 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
       size: new fields.SchemaField({
         value: new fields.NumberField({
           ...requiredInteger,
-          initial: SYSTEM.ACTOR.ATTRIBUTES.size.value_initial,
-          choices: SYSTEM.ACTOR.ATTRIBUTES.size.value_choices,
-          min: SYSTEM.ACTOR.ATTRIBUTES.size.value_min,
-          max: SYSTEM.ACTOR.ATTRIBUTES.size.value_max,
+          initial: SYSTEM.ACTOR.ATTRIBUTES.size.value.initial,
+          choices: SYSTEM.ACTOR.ATTRIBUTES.size.value.choices,
+          min: SYSTEM.ACTOR.ATTRIBUTES.size.value.min,
+          max: SYSTEM.ACTOR.ATTRIBUTES.size.value.max,
         }),
       }),
     });
