@@ -47,12 +47,9 @@ export default class HitDieConfigSheet extends BaseConfigSheet {
   /** @override */
   async _prepareContext(options) {
     return {
-      // Document
-      systemFields: this.document.system.schema.fields.HIT_DIE.fields,
-
       // Data
-      HIT_POINTS: { base: this.getField("HEALTH.hitPoints.base") },
-      HISTORY: this.#prepareHistory(),
+      hitPoints: this.getField("health.hitPoints.base"),
+      history: this.#prepareHistory(),
     };
   }
 
@@ -60,17 +57,17 @@ export default class HitDieConfigSheet extends BaseConfigSheet {
 
   /**
    * Prepare and format the display of Hie Die History on the Config sheet.
-   * @returns {SCHEMA.ACTOR.HIT_DIE["history"] & SYSTEM.ACTOR.HIT_DIE["history"]}
+   * @returns {Array<string, typeof SYSTEM.ACTOR.hitDie.history>}
    */
   #prepareHistory() {
-    // Merge Data with System Config
-    const history = this.getField("HIT_DIE.history");
+    // Get System metadata
+    const history = this.getField("hitDie.history");
 
     // Remove entries that are under current Actor Level and reverse order
     return Object.entries(history)
-      .filter(([key, level]) => level.level <= this.document.system.ADVANCEMENT.level.value)
-      .map(([key, level]) => {
-        return [key, Object.assign(level, { isNull: level.value.value === null })];
+      .filter(([key, lvl]) => lvl._mt.level <= this.document.system.advancement.level.value)
+      .map(([key, lvl]) => {
+        return [key, Object.assign(lvl, { isNull: lvl.value === null })];
       })
       .reverse();
   }

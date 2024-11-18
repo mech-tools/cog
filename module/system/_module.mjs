@@ -1,3 +1,4 @@
+import * as ENUMS from "./enums.mjs";
 import * as ACTOR from "./actor.mjs";
 import * as API from "./api/_modules.mjs";
 
@@ -14,17 +15,9 @@ export const SYSTEM = {
   // Api
   API,
 
-  // Actor
-  ACTOR: {
-    // Actor Enums
-    HIT_DIE_TYPES: ACTOR.HIT_DIE_TYPES,
-    SIZES: ACTOR.SIZES,
-    HIT_DIE_LEVEL_TYPES: ACTOR.HIT_DIE_LEVEL_TYPES,
+  // Enums
+  ENUMS,
 
-    // Actor Configuration Objects
-    HIT_DIE: ACTOR.HIT_DIE,
-    HEALTH: ACTOR.HEALTH,
-    ADVANCEMENT: ACTOR.ADVANCEMENT,
-    ATTRIBUTES: ACTOR.ATTRIBUTES,
-  },
+  // Types
+  ACTOR: { ...ACTOR },
 };

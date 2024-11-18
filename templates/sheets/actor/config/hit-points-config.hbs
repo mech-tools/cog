@@ -2,23 +2,23 @@
     {{! Header }}
     <header class="sheet-header flexcol">
         <span class="description">{{localize "COG.SHEET.CONFIG.HIT_POINTS.LABELS.Description"}}</span>
-        <span class="value mini">{{HEALTH.hitPoints.max.value}}</span>
+        <span class="value mini">{{hitPoints.max}}</span>
     </header>
 
     {{! Content }}
     <div class="sheet-content flexcol flex1">
         {{formGroup
-            HEALTH.hitPoints.base.field
-            value=HEALTH.hitPoints.base.value
-            label=HEALTH.hitPoints.base.label
-            hint=HEALTH.hitPoints.base.hint
+            hitPoints._mt.base.field
+            value=hitPoints.base
+            label=hitPoints._mt.base.label
+            hint=hitPoints._mt.base.hint
             disabled=true
         }}
         {{formGroup
-            HEALTH.hitPoints.bonus.field
-            value=HEALTH.hitPoints.bonus.value
-            label=HEALTH.hitPoints.bonus.label
-            hint=HEALTH.hitPoints.bonus.hint
+            hitPoints._mt.bonus.field
+            value=hitPoints.bonus
+            label=hitPoints._mt.bonus.label
+            hint=hitPoints._mt.bonus.hint
         }}
     </div>
 </section>

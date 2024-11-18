@@ -78,9 +78,7 @@
       },
 
       "HIT_DIE": {
-        "Type": {
-          "Value.Label": "Dé de vie"
-        },
+        "Type.Label": "Dé de vie",
         "History.Level": {
           "Value.Label": "Niveau {level}"
         }
@@ -88,31 +86,31 @@
 
       "HEALTH": {
         "HitPoints": {
-          "Value.Label": "Points de vie",
+          "Label": "Points de vie",
           "Base.Label": "Base",
           "Base.Hint": "Maximum de points de vie (avant modificateurs) calculé en fonction du niveau du personnage.",
           "Bonus.Label": "Bonus",
           "Bonus.Hint": "Bonus manuel ajouté aux points de vie maximum."
         },
         "TempDmgs": {
-          "Value.Label": "Dommages temporaires",
+          "Label": "Dommages temporaires",
           "Value.Abbreviation": "TMP"
         }
       },
 
       "ADVANCEMENT": {
         "Level": {
-          "Value.Label": "Niveau"
+          "Label": "Niveau"
         },
         "Cr": {
-          "Value.Label": "NC",
+          "Label": "NC",
           "Value.Hint": "Niveau de créature avant ajout des gabarits et des capacités."
         }
       },
 
       "ATTRIBUTES": {
         "Size": {
-          "Value.Label": "Taille"
+          "Label": "Taille"
         }
       }
     }

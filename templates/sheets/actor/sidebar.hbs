@@ -5,7 +5,7 @@
 
     {{! Health Pool }}
     <div class="health flexrow">
-        <img src="{{HEALTH.fgPath}}" class="foreground {{actor.type}}" />
+        <img src="{{health.fgPath}}" class="foreground {{actor.type}}" />
 
         {{! Hit Die }}
         {{#if actor.hasHitDie}}
@@ -15,25 +15,24 @@
                         data-tooltip="COG.SHEET.ACTOR.LABELS.Configure_hit_die" data-tooltip-class="cog"
                         data-tooltip-direction="UP"></i>
                 {{else}}
-                    <div class="dice-icon" style="mask-image: url({{HIT_DIE.type.icon}})"
-                        data-tooltip="{{HIT_DIE.type.value.label}}" data-tooltip-class="cog"
-                        data-tooltip-direction="UP">
+                    <div class="dice-icon" style="mask-image: url({{hitDieType.icon}})"
+                        data-tooltip="{{hitDieType._mt.label}}" data-tooltip-class="cog" data-tooltip-direction="UP">
                     </div>
                 {{/if}}
             </div>
         {{/if}}
 
         {{! Hit Points }}
-        <div class="hit-points flexrow" style="{{HEALTH.hitPoints.cssPct}} {{HEALTH.tempDmgs.cssPct}}">
-            <div class="label flexrow" data-tooltip="{{HEALTH.hitPoints.value.label}}" data-tooltip-class="cog">
-                <span class="value flex0">{{HEALTH.hitPoints.value.value}}</span>
+        <div class="hit-points flexrow" style="{{health.hitPoints.cssPct}} {{health.tempDmgs.cssPct}}">
+            <div class="label flexrow" data-tooltip="{{health.hitPoints._mt.label}}" data-tooltip-class="cog">
+                <span class="value flex0">{{health.hitPoints.value}}</span>
                 <span class="separator flex0">/</span>
-                <span class="max flex0">{{HEALTH.hitPoints.max.value}}</span>
+                <span class="max flex0">{{health.hitPoints.max}}</span>
             </div>
             <div class="field flexrow hidden">
                 {{formInput
-                    HEALTH.hitPoints.value.field
-                    value=HEALTH.hitPoints.value.value
+                    health.hitPoints._mt.value.field
+                    value=health.hitPoints.value
                 }}
             </div>
             {{#if editMode}}
@@ -45,11 +44,11 @@
 
         {{! Temp damages }}
         <div class="tmp-dmgs flexrow flex0">
-            <span data-tooltip="{{HEALTH.tempDmgs.value.label}}" data-tooltip-class="cog">
+            <span data-tooltip="{{health.tempDmgs._mt.label}}" data-tooltip-class="cog">
                 {{formInput
-                    HEALTH.tempDmgs.value.field
-                    value=HEALTH.tempDmgs.value.value
-                    placeholder=HEALTH.tempDmgs.value.abbreviation
+                    health.tempDmgs._mt.value.field
+                    value=health.tempDmgs.value
+                    placeholder=health.tempDmgs._mt.value.abbreviation
                 }}
             </span>
         </div>

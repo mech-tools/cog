@@ -24,40 +24,54 @@ export default (Base) =>
      */
     static SYSTEM_PATH = "";
 
+    /**
+     * Object key to access the System metadata.
+     * @type {string}
+     */
+    static METADATA_KEY = "_mt";
+
     /* -------------------------------------------- */
     /*  Merging of Document with System Data        */
     /* -------------------------------------------- */
 
     /**
-     * Merge and return the Document value or object with the System.
-     * Will return a merged object if path leads to a Document object or an object with the Document
-     * value and the system metadata if path leads to a value.
-     * @param {string}  path                  Path to the system Document.
-     * @param {Object}  [options]             Additional options which configure the merge.
-     * @param {boolean} [options.withField]   If the Document field should add the options field.
-     * @param {boolean} [options.withSource]  If the Document values should add the options source.
+     * Merge and return the Document value or object with the System metadata.
+     * @param {string}  path                 Path to the system Document.
+     * @param {Object}  [options]            Additional options which configure the merge.
+     * @param {boolean} [options.withField]  If the Document field should add the options field.
      * @returns {Object}
      */
-    withSystemData(path, { withField = false, withSource = false } = {}) {
-      const options = { path, withField, withSource };
+    withSystemMetadata(path, { withField = false } = {}) {
+      const options = { path, withField };
 
-      const source = foundry.utils.getProperty(this.system, path);
+      const document = this.getDocumentData(path);
+      const system = this.getSystemData(path);
 
-      if (foundry.utils.getType(source) === "undefined") {
-        throw new Error(`Invalid Document path: ${path}`);
-      }
-
-      const target = this.getSystemData(path);
-
-      if (foundry.utils.getType(source) === "Object") {
-        return this.#mergeWithSystemData(source, target, options);
+      if (foundry.utils.getType(document) === "Object") {
+        return this.#mergeWithSystemData(document, system, options);
       } else {
         const key = path.substring(path.lastIndexOf(".") + 1);
-        return this.#createDocumentData(key, source, target, options);
+        const result = { [key]: document };
+        return this.#addSystemMetadata(key, result, system, options);
       }
     }
 
     /* ---------------------------------------- */
+
+    /**
+     * Get the Document object corresponding to a specific path.
+     * @param {path} path  Path to the Document Data.
+     * @returns {Object}
+     */
+    getDocumentData(path) {
+      const target = foundry.utils.getProperty(this.system, path);
+
+      if (foundry.utils.getType(target) === "undefined") {
+        throw new Error(`Invalid Document path: ${path}`);
+      }
+
+      return foundry.utils.deepClone(target);
+    }
 
     /**
      * Get the System object corresponding to a specific path.
@@ -67,69 +81,69 @@ export default (Base) =>
     getSystemData(path) {
       const target = foundry.utils.getProperty(SYSTEM, `${this.constructor.SYSTEM_PATH}.${path}`);
 
-      if (foundry.utils.getType(target) === "undefined") {
-        throw new Error(`Invalid System path: ${path}`);
-      }
-
-      return target;
+      return foundry.utils.deepClone(target) || {};
     }
 
     /* ---------------------------------------- */
 
     /**
-     * Merge a Document object with a System object, returning a deep copy of each object.
+     * Merge an object with a System object.
      * Target keys that are objects and are not in Source keys will be ignored.
      * @param {Object} source     Document object to be merge.
-     * @param {Object} target     System Object to be merge.
+     * @param {Object} system     System Object to be merge.
      * @param {Object} [options]  Additional options which configure the merge.
      * @returns {Object}
      */
-    #mergeWithSystemData(source, target, options) {
-      const result = {};
-      const keys = new Set([...Object.keys(source), ...Object.keys(target)]);
+    #mergeWithSystemData(source, system, options) {
+      const keys = new Set([...Object.keys(source), ...Object.keys(system)]);
 
       for (const key of keys) {
         const sourceV = source[key];
-        const targetV = target[key];
+        const systemV = system[key];
         const sourceT = foundry.utils.getType(sourceV);
-        const targetT = foundry.utils.getType(targetV);
+        const systemT = foundry.utils.getType(systemV);
+        const path = `${options.path}.${key}`;
 
-        if (sourceT === "Object" && targetT === "Object") {
-          const path = `${options.path}.${key}`;
-          result[key] = this.#mergeWithSystemData(sourceV, targetV, { ...options, path });
-        } else if (sourceT !== "undefined" && targetT === "undefined") {
-          result[key] = foundry.utils.deepClone(sourceV);
-        } else if (sourceT === "undefined" && targetT !== "Object") {
-          result[key] = foundry.utils.deepClone(targetV);
-        } else if (sourceT !== "undefined" && sourceT !== "Object" && targetT === "Object") {
-          const path = `${options.path}.${key}`;
-          result[key] = this.#createDocumentData(key, sourceV, targetV, { ...options, path });
+        if (sourceT === "Object" && systemT === "Object") {
+          source[key] = this.#mergeWithSystemData(sourceV, systemV, { ...options, path });
+        } else if (
+          (sourceT === "undefined" && systemT !== "Object") ||
+          (sourceT !== "undefined" && sourceT !== "Object" && systemT === "Object")
+        ) {
+          this.#addSystemMetadata(key, source, systemV, { ...options, path });
         }
       }
 
-      return result;
+      return source;
     }
 
-    /* ---------------------------------------- */
-
     /**
-     * Create a new object where the provided key leads to Source and keys of Target are transformed
-     * to "{key}_{target_key}"
-     * @param {string}  key                   The key to be.
-     * @param {any}     source                The Source (can be any value)
-     * @param {Object}  target                The Target Object.
-     * @param {Object}  [options]             Additional options which configure the merge.
-     * @param {string}  [options.path]        Path to the document property.
-     * @param {boolean} [options.withField]   If the Document values should add the options field.
-     * @param {boolean} [options.withSource]  If the Document values should add the options source.
+     * Add System metadata to a source object representing a Document path.
+     * The key storing the metadata is defined by METADATA_KEY.
+     * @param {string}  key                  The key defining the source data.
+     * @param {!Object} source               The source data.
+     * @param {any}     system               The System metadata.
+     * @param {Object}  [options]            Additional options which configure the merge.
+     * @param {path}    [options.path]       Path to the Document value represented by the source
+     *                                       data.
+     * @param {boolean} [options.withField]  If the metadata should include the corresponding
+     *                                       Document field.
      * @returns {Object}
      */
-    #createDocumentData(key, source, target, { path, withField = false, withSource = false } = {}) {
-      return {
-        value: foundry.utils.deepClone(source),
-        ...(withField && { field: this.system.schema.getField(path) }),
-        ...(withSource && { source: foundry.utils.getProperty(this._source.system, path) }),
-        ...foundry.utils.deepClone(target),
-      };
+    #addSystemMetadata(key, source, system, { path, withField = false } = {}) {
+      const mt_key = this.constructor.METADATA_KEY;
+
+      if (!source[mt_key]) source[mt_key] = {};
+
+      if (foundry.utils.getType(system) === "Object") {
+        source[mt_key][key] = {
+          ...(withField && { field: this.system.schema.getField(path) }),
+          ...system,
+        };
+      } else {
+        source[mt_key][key] = system;
+      }
+
+      return source;
     }
   };

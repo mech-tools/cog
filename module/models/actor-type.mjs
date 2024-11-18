@@ -8,60 +8,34 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
   /*  Data Schema                                 */
   /* -------------------------------------------- */
 
-  /**
-   * Define shared schema elements used by every Actor sub-type in COG. This method is extended by
-   * subclasses to add type-specific fields.
-   * @override
-   */
+  /** @override */
   static defineSchema() {
     const fields = foundry.data.fields;
-    const requiredInteger = { required: true, nullable: false, integer: true };
-
-    /** @type {SCHEMA.ACTOR} */
     const schema = {};
 
     // Health Pool
-    schema.HEALTH = new fields.SchemaField({
-      hitPoints: new fields.SchemaField({
-        value: new fields.NumberField({
-          ...requiredInteger,
-          initial: SYSTEM.ACTOR.HEALTH.hitPoints.value.initial,
-          min: SYSTEM.ACTOR.HEALTH.hitPoints.value.min,
-        }),
-        base: new fields.NumberField({
-          ...requiredInteger,
-          initial: SYSTEM.ACTOR.HEALTH.hitPoints.base.initial,
-          min: SYSTEM.ACTOR.HEALTH.hitPoints.base.min,
-        }),
-        bonus: new fields.NumberField({
-          ...requiredInteger,
-          initial: SYSTEM.ACTOR.HEALTH.hitPoints.bonus.initial,
-          min: SYSTEM.ACTOR.HEALTH.hitPoints.bonus.min,
-        }),
-        max: new fields.NumberField({
-          ...requiredInteger,
-          initial: SYSTEM.ACTOR.HEALTH.hitPoints.max.initial,
-          min: SYSTEM.ACTOR.HEALTH.hitPoints.max.min,
-        }),
-      }),
+    schema.health = new fields.SchemaField({
+      hitPoints: new fields.SchemaField(
+        Object.entries(SYSTEM.ACTOR.health.hitPoints).reduce((obj, [id, field]) => {
+          if (foundry.utils.getType(field) !== "Object") return obj;
+          obj[id] = new fields.NumberField({
+            ...field,
+          });
+          return obj;
+        }, {}),
+      ),
       tempDmgs: new fields.SchemaField({
         value: new fields.NumberField({
-          ...requiredInteger,
-          initial: SYSTEM.ACTOR.HEALTH.tempDmgs.value.initial,
-          min: SYSTEM.ACTOR.HEALTH.tempDmgs.value.min,
+          ...SYSTEM.ACTOR.health.tempDmgs.value,
         }),
       }),
     });
 
     // Attributes
-    schema.ATTRIBUTES = new fields.SchemaField({
+    schema.attributes = new fields.SchemaField({
       size: new fields.SchemaField({
         value: new fields.NumberField({
-          ...requiredInteger,
-          initial: SYSTEM.ACTOR.ATTRIBUTES.size.value.initial,
-          choices: SYSTEM.ACTOR.ATTRIBUTES.size.value.choices,
-          min: SYSTEM.ACTOR.ATTRIBUTES.size.value.min,
-          max: SYSTEM.ACTOR.ATTRIBUTES.size.value.max,
+          ...SYSTEM.ACTOR.attributes.size.value,
         }),
       }),
     });
@@ -99,10 +73,10 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
    */
   _prepareDerivedHealth() {
     // Clamp Hit Points between 0 and max
-    this.HEALTH.hitPoints.value = Math.clamp(
-      this.HEALTH.hitPoints.value,
+    this.health.hitPoints.value = Math.clamp(
+      this.health.hitPoints.value,
       0,
-      this.HEALTH.hitPoints.max,
+      this.health.hitPoints.max,
     );
   }
 }

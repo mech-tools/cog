@@ -14,8 +14,8 @@
         </h1>
 
         {{! Incomplete Level }}
-        {{#if creationSteps.incomplete}}
-            <span class="incomplete standard-button flex0" data-tooltip="{{creationSteps.details}}"
+        {{#if levelUp.incomplete}}
+            <span class="incomplete standard-button flex0" data-tooltip="{{levelUp.details}}"
                 data-tooltip-class="cog creation-steps">
                 <i class="fa-solid fa-triangle-exclamation"></i>
             </span>
@@ -23,15 +23,15 @@
 
         {{! PC Level }}
         <div class="level flexrow flex0">
-            <span class="label">{{ADVANCEMENT.level.value.label}}</span>
+            <span class="label">{{advancement.level._mt.label}}</span>
             {{#if editMode}}
                 {{formInput
-                    ADVANCEMENT.level.value.field
-                    value=ADVANCEMENT.level.value.value
+                    advancement.level._mt.value.field
+                    value=advancement.level.value
                     type="number"
                 }}
             {{else}}
-                <span class="value">{{ADVANCEMENT.level.value.value}}</span>
+                <span class="value">{{advancement.level.value}}</span>
             {{/if}}
         </div>
     </header>

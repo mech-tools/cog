@@ -57,13 +57,10 @@ CONFIG.Token.documentClass = documents.COGToken;
 
 Hooks.once("i18nInit", function () {
   const objectsToLocalize = [
-    "ACTOR.HIT_DIE_TYPES",
-    "ACTOR.HIT_DIE_LEVEL_TYPES",
-    "ACTOR.SIZES",
-    "ACTOR.HIT_DIE",
-    "ACTOR.HEALTH",
-    "ACTOR.ADVANCEMENT",
-    "ACTOR.ATTRIBUTES",
+    "ENUMS.HIT_DIE_TYPES",
+    "ENUMS.HIT_DIE_LEVEL_TYPES",
+    "ENUMS.SIZES",
+    "ACTOR",
   ];
 
   for (const path of objectsToLocalize) {
@@ -81,11 +78,9 @@ Hooks.once("i18nInit", function () {
 
     // Localize keys that ends with specific terms, also formatting data if a `${key}Data` property is found
     for (const [key, value] of Object.entries(foundry.utils.flattenObject(obj))) {
-      for (const toLocalize of ["label", "hint", "abbreviation"]) {
-        if (key.toLowerCase().endsWith(toLocalize)) {
-          const formatData = foundry.utils.getProperty(obj, `${key}Data`) || {};
-          foundry.utils.setProperty(obj, key, game.i18n.format(value, formatData));
-        }
+      if (["label", "hint", "abbreviation"].some((lKey) => key.endsWith(lKey))) {
+        const formatData = foundry.utils.getProperty(obj, `${key}Data`) || {};
+        foundry.utils.setProperty(obj, key, game.i18n.format(value, formatData));
       }
     }
   }

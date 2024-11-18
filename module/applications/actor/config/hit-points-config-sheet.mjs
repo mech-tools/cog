@@ -44,24 +44,8 @@ export default class HitPointsConfigSheet extends BaseConfigSheet {
   /** @override */
   async _prepareContext(options) {
     return {
-      // Document
-      systemFields: this.document.system.schema.fields.HEALTH.fields.hitPoints.fields,
-
       // Data
-      HEALTH: this.#prepareHealth(),
+      hitPoints: this.getField("health.hitPoints"),
     };
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Prepare and format the display of Health attributes on the actor sheet.
-   * @returns {SCHEMA.ACTOR.HEALTH & SYSTEM.ACTOR.HEALTH}
-   */
-  #prepareHealth() {
-    // Merge Data with System Config
-    const health = this.getField("HEALTH");
-
-    return health;
   }
 }

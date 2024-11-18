@@ -13,27 +13,20 @@ export default class COGCharacter extends COGActorType {
   static defineSchema() {
 
     const fields = foundry.data.fields;
-    const requiredInteger = { required: true, nullable: false, integer: true };
-    const nullableInteger = { required: true, nullable: true };
-    const requiredString = { required: true, nullable: false };
     const schema = super.defineSchema();
 
     // Hit Die
-    schema.HIT_DIE = new fields.SchemaField({
+    schema.hitDie = new fields.SchemaField({
       type: new fields.SchemaField({
         value: new fields.StringField({
-          ...requiredString,
-          initial: SYSTEM.ACTOR.HIT_DIE.type.value.initial,
-          choices: SYSTEM.ACTOR.HIT_DIE.type.value.choices,
+          ...SYSTEM.ACTOR.hitDie.type.value,
         }),
       }),
       history: new fields.SchemaField(
-        Object.entries(SYSTEM.ACTOR.HIT_DIE.history).reduce((obj, [id, level]) => {
+        Object.entries(SYSTEM.ACTOR.hitDie.history).reduce((obj, [id, level]) => {
           obj[id] = new fields.SchemaField({
             value: new fields.NumberField({
-              ...nullableInteger,
-              initial: level.value.initial,
-              min: level.value.min,
+              ...level.value,
             }),
           });
           return obj;
@@ -42,13 +35,10 @@ export default class COGCharacter extends COGActorType {
     });
 
     // Advancement
-    schema.ADVANCEMENT = new fields.SchemaField({
+    schema.advancement = new fields.SchemaField({
       level: new fields.SchemaField({
         value: new fields.NumberField({
-          ...requiredInteger,
-          initial: SYSTEM.ACTOR.ADVANCEMENT.level.value.min,
-          min: SYSTEM.ACTOR.ADVANCEMENT.level.value.min,
-          max: SYSTEM.ACTOR.ADVANCEMENT.level.value.max,
+          ...SYSTEM.ACTOR.advancement.level.value,
         }),
       }),
     });
@@ -63,7 +53,7 @@ export default class COGCharacter extends COGActorType {
   /** @override */
   _prepareBaseHealth() {
     // Compute base Hit Points based on Hit Die history
-    this.HEALTH.hitPoints.base = Object.values(this.HIT_DIE.history).reduce(
+    this.health.hitPoints.base = Object.values(this.hitDie.history).reduce(
       (max, level) => max + level.value,
       0,
     );
@@ -77,7 +67,7 @@ export default class COGCharacter extends COGActorType {
   _prepareDerivedHealth() {
 
     // Compute max Hit Points based on base + bonus
-    this.HEALTH.hitPoints.max = this.HEALTH.hitPoints.base + this.HEALTH.hitPoints.bonus;
+    this.health.hitPoints.max = this.health.hitPoints.base + this.health.hitPoints.bonus;
 
     super._prepareDerivedHealth();
   }

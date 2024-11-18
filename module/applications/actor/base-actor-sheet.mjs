@@ -183,8 +183,6 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       // Document
       actor: this.document,
       fields: this.document.schema.fields,
-      systemFields: this.document.system.schema.fields,
-      isEditable: this.isEditable,
 
       // Sheet
       tabGroups,
@@ -192,9 +190,9 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       editMode: this.isEditable && this.#mode === this.constructor.MODES.EDIT,
 
       // Data
-      HEALTH: this.#prepareHealth(),
-      ADVANCEMENT: this.getField("ADVANCEMENT"),
-      ATTRIBUTES: this.getField("ATTRIBUTES"),
+      health: this.#prepareHealth(),
+      advancement: this.getField("advancement"),
+      attributes: this.getField("attributes"),
     };
   }
 
@@ -202,42 +200,35 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
 
   /**
    * Prepare and format the display of Health attributes on the actor sheet.
-   * @returns {Object & {
+   * @returns {typeof SYSTEM.ACTOR.health & {
    *   fgPath: string;
    *   hitPoints: { pct: string; cssPct: string };
    *   tempDmgs: { pct: string; cssPct: string };
    * }}
    */
   #prepareHealth() {
-    // Hit Points
-    const hitPoints = {
-      value: this.getField("HEALTH.hitPoints.value"),
-      max: this.getField("HEALTH.hitPoints.max"),
-    };
+    // Get System metadata
+    const health = this.getField("health");
 
-    hitPoints.pct = hitPoints.max.value
-      ? Math.round((hitPoints.value.value * 100) / hitPoints.max.value)
+    // Foreground
+    health.fgPath = `systems/cog/ui/actor/health/${this.document.type}-health-pool.webp`;
+
+    // Hit Points
+    health.hitPoints.pct = health.hitPoints.max
+      ? Math.round((health.hitPoints.value * 100) / health.hitPoints.max)
       : 0;
 
-    hitPoints.cssPct = `--hitPoints-pct: ${hitPoints.pct}%;`;
+    health.hitPoints.cssPct = `--hitPoints-pct: ${health.hitPoints.pct}%;`;
 
     // Temp Dmgs
-    const tempDmgs = {
-      value: this.getField("HEALTH.tempDmgs.value"),
-    };
-
-    tempDmgs.pct = hitPoints.max.value
-      ? Math.min(Math.round((tempDmgs.value.value * 100) / hitPoints.max.value) || 0, 100)
+    health.tempDmgs.pct = health.hitPoints.max
+      ? Math.min(Math.round((health.tempDmgs.value * 100) / health.hitPoints.max) || 0, 100)
       : 0;
 
-    tempDmgs.cssPct = `--tempDmgs-pct: ${tempDmgs.pct}%;`;
-    if (tempDmgs.value.value === 0) tempDmgs.value.value = null;
+    health.tempDmgs.cssPct = `--tempDmgs-pct: ${health.tempDmgs.pct}%;`;
+    if (health.tempDmgs.value === 0) health.tempDmgs.value = null;
 
-    return {
-      fgPath: `systems/cog/ui/actor/health/${this.document.type}-health-pool.webp`,
-      hitPoints,
-      tempDmgs,
-    };
+    return health;
   }
 
   /* -------------------------------------------- */

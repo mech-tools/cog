@@ -7,7 +7,7 @@ export default (Base) =>
   class extends Base {
 
     /* -------------------------------------------- */
-    /*  Get and format Document fields              */
+    /*  Get and format System Document fields       */
     /* -------------------------------------------- */
 
     /**
@@ -23,7 +23,7 @@ export default (Base) =>
 
       for (let path of paths) {
         path = prefix ? `${prefix}.${path}` : path;
-        fields[path.substring(path.lastIndexOf(".") + 1)] = this.getField(path);
+        foundry.utils.mergeObject(fields, this.getField(path));
       }
 
       return fields;
@@ -35,6 +35,6 @@ export default (Base) =>
      * @returns {Object}
      */
     getField(path) {
-      return this.document.withSystemData(path, { withField: true, withSource: true });
+      return this.document.withSystemMetadata(path, { withField: true, withSource: true });
     }
   };

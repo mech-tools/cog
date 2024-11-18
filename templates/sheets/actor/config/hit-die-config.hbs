@@ -2,18 +2,18 @@
     {{! Header }}
     <header class="sheet-header flexcol">
         <span class="description">{{localize "COG.SHEET.CONFIG.HIT_DIE.LABELS.Description"}}</span>
-        <span class="value mini">{{HIT_POINTS.base.value}}</span>
+        <span class="value mini">{{hitPoints.base}}</span>
     </header>
 
     {{! Content }}
     <div class="sheet-content flexcol flex1 scrollable">
-        {{#each HISTORY as |value|}}
+        {{#each history as |value|}}
             {{#with value.[1] as |level|}}
                 <div class="level flexrow">
                     <div class="form-group">
                         {{! Level Label }}
                         <label>
-                            {{level.value.label}}
+                            {{level._mt.value.label}}
                             {{#if level.isNull}}
                                 <i class="incomplete fa-solid fa-triangle-exclamation"></i>
                             {{/if}}
@@ -23,12 +23,12 @@
                         <div class="form-fields">
 
                             {{formInput
-                                level.value.field
-                                value=level.value.value
-                                disabled=(ifThen level.rollable false true)
+                                level._mt.value.field
+                                value=level.value
+                                disabled=(ifThen level._mt.rollable false true)
                             }}
 
-                            {{#if level.rollable}}
+                            {{#if level._mt.rollable}}
                                 <i class="icon-button fa-regular fa-dice"
                                     data-tooltip="COG.SHEET.CONFIG.HIT_DIE.LABELS.Roll_hit_die" data-tooltip-class="cog"
                                     data-tooltip-direction="UP"></i>
@@ -36,7 +36,7 @@
                         </div>
 
                         {{! PC Hint }}
-                        <p class="hint">{{level.value.hint}}</p>
+                        <p class="hint">{{level._mt.value.hint}}</p>
                     </div>
                 </div>
             {{/with}}

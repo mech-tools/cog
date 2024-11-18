@@ -16,7 +16,7 @@ export default class COGActor extends SystemDocument(Actor) {
    * @returns {boolean}
    */
   get hasHitDie() {
-    return "HIT_DIE" in this.system;
+    return "hitDie" in this.system;
   }
 
   /* -------------------------------------------- */
@@ -62,16 +62,12 @@ export default class COGActor extends SystemDocument(Actor) {
     const updates = {};
 
     // Reset Hit Die History when the level changes
-    const newLevel = data.system?.ADVANCEMENT?.level?.value;
-
-    if (newLevel && newLevel < this.system.ADVANCEMENT.level.value) {
-      // Merge Data with System Config
-      const history = this.withSystemData("HIT_DIE.history");
-
-      // Reset
-      for (const [key, { level, value }] of Object.entries(history)) {
-        if (level > newLevel) {
-          updates[`system.HIT_DIE.history.${key}.value`] = value.initial;
+    const newLevel = data.system?.advancement?.level?.value;
+    if (newLevel && newLevel < this.system.advancement.level.value) {
+      const history = this.withSystemMetadata("hitDie.history");
+      for (const [key, lvl] of Object.entries(history)) {
+        if (lvl._mt.level > newLevel) {
+          updates[`system.hitDie.history.${key}.value`] = lvl._mt.value.initial;
         }
       }
     }

@@ -14,29 +14,29 @@
 
         {{! NPC CR }}
         <div class="level flexrow flex0">
-            <span class="label">{{ADVANCEMENT.cr.value.label}}</span>
+            <span class="label">{{advancement.cr._mt.label}}</span>
             {{#if editMode}}
-                <span data-tooltip="{{ADVANCEMENT.cr.value.hint}}" data-tooltip-class="cog">
+                <span data-tooltip="{{advancement.cr._mt.value.hint}}" data-tooltip-class="cog">
                     {{formInput
-                        ADVANCEMENT.cr.value.field
-                        value=ADVANCEMENT.cr.value.value
+                        advancement.cr._mt.value.field
+                        value=advancement.cr.value
                     }}
                 </span>
             {{else}}
-                <span class="value">{{ADVANCEMENT.cr.value.value}}</span>
+                <span class="value">{{advancement.cr.value}}</span>
                 /
             {{/if}}
         </div>
 
         {{! NPC Size }}
-        <div class="size flexrow flex0" data-tooltip="{{ATTRIBUTES.size.value.label}}" data-tooltip-class="cog">
+        <div class="size flexrow flex0" data-tooltip="{{attributes.size._mt.label}}" data-tooltip-class="cog">
             {{#if editMode}}
                 {{formInput
-                    ATTRIBUTES.size.value.field
-                    value=ATTRIBUTES.size.value.value
+                    attributes.size._mt.value.field
+                    value=attributes.size.value
                 }}
             {{else}}
-                <span class="value">{{lookup ATTRIBUTES.size.value.choices ATTRIBUTES.size.value.value}}</span>
+                <span class="value">{{lookup attributes.size._mt.value.choices attributes.size.value}}</span>
             {{/if}}
         </div>
     </header>

@@ -12,23 +12,19 @@ export default class COGNpc extends COGActorType {
   /** @inheritDoc */
   static defineSchema() {
     const fields = foundry.data.fields;
-    const required = { required: true, nullable: false };
     const schema = super.defineSchema();
 
-    // Advancement
-    schema.ADVANCEMENT = new fields.SchemaField({
+    // advancement
+    schema.advancement = new fields.SchemaField({
       cr: new fields.SchemaField({
         value: new fields.NumberField({
-          ...required,
-          initial: SYSTEM.ACTOR.ADVANCEMENT.cr.value.initial,
-          min: SYSTEM.ACTOR.ADVANCEMENT.cr.value.min,
-          step: SYSTEM.ACTOR.ADVANCEMENT.cr.value.step,
+          ...SYSTEM.ACTOR.advancement.cr.value,
         }),
       }),
     });
 
     // Npc don't have Bonus HP
-    delete schema.HEALTH.fields.hitPoints.fields.bonus;
+    delete schema.health.fields.hitPoints.fields.bonus;
 
     return schema;
   }
@@ -46,7 +42,7 @@ export default class COGNpc extends COGActorType {
 
   /** @override */
   _prepareDerivedHealth() {
-    this.HEALTH.hitPoints.max = this.HEALTH.hitPoints.base;
+    this.health.hitPoints.max = this.health.hitPoints.base;
 
     super._prepareDerivedHealth();
   }

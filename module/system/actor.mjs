@@ -1,56 +1,17 @@
-/** @import {SYSTEM} from  "SYSTEM" */
-
-import { Enum } from "./api/_modules.mjs";
-
-/* -------------------------------------------- */
-/*  Enums & Config                              */
-/* -------------------------------------------- */
-
-/**
- * Allowed Hit Die types in the system.
- * @type {SYSTEM.ACTOR.HIT_DIE_TYPES}
- */
-export const HIT_DIE_TYPES = new Enum({
-  D6: { label: "COG.SCHEMA.DICE.Die_6", value: "6" },
-  D8: { label: "COG.SCHEMA.DICE.Die_8", value: "8" },
-  D10: { label: "COG.SCHEMA.DICE.Die_10", value: "10" },
-});
-
-/* -------------------------------------------- */
-
-/**
- * Possible types of Hit Die history.
- * @type {SYSTEM.ACTOR.HIT_DIE_LEVEL_TYPES}
- */
-export const HIT_DIE_LEVEL_TYPES = new Enum({
-  PROFILE: { label: "COG.SCHEMA.ACTOR.HIT_DIE_LEVEL_TYPES.Profile", value: "PROFILE" },
-  HITDIE: { label: "COG.SCHEMA.ACTOR.HIT_DIE_LEVEL_TYPES.Hitdie", value: "HITDIE" },
-  CON: { label: "COG.SCHEMA.ACTOR.HIT_DIE_LEVEL_TYPES.Con", value: "CON" },
-});
-
-/* -------------------------------------------- */
-
-/**
- * Possible sizes of an Actor.
- * @type {SYSTEM.ACTOR.SIZES}
- */
-export const SIZES = new Enum({
-  TINY: { label: "COG.SCHEMA.ACTOR.SIZES.Tiny", value: 1 },
-  VERY_SMALL: { label: "COG.SCHEMA.ACTOR.SIZES.Very_small", value: 2 },
-  SMALL: { label: "COG.SCHEMA.ACTOR.SIZES.Small", value: 3 },
-  MEDIUM: { label: "COG.SCHEMA.ACTOR.SIZES.Medium", value: 4 },
-  LARGE: { label: "COG.SCHEMA.ACTOR.SIZES.Large", value: 5 },
-  HUGE: { label: "COG.SCHEMA.ACTOR.SIZES.Huge", value: 6 },
-  GARGANTUAN: { label: "COG.SCHEMA.ACTOR.SIZES.Gargantuan", value: 7 },
-});
+import { HIT_DIE_LEVEL_TYPES, HIT_DIE_TYPES, SIZES } from "./enums.mjs";
 
 /* -------------------------------------------- */
 /*  Helpers                                     */
 /* -------------------------------------------- */
 
+const required = { required: true, nullable: false };
+const requiredInteger = { ...required, integer: true };
+const nullableInteger = { required: true, nullable: true };
+const requiredString = { ...required };
+
 /**
  * Generate the Hit Die History.
- * @returns {SYSTEM.ACTOR.HIT_DIE_LEVEL_HISTORY}
+ * @returns {Record<string, Object>}
  */
 function generateHitDieLevelHistory() {
   const levels = {};
@@ -80,6 +41,7 @@ function generateHitDieLevelHistory() {
       type,
       rollable,
       value: {
+        ...nullableInteger,
         initial,
         min,
         label,
@@ -97,15 +59,15 @@ function generateHitDieLevelHistory() {
 /* -------------------------------------------- */
 
 /**
- * Health representation of an Actor.
- * @type {SYSTEM.ACTOR.HIT_DIE}
+ * Hit Die representation of an Actor.
  */
-export const HIT_DIE = Object.freeze({
+export const hitDie = Object.freeze({
   type: {
+    label: "COG.SCHEMA.ACTOR.HIT_DIE.Type.Label",
     value: {
+      ...requiredString,
       initial: HIT_DIE_TYPES.D6,
       choices: HIT_DIE_TYPES.choices,
-      label: "COG.SCHEMA.ACTOR.HIT_DIE.Type.Value.Label",
     },
   },
   history: generateHitDieLevelHistory(),
@@ -113,17 +75,18 @@ export const HIT_DIE = Object.freeze({
 
 /**
  * Health representation of an Actor.
- * @type {SYSTEM.ACTOR.HEALTH}
  */
-export const HEALTH = Object.freeze({
+export const health = Object.freeze({
   hitPoints: {
+    label: "COG.SCHEMA.ACTOR.HEALTH.HitPoints.Label",
     value: {
+      ...requiredInteger,
       initial: 0,
       min: 0,
-      label: "COG.SCHEMA.ACTOR.HEALTH.HitPoints.Value.Label",
     },
 
     base: {
+      ...requiredInteger,
       initial: 0,
       min: 0,
       label: "COG.SCHEMA.ACTOR.HEALTH.HitPoints.Base.Label",
@@ -131,6 +94,7 @@ export const HEALTH = Object.freeze({
     },
 
     bonus: {
+      ...requiredInteger,
       initial: 0,
       min: 0,
       label: "COG.SCHEMA.ACTOR.HEALTH.HitPoints.Bonus.Label",
@@ -138,15 +102,17 @@ export const HEALTH = Object.freeze({
     },
 
     max: {
+      ...requiredInteger,
       initial: 0,
       min: 0,
     },
   },
   tempDmgs: {
+    label: "COG.SCHEMA.ACTOR.HEALTH.TempDmgs.Label",
     value: {
+      ...requiredInteger,
       initial: 0,
       min: 0,
-      label: "COG.SCHEMA.ACTOR.HEALTH.TempDmgs.Value.Label",
       abbreviation: "COG.SCHEMA.ACTOR.HEALTH.TempDmgs.Value.Abbreviation",
     },
   },
@@ -156,22 +122,23 @@ export const HEALTH = Object.freeze({
 
 /**
  * Advancement representation of an Actor.
- * @type {SYSTEM.ACTOR.ADVANCEMENT}
  */
-export const ADVANCEMENT = Object.freeze({
+export const advancement = Object.freeze({
   level: {
+    label: "COG.SCHEMA.ACTOR.ADVANCEMENT.Level.Label",
     value: {
+      ...requiredInteger,
       min: 1,
       max: 20,
-      label: "COG.SCHEMA.ACTOR.ADVANCEMENT.Level.Value.Label",
     },
   },
   cr: {
+    label: "COG.SCHEMA.ACTOR.ADVANCEMENT.Cr.Label",
     value: {
+      ...required,
       initial: 0,
       min: 0,
       step: 0.5,
-      label: "COG.SCHEMA.ACTOR.ADVANCEMENT.Cr.Value.Label",
       hint: "COG.SCHEMA.ACTOR.ADVANCEMENT.Cr.Value.Hint",
     },
   },
@@ -180,17 +147,17 @@ export const ADVANCEMENT = Object.freeze({
 /* -------------------------------------------- */
 
 /**
- * Size representation of an Asctor.
- * @type {SYSTEM.ACTOR.ATTRIBUTES}
+ * Attributes representation of an Actor.
  */
-export const ATTRIBUTES = Object.freeze({
+export const attributes = Object.freeze({
   size: {
+    label: "COG.SCHEMA.ACTOR.ATTRIBUTES.Size.Label",
     value: {
+      ...requiredInteger,
       initial: SIZES.MEDIUM,
       choices: SIZES.choices,
       min: SIZES.TINY,
       max: SIZES.GARGANTUAN,
-      label: "COG.SCHEMA.ACTOR.ATTRIBUTES.Size.Value.Label",
     },
   },
 });
