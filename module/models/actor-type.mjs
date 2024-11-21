@@ -5,46 +5,51 @@
 export default class COGActorType extends foundry.abstract.TypeDataModel {
 
   /* -------------------------------------------- */
-  /*  Data Schema                                 */
+  /*  Data Schema
   /* -------------------------------------------- */
 
   /** @override */
   static defineSchema() {
     const fields = foundry.data.fields;
+    const requiredInteger = { required: true, nullable: false, integer: true };
+
     const schema = {};
 
     // Health Pool
     schema.health = new fields.SchemaField({
-      hitPoints: new fields.SchemaField(
-        Object.entries(SYSTEM.ACTOR.health.hitPoints).reduce((obj, [id, field]) => {
-          if (foundry.utils.getType(field) !== "Object") return obj;
-          obj[id] = new fields.NumberField({
-            ...field,
-          });
-          return obj;
-        }, {}),
-      ),
-      tempDmgs: new fields.SchemaField({
-        value: new fields.NumberField({
-          ...SYSTEM.ACTOR.health.tempDmgs.value,
-        }),
+      hitPoints: new fields.SchemaField({
+        base: new fields.NumberField({ ...requiredInteger, initial: 0, value: 0 }),
+        bonus: new fields.NumberField({ ...requiredInteger, initial: 0, value: 0 }),
+        max: new fields.NumberField({ ...requiredInteger, initial: 0, value: 0 }),
+        value: new fields.NumberField({ ...requiredInteger, initial: 0, value: 0 }),
+      }),
+      tempDmgs: new fields.NumberField({
+        ...requiredInteger,
+        initial: 0,
+        value: 0,
+        abbreviation: "COG.ACTOR.FIELDS.health.tempDmgs.abbreviation",
       }),
     });
 
     // Attributes
     schema.attributes = new fields.SchemaField({
-      size: new fields.SchemaField({
-        value: new fields.NumberField({
-          ...SYSTEM.ACTOR.attributes.size.value,
-        }),
+      size: new fields.NumberField({
+        ...requiredInteger,
+        initial: COG.SIZES.MEDIUM,
+        choices: COG.SIZES.choices,
+        min: COG.SIZES.TINY,
+        max: COG.SIZES.GARGANTUAN,
       }),
     });
 
     return schema;
   }
 
+  /** @override */
+  static LOCALIZATION_PREFIXES = ["COG.ACTOR"];
+
   /* -------------------------------------------- */
-  /*  Data Preparation                            */
+  /*  Data Preparation
   /* -------------------------------------------- */
 
   /** @override */

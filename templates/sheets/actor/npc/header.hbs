@@ -4,21 +4,21 @@
         <h1 class="actor-name">
             {{#if editMode}}
                 {{formInput
-                    fields.name
-                    value=actor.name
+                    name.field
+                    value=name.value
                 }}
             {{else}}
-                {{actor.name}}
+                {{name.value}}
             {{/if}}
         </h1>
 
         {{! NPC CR }}
         <div class="level flexrow flex0">
-            <span class="label">{{advancement.cr._mt.label}}</span>
+            <span class="label">{{advancement.cr.field.label}}</span>
             {{#if editMode}}
-                <span data-tooltip="{{advancement.cr._mt.value.hint}}" data-tooltip-class="cog">
+                <span data-tooltip="{{advancement.cr.field.hint}}" data-tooltip-class="cog">
                     {{formInput
-                        advancement.cr._mt.value.field
+                        advancement.cr.field
                         value=advancement.cr.value
                     }}
                 </span>
@@ -29,14 +29,14 @@
         </div>
 
         {{! NPC Size }}
-        <div class="size flexrow flex0" data-tooltip="{{attributes.size._mt.label}}" data-tooltip-class="cog">
+        <div class="size flexrow flex0" data-tooltip="{{attributes.size.field.label}}" data-tooltip-class="cog">
             {{#if editMode}}
                 {{formInput
-                    attributes.size._mt.value.field
+                    attributes.size.field
                     value=attributes.size.value
                 }}
             {{else}}
-                <span class="value">{{lookup attributes.size._mt.value.choices attributes.size.value}}</span>
+                <span class="value">{{lookup attributes.size.field.choices attributes.size.value}}</span>
             {{/if}}
         </div>
     </header>

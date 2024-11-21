@@ -27,25 +27,29 @@ export default class HitPointsConfigSheet extends BaseConfigSheet {
   }
 
   /* -------------------------------------------- */
-  /*  Properties                                  */
+  /*  Properties
   /* -------------------------------------------- */
 
   /** @override */
   get title() {
-    return game.i18n.format("COG.SHEET.CONFIG.HIT_POINTS.LABELS.Window_title", {
+    return game.i18n.format("COG.CONFIG.HIT_POINTS.LABELS.Window_title", {
       name: this.document.name,
     });
   }
 
   /* -------------------------------------------- */
-  /*  Sheet Context                               */
+  /*  Sheet Context
   /* -------------------------------------------- */
 
   /** @override */
   async _prepareContext(options) {
     return {
       // Data
-      hitPoints: this.getField("health.hitPoints"),
+      hitPoints: {
+        base: this.makeField("health.hitPoints.base"),
+        bonus: this.makeField("health.hitPoints.bonus"),
+        max: this.makeField("health.hitPoints.max"),
+      },
     };
   }
 }

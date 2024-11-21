@@ -1,13 +1,13 @@
 /* --------------------------------------------- */
-/* Chroniques Oubliées Galactiques Game System   */
-/* Author: Maxime                                */
-/* Software License: MIT                         */
-/* Repository: https://github.com/mech-tools/cog */
+/* Chroniques Oubliées Galactiques Game System
+/* Author: Maxime
+/* Software License: MIT
+/* Repository: https://github.com/mech-tools/cog
 /* --------------------------------------------- */
 
 // Configuration
-import { SYSTEM } from "./module/system/_module.mjs";
-globalThis.SYSTEM = SYSTEM;
+import { COG } from "./module/config/_module.mjs";
+globalThis.COG = COG;
 
 // Import Modules
 import * as applications from "./module/applications/_module.mjs";
@@ -16,16 +16,15 @@ import * as models from "./module/models/_module.mjs";
 import * as components from "./module/components/_module.mjs";
 
 /* -------------------------------------------- */
-/*  Foundry VTT Initialization                  */
+/*  Foundry VTT Initialization
 /* -------------------------------------------- */
 
 Hooks.once("init", async function () {
   console.log(`Initializing Chroniques Oubliées Galactiques game system.`);
-  globalThis.cog = game.system;
-  game.system.CONST = SYSTEM;
 
   // Expose the system API
-  game.system.api = {
+  CONFIG.COG = {
+    config: COG,
     applications,
     models,
     documents,
@@ -35,15 +34,15 @@ Hooks.once("init", async function () {
   // Actor Document configuration
   CONFIG.Actor.documentClass = documents.COGActor;
   CONFIG.Actor.dataModels = {
-    character: models.COGCharacter,
+    pc: models.COGPc,
     npc: models.COGNpc,
   };
   Actors.unregisterSheet("core", ActorSheet);
-  Actors.registerSheet(SYSTEM.id, applications.actor.CharacterSheet, {
-    types: ["character"],
+  Actors.registerSheet(COG.id, applications.actor.PcSheet, {
+    types: ["pc"],
     makeDefault: true,
   });
-  Actors.registerSheet(SYSTEM.id, applications.actor.NpcSheet, {
+  Actors.registerSheet(COG.id, applications.actor.NpcSheet, {
     types: ["npc"],
   });
 });
@@ -52,36 +51,21 @@ Hooks.once("init", async function () {
 CONFIG.Token.documentClass = documents.COGToken;
 
 /* -------------------------------------------- */
-/*  Localization                                */
+/*  Localization
 /* -------------------------------------------- */
 
 Hooks.once("i18nInit", function () {
-  const objectsToLocalize = [
-    "ENUMS.HIT_DIE_TYPES",
-    "ENUMS.HIT_DIE_LEVEL_TYPES",
-    "ENUMS.SIZES",
-    "ACTOR",
-  ];
-
-  for (const path of objectsToLocalize) {
-    const obj = foundry.utils.getProperty(SYSTEM, path);
+  // Apply localizations
+  const toLocalize = ["HIT_DIE_TYPES", "SIZES"];
+  for (let loc of toLocalize) {
+    const conf = foundry.utils.getProperty(COG, loc);
 
     // Special handling for enums
-    if (obj instanceof SYSTEM.API.Enum) {
-      for (const [key, label] of Object.entries(obj.labels)) {
-        obj.labels[key] = game.i18n.localize(label);
-      }
-
-      Object.freeze(obj.labels);
+    if (conf instanceof COG.API.Enum) {
+      for (const [key, label] of Object.entries(conf.labels))
+        conf.labels[key] = game.i18n.localize(label);
+      Object.freeze(conf.labels);
       continue;
-    }
-
-    // Localize keys that ends with specific terms, also formatting data if a `${key}Data` property is found
-    for (const [key, value] of Object.entries(foundry.utils.flattenObject(obj))) {
-      if (["label", "hint", "abbreviation"].some((lKey) => key.endsWith(lKey))) {
-        const formatData = foundry.utils.getProperty(obj, `${key}Data`) || {};
-        foundry.utils.setProperty(obj, key, game.i18n.format(value, formatData));
-      }
     }
   }
 });

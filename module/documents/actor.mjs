@@ -1,14 +1,10 @@
-import SystemDocument from "./api/system-document.mjs";
-
 /**
  * The Actor document subclass in the COG system which extends the behavior of the base Actor class.
  */
-export default class COGActor extends SystemDocument(Actor) {
-
-  static SYSTEM_PATH = "ACTOR";
+export default class COGActor extends Actor {
 
   /* -------------------------------------------- */
-  /*  Properties                                  */
+  /*  Properties
   /* -------------------------------------------- */
 
   /**
@@ -20,7 +16,7 @@ export default class COGActor extends SystemDocument(Actor) {
   }
 
   /* -------------------------------------------- */
-  /*  Database Workflows                          */
+  /*  Database Workflows
   /* -------------------------------------------- */
 
   /** @inheritDoc */
@@ -34,7 +30,7 @@ export default class COGActor extends SystemDocument(Actor) {
     };
 
     switch (data.type) {
-      case "character":
+      case "pc":
         Object.assign(prototypeToken, {
           displayBars: CONST.TOKEN_DISPLAY_MODES.ALWAYS,
           actorLink: true,
@@ -56,23 +52,33 @@ export default class COGActor extends SystemDocument(Actor) {
   /* -------------------------------------------- */
 
   /** @inheritDoc */
-  async _preUpdate(data, options, user) {
-    await super._preUpdate(data, options, user);
+  async _preUpdate(changes, options, user) {
+    await super._preUpdate(changes, options, user);
+
+    this.#resetHitDieHistory(changes);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Reset Hit Die History for levels that are below the new level.
+   * @param {Object} changes  The changes applied to the Document.
+   * @returns {void}
+   */
+  #resetHitDieHistory(changes) {
+    const newLevel = changes.system?.advancement?.level;
+
+    // Exit early of no relevant changes
+    if (!newLevel || newLevel >= this.system.advancement.level) return;
 
     const updates = {};
 
-    // Reset Hit Die History when the level changes
-    const newLevel = data.system?.advancement?.level?.value;
-    if (newLevel && newLevel < this.system.advancement.level.value) {
-      const history = this.withSystemMetadata("hitDie.history");
-      for (const [key, lvl] of Object.entries(history)) {
-        if (lvl._mt.level > newLevel) {
-          updates[`system.hitDie.history.${key}.value`] = lvl._mt.value.initial;
-        }
+    for (const level of Object.keys(this.system.hitDie.history)) {
+      if (parseInt(level) > newLevel) {
+        updates[`system.hitDie.history.${level}`] = null;
       }
     }
 
-    // Apply new updates
-    Object.assign(data, updates);
+    Object.assign(changes, updates);
   }
 }

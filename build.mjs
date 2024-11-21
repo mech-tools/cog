@@ -3,7 +3,7 @@ import { Command } from "commander";
 import { compilePack, extractPack } from "@foundryvtt/foundryvtt-cli";
 
 /* -------------------------------------------- */
-/*  Build Configuration                         */
+/*  Build Configuration
 /* -------------------------------------------- */
 
 const CONFIG = {
@@ -27,7 +27,7 @@ const CONFIG = {
 };
 
 /* -------------------------------------------- */
-/*  Task Handlers                               */
+/*  Task Handlers
 /* -------------------------------------------- */
 
 /**
@@ -57,7 +57,7 @@ export async function compile() {
 }
 
 /* -------------------------------------------- */
-/*  Command Definition                          */
+/*  Command Definition
 /* -------------------------------------------- */
 
 const startup = new Command();

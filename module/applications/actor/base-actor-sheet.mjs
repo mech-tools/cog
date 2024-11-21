@@ -37,7 +37,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
     },
     sidebar: {
       id: "sidebar",
-      template: "systems/cog/templates/sheets/actor/sidebar.hbs",
+      template: undefined, // Defined during _initializeActorSheetClass
     },
     body: {
       id: "body",
@@ -57,7 +57,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
    * Define the structure of tabs used by this Actor Sheet.
    */
   static TABS = {
-    sheet: [{ id: "attributes", group: "sheet", label: "COG.SHEET.ACTOR.TABS.Attributes" }],
+    sheet: [{ id: "attributes", group: "sheet", label: "COG.ACTOR.TABS.Attributes" }],
   };
 
   /** @override */
@@ -92,8 +92,9 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
     this.TABS = foundry.utils.deepClone(this.TABS);
 
     // Actor Type Configuration
-    this.PARTS.header.template = `systems/cog/templates/sheets/actor/${actor.type}-header.hbs`;
-    this.PARTS.attributes.template = `systems/cog/templates/sheets/actor/${actor.type}-attributes.hbs`;
+    this.PARTS.sidebar.template = `systems/cog/templates/sheets/actor/${actor.type}/sidebar.hbs`;
+    this.PARTS.header.template = `systems/cog/templates/sheets/actor/${actor.type}/header.hbs`;
+    this.PARTS.attributes.template = `systems/cog/templates/sheets/actor/${actor.type}/attributes.hbs`;
     this.DEFAULT_OPTIONS.classes = [actor.type];
 
     // Includes Actions
@@ -105,7 +106,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       this.TABS.sheet.push({
         id: "actions",
         group: "sheet",
-        label: "COG.SHEET.ACTOR.TABS.Actions",
+        label: "COG.ACTOR.TABS.Actions",
       });
     }
 
@@ -118,7 +119,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       this.TABS.sheet.push({
         id: "inventory",
         group: "sheet",
-        label: "COG.SHEET.ACTOR.TABS.Inventory",
+        label: "COG.ACTOR.TABS.Inventory",
       });
     }
 
@@ -131,7 +132,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       this.TABS.sheet.push({
         id: "paths",
         group: "sheet",
-        label: "COG.SHEET.ACTOR.TABS.Paths",
+        label: "COG.ACTOR.TABS.Paths",
       });
     }
 
@@ -144,7 +145,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       this.TABS.sheet.push({
         id: "effects",
         group: "sheet",
-        label: "COG.SHEET.ACTOR.TABS.Effects",
+        label: "COG.ACTOR.TABS.Effects",
       });
     }
 
@@ -152,18 +153,18 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
     if (actor.includesBiography) {
       this.PARTS.biography = {
         id: "biography",
-        template: `systems/cog/templates/sheets/actor/${actor.type}-biography.hbs`,
+        template: `systems/cog/templates/sheets/actor/${actor.type}/biography.hbs`,
       };
       this.TABS.sheet.push({
         id: "biography",
         group: "sheet",
-        label: "COG.SHEET.ACTOR.TABS.Biography",
+        label: "COG.ACTOR.TABS.Biography",
       });
     }
   }
 
   /* -------------------------------------------- */
-  /*  Properties                                  */
+  /*  Properties
   /* -------------------------------------------- */
 
   /** @override */
@@ -172,7 +173,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
   }
 
   /* -------------------------------------------- */
-  /*  Sheet Context                               */
+  /*  Sheet Context
   /* -------------------------------------------- */
 
   /** @override */
@@ -180,19 +181,16 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
     const tabGroups = this.#getTabs();
 
     return {
-      // Document
-      actor: this.document,
-      fields: this.document.schema.fields,
-
       // Sheet
       tabGroups,
       tabs: tabGroups.sheet,
       editMode: this.isEditable && this.#mode === this.constructor.MODES.EDIT,
 
       // Data
+      type: this.actor.type,
+      name: { field: this.document.schema.getField("name"), value: this.document.name },
+      img: { field: this.document.schema.getField("img"), value: this.document.img },
       health: this.#prepareHealth(),
-      advancement: this.getField("advancement"),
-      attributes: this.getField("attributes"),
     };
   }
 
@@ -200,29 +198,38 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
 
   /**
    * Prepare and format the display of Health attributes on the actor sheet.
-   * @returns {typeof SYSTEM.ACTOR.health & {
+   * @returns {{
    *   fgPath: string;
-   *   hitPoints: { pct: string; cssPct: string };
+   *   hitPoints: { pct: string; cssPct: string; value: DocumentField; max: DocumentField };
    *   tempDmgs: { pct: string; cssPct: string };
    * }}
    */
   #prepareHealth() {
-    // Get System metadata
-    const health = this.getField("health");
+    const health = {
+      hitPoints: {
+        ...this.makeField("health.hitPoints"),
+        value: this.makeField("health.hitPoints.value"),
+        max: this.makeField("health.hitPoints.max"),
+      },
+      tempDmgs: this.makeField("health.tempDmgs"),
+    };
 
     // Foreground
     health.fgPath = `systems/cog/ui/actor/health/${this.document.type}-health-pool.webp`;
 
     // Hit Points
-    health.hitPoints.pct = health.hitPoints.max
-      ? Math.round((health.hitPoints.value * 100) / health.hitPoints.max)
+    health.hitPoints.pct = health.hitPoints.max.value
+      ? Math.round((health.hitPoints.value.value * 100) / health.hitPoints.max.value)
       : 0;
 
     health.hitPoints.cssPct = `--hitPoints-pct: ${health.hitPoints.pct}%;`;
 
     // Temp Dmgs
-    health.tempDmgs.pct = health.hitPoints.max
-      ? Math.min(Math.round((health.tempDmgs.value * 100) / health.hitPoints.max) || 0, 100)
+    health.tempDmgs.pct = health.hitPoints.max.value
+      ? Math.min(
+          Math.round((health.tempDmgs.value.value * 100) / health.hitPoints.max.value) || 0,
+          100,
+        )
       : 0;
 
     health.tempDmgs.cssPct = `--tempDmgs-pct: ${health.tempDmgs.pct}%;`;
@@ -232,7 +239,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
   }
 
   /* -------------------------------------------- */
-  /*  Sheet Rendering                             */
+  /*  Sheet Rendering
   /* -------------------------------------------- */
 
   /**
@@ -318,9 +325,9 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
     toggle.checked = this.#mode === this.constructor.MODES.EDIT;
 
     // Label and tooltip
-    toggle.dataset.tooltip = "COG.SHEET.ACTOR.MODES.Edit";
+    toggle.dataset.tooltip = "COG.ACTOR.MODES.Edit";
     toggle.dataset.tooltipClass = "cog";
-    toggle.setAttribute("aria-label", game.i18n.localize("COG.SHEET.ACTOR.MODES.Edit"));
+    toggle.setAttribute("aria-label", game.i18n.localize("COG.ACTOR.MODES.Edit"));
 
     // Add it to the DOM
     header.insertAdjacentElement("afterbegin", toggle);
@@ -329,7 +336,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
   }
 
   /* -------------------------------------------- */
-  /*  Actions Event Handlers                      */
+  /*  Actions Event Handlers
   /* -------------------------------------------- */
 
   /**
@@ -374,7 +381,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
   }
 
   /* -------------------------------------------- */
-  /*  Others Event Handlers                      */
+  /*  Others Event Handlers
   /* -------------------------------------------- */
 
   /** @inheritDoc */
@@ -425,7 +432,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
     const { MODES } = this.constructor;
 
     const toggle = event.currentTarget;
-    const label = game.i18n.localize(`COG.SHEET.ACTOR.MODES.${toggle.checked ? "Play" : "Edit"}`);
+    const label = game.i18n.localize(`COG.ACTOR.MODES.${toggle.checked ? "Play" : "Edit"}`);
 
     toggle.dataset.tooltip = label;
     toggle.setAttribute("aria-label", label);
@@ -435,6 +442,8 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
     await this.submit();
     this.render();
   }
+
+  /* -------------------------------------------- */
 
   /**
    * Handle the user toggling the Hit Points input.

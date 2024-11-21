@@ -1,45 +1,43 @@
 <section class="sheet-body flexcol">
     {{! Header }}
     <header class="sheet-header flexcol">
-        <span class="description">{{localize "COG.SHEET.CONFIG.HIT_DIE.LABELS.Description"}}</span>
-        <span class="value mini">{{hitPoints.base}}</span>
+        <span class="description">{{localize "COG.CONFIG.HIT_DIE.LABELS.Description"}}</span>
+        <span class="value mini">{{hitPoints.base.value}}</span>
     </header>
 
     {{! Content }}
     <div class="sheet-content flexcol flex1 scrollable">
-        {{#each history as |value|}}
-            {{#with value.[1] as |level|}}
-                <div class="level flexrow">
-                    <div class="form-group">
-                        {{! Level Label }}
-                        <label>
-                            {{level._mt.value.label}}
-                            {{#if level.isNull}}
-                                <i class="incomplete fa-solid fa-triangle-exclamation"></i>
-                            {{/if}}
-                        </label>
+        {{#each hitDie.history as |level|}}
+            <div class="level flexrow">
+                <div class="form-group">
+                    {{! Level Label }}
+                    <label>
+                        {{localize level.field.label level=level.field.name}}
+                        {{#if level.isNull}}
+                            <i class="incomplete fa-solid fa-triangle-exclamation"></i>
+                        {{/if}}
+                    </label>
 
-                        {{! Level field }}
-                        <div class="form-fields">
+                    {{! Level field }}
+                    <div class="form-fields">
 
-                            {{formInput
-                                level._mt.value.field
-                                value=level.value
-                                disabled=(ifThen level._mt.rollable false true)
-                            }}
+                        {{formInput
+                            level.field
+                            value=level.value
+                            disabled=(ifThen level.rollable false true)
+                        }}
 
-                            {{#if level._mt.rollable}}
-                                <i class="icon-button fa-regular fa-dice"
-                                    data-tooltip="COG.SHEET.CONFIG.HIT_DIE.LABELS.Roll_hit_die" data-tooltip-class="cog"
-                                    data-tooltip-direction="UP"></i>
-                            {{/if}}
-                        </div>
-
-                        {{! PC Hint }}
-                        <p class="hint">{{level._mt.value.hint}}</p>
+                        {{#if level.rollable}}
+                            <i class="icon-button fa-regular fa-dice"
+                                data-tooltip="COG.CONFIG.HIT_DIE.LABELS.Roll_hit_die" data-tooltip-class="cog"
+                                data-tooltip-direction="UP"></i>
+                        {{/if}}
                     </div>
+
+                    {{! Level Hint }}
+                    <p class="hint">{{localize level.hint}}</p>
                 </div>
-            {{/with}}
+            </div>
         {{/each}}
     </div>
 </section>

@@ -3,15 +3,15 @@ import HitDieConfigSheet from "./config/hit-die-config-sheet.mjs";
 import HitPointsConfigSheet from "./config/hit-points-config-sheet.mjs";
 
 /**
- * A COGBaseActorSheet subclass used to configure Actors of the "character" type.
+ * A COGBaseActorSheet subclass used to configure Actors of the "pc" type.
  */
-export default class CharacterSheet extends COGBaseActorSheet {
+export default class PcSheet extends COGBaseActorSheet {
 
   /** @inheritDoc */
   static DEFAULT_OPTIONS = {
     actions: {},
     actor: {
-      type: "character",
+      type: "pc",
       includesActions: true,
       includesInventory: true,
       includesPaths: true,
@@ -29,7 +29,7 @@ export default class CharacterSheet extends COGBaseActorSheet {
   }
 
   /* -------------------------------------------- */
-  /*  Sheet Context                               */
+  /*  Sheet Context
   /* -------------------------------------------- */
 
   /** @inheritdoc */
@@ -43,37 +43,40 @@ export default class CharacterSheet extends COGBaseActorSheet {
       levelUp: this.#prepareLevelUp(),
 
       // Data
-      hitDieType: this.#prepareHitDieType(),
+      advancement: { level: this.makeField("advancement.level") },
+      hitDie: {
+        type: {
+          ...this.makeField("hitDie.type"),
+          icon: `systems/cog/ui/dice/${this.document.system.hitDie.type}.svg`,
+        },
+      },
     };
   }
 
   /* -------------------------------------------- */
 
   /**
-   * Tooltip creation according to character level up status.
+   * Tooltip creation according to pc level up status.
    * @returns {{ incomplete: boolean; details: string }}
    */
   #prepareLevelUp() {
     // Hit Die History
-    const hitDieHistory = Object.values(this.getField("hitDie.history"))
-      .reduce((count, lvl) => {
-        return lvl._mt.level <= this.actor.system.advancement.level.value && !lvl.value
-          ? count + 1
-          : count;
-      }, 0);
+    const hitDieHistory = Object.entries(this.document.system.hitDie.history)
+      .reduce(
+        (count, [level, value]) =>
+          parseInt(level) <= this.actor.system.advancement.level && !value ? count + 1 : count,
+        0,
+      );
 
     // Create the incomplete tooltip
     const incomplete = !!hitDieHistory;
 
-    let details = `<p>${game.i18n.localize("COG.SHEET.ACTOR.LABELS.Creation_steps.Title")}</p><ul>`;
+    let details = `<p>${game.i18n.localize("COG.ACTOR.LABELS.Creation_steps.Title")}</p><ul>`;
 
     if (hitDieHistory > 0) {
-      const hitDieHistoryLabel = game.i18n.format(
-        "COG.SHEET.ACTOR.LABELS.Creation_steps.Hit_die_count",
-        {
-          count: hitDieHistory,
-        },
-      );
+      const hitDieHistoryLabel = game.i18n.format("COG.ACTOR.LABELS.Creation_steps.Hit_die_count", {
+        count: hitDieHistory,
+      });
       details += `<li><span>${hitDieHistoryLabel}</span></li>`;
     }
 
@@ -83,21 +86,5 @@ export default class CharacterSheet extends COGBaseActorSheet {
       incomplete,
       details,
     };
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Prepare and format the display of Hit Die attributes on the character sheet.
-   * @returns {typeof SYSTEM.ACTOR.hitDie.type & { type: { icon: string } }}
-   */
-  #prepareHitDieType() {
-    // Get System metadata
-    const hitDieType = this.getField("hitDie.type");
-
-    // Icon
-    hitDieType.icon = `systems/cog/ui/dice/d${hitDieType.value}.svg`;
-
-    return hitDieType;
   }
 }

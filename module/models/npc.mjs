@@ -6,21 +6,18 @@ import COGActorType from "./actor-type.mjs";
 export default class COGNpc extends COGActorType {
 
   /* -------------------------------------------- */
-  /*  Data Schema                                 */
+  /*  Data Schema
   /* -------------------------------------------- */
 
   /** @inheritDoc */
   static defineSchema() {
     const fields = foundry.data.fields;
+    const required = { required: true, nullable: false };
     const schema = super.defineSchema();
 
     // advancement
     schema.advancement = new fields.SchemaField({
-      cr: new fields.SchemaField({
-        value: new fields.NumberField({
-          ...SYSTEM.ACTOR.advancement.cr.value,
-        }),
-      }),
+      cr: new fields.NumberField({ ...required, initial: 0, min: 0, step: 0.5 }),
     });
 
     // Npc don't have Bonus HP
@@ -30,7 +27,7 @@ export default class COGNpc extends COGActorType {
   }
 
   /* -------------------------------------------- */
-  /*  Data Preparation                            */
+  /*  Data Preparation
   /* -------------------------------------------- */
 
   /** @override */

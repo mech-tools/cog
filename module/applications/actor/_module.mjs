@@ -1,6 +1,6 @@
 // Sheet Apps
 export { default as COGBaseActorSheet } from "./base-actor-sheet.mjs";
-export { default as CharacterSheet } from "./character-sheet.mjs";
+export { default as PcSheet } from "./pc-sheet.mjs";
 export { default as NpcSheet } from "./npc-sheet.mjs";
 
 // Config Apps

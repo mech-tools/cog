@@ -30,7 +30,7 @@ export default class BaseConfigSheet extends COGBaseSheet(api.DocumentSheetV2) {
   }
 
   /* -------------------------------------------- */
-  /*  Sheet Rendering                             */
+  /*  Sheet Rendering
   /* -------------------------------------------- */
 
   /** @override */
@@ -41,12 +41,12 @@ export default class BaseConfigSheet extends COGBaseSheet(api.DocumentSheetV2) {
   }
 
   /* -------------------------------------------- */
-  /*  Others Event Handlers                       */
+  /*  Others Event Handlers
   /* -------------------------------------------- */
 
   /**
    * Add a class depedending on the container being scrolled.
-   * @param {PointerEvent} event  The triggering event.
+   * @param {Event} event  The triggering event.
    */
   #onScrollContent(event) {
     const target = event.target;

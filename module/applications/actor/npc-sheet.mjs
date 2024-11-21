@@ -19,4 +19,21 @@ export default class NpcSheet extends COGBaseActorSheet {
   static {
     this._initializeActorSheetClass();
   }
+
+  /* -------------------------------------------- */
+  /*  Sheet Context
+  /* -------------------------------------------- */
+
+  /** @inheritdoc */
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+
+    return {
+      ...context,
+
+      // Data
+      advancement: { cr: this.makeField("advancement.cr") },
+      attributes: { size: this.makeField("attributes.size") },
+    };
+  }
 }

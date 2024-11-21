@@ -1,117 +1,103 @@
 {
   "TYPES": {
     "Actor": {
-      "character": "PJ ",
+      "pc": "PJ ",
       "npc": "PNJ "
     }
   },
 
-  "COG.SHEET": {
-    "ACTOR": {
-      "MODES": {
-        "Play": "Jouer",
-        "Edit": "Modifier la fiche"
+  "COG.DICE": {
+    "D4": "Dé 4",
+    "D6": "Dé 6",
+    "D8": "Dé 8",
+    "D10": "Dé 10",
+    "D12": "Dé 12",
+    "D20": "Dé 20"
+  },
+
+  "COG.SIZES": {
+    "Tiny": "Minuscule",
+    "Very_small": "Très petite",
+    "Small": "Petite",
+    "Medium": "Moyenne",
+    "Large": "Grande",
+    "Huge": "Énorme",
+    "Gargantuan": "Colossale"
+  },
+
+  "COG.ACTOR": {
+    "FIELDS": {
+      "health.hitPoints": {
+        "label": "Points de vie",
+        "base.label": "Base",
+        "base.hint": "Maximum de points de vie (avant modificateurs) calculé en fonction du niveau du personnage.",
+        "bonus.label": "Bonus",
+        "bonus.hint": "Bonus manuel ajouté aux points de vie maximum."
       },
 
-      "TABS": {
-        "Attributes": "Caractéristiques",
-        "Actions": "Actions",
-        "Inventory": "Inventaire",
-        "Paths": "Voies",
-        "Effects": "Effets",
-        "Biography": "Biographie"
+      "health.tempDmgs": {
+        "label": "Dommages temporaires",
+        "abbreviation": "TMP"
       },
 
-      "LABELS": {
-        "Configure_hit_die": "Configuration du dé de vie",
-        "Configure_hit_points": "Configuration des points de vie",
-        "Favorite_actions": "Favoris",
-        "Creation_steps": {
-          "Title": "Personnage incomplet !",
-          "Hit_die_count": "Points de vie manquant sur {count} niveau(x)."
+      "hitDie": {
+        "type.label": "Dé de vie",
+        "history": {
+          "level.label": "Niveau {level}",
+          "level.hint.profile": "Défini par le profil.",
+          "level.hint.hitdie": "Résultat du Dé de vie + Constitution si négative (minimum de 0).",
+          "level.hint.con": "Constitution (minimum de 0)."
         }
+      },
+
+      "advancement": {
+        "level.label": "Niveau",
+        "cr.label": "NC",
+        "cr.hint": "Niveau de créature avant ajout des gabarits et des capacités."
+      },
+
+      "attributes": {
+        "size.label": "Taille"
       }
     },
 
-    "CONFIG": {
-      "HIT_DIE": {
-        "LABELS": {
-          "Window_title": "Configuration : dé de vie ({name})",
-          "Description": "Configuration des points de vie gagnés par le personnage à chaque niveau.",
-          "Roll_hit_die": "Faire le jet"
-        }
-      },
-      "HIT_POINTS": {
-        "LABELS": {
-          "Window_title": "Configuration : points de vie ({name})",
-          "Description": "Configuration des points de vie maximum du personnage."
-        }
+    "MODES": {
+      "Play": "Jouer",
+      "Edit": "Modifier la fiche"
+    },
+
+    "TABS": {
+      "Attributes": "Caractéristiques",
+      "Actions": "Actions",
+      "Inventory": "Inventaire",
+      "Paths": "Voies",
+      "Effects": "Effets",
+      "Biography": "Biographie"
+    },
+
+    "LABELS": {
+      "Configure_hit_die": "Configuration du dé de vie",
+      "Configure_hit_points": "Configuration des points de vie",
+      "Favorite_actions": "Favoris",
+      "Creation_steps": {
+        "Title": "Personnage incomplet !",
+        "Hit_die_count": "Points de vie manquant sur {count} niveau(x)."
       }
     }
   },
 
-  "COG.SCHEMA": {
-    "DICE": {
-      "Die_4": "Dé 4",
-      "Die_6": "Dé 6",
-      "Die_8": "Dé 8",
-      "Die_10": "Dé 10",
-      "Die_12": "Dé 12",
-      "Die_20": "Dé 20"
+  "COG.CONFIG": {
+    "HIT_DIE": {
+      "LABELS": {
+        "Window_title": "Configuration : dé de vie ({name})",
+        "Description": "Configuration des points de vie gagnés par le personnage à chaque niveau.",
+        "Roll_hit_die": "Faire le jet"
+      }
     },
-
-    "ACTOR": {
-      "SIZES": {
-        "Tiny": "Minuscule",
-        "Very_small": "Très petite",
-        "Small": "Petite",
-        "Medium": "Moyenne",
-        "Large": "Grande",
-        "Huge": "Énorme",
-        "Gargantuan": "Colossale"
-      },
-
-      "HIT_DIE_LEVEL_TYPES": {
-        "Profile": "Défini par le profil.",
-        "Hitdie": "Résultat du Dé de vie + Constitution si négative (minimum de 0).",
-        "Con": "Constitution (minimum de 0)."
-      },
-
-      "HIT_DIE": {
-        "Type.Label": "Dé de vie",
-        "History.Level": {
-          "Value.Label": "Niveau {level}"
-        }
-      },
-
-      "HEALTH": {
-        "HitPoints": {
-          "Label": "Points de vie",
-          "Base.Label": "Base",
-          "Base.Hint": "Maximum de points de vie (avant modificateurs) calculé en fonction du niveau du personnage.",
-          "Bonus.Label": "Bonus",
-          "Bonus.Hint": "Bonus manuel ajouté aux points de vie maximum."
-        },
-        "TempDmgs": {
-          "Label": "Dommages temporaires",
-          "Value.Abbreviation": "TMP"
-        }
-      },
-
-      "ADVANCEMENT": {
-        "Level": {
-          "Label": "Niveau"
-        },
-        "Cr": {
-          "Label": "NC",
-          "Value.Hint": "Niveau de créature avant ajout des gabarits et des capacités."
-        }
-      },
-
-      "ATTRIBUTES": {
-        "Size": {
-          "Label": "Taille"
-        }
+    "HIT_POINTS": {
+      "LABELS": {
+        "Window_title": "Configuration : points de vie ({name})",
+        "Description": "Configuration des points de vie maximum du personnage."
       }
     }
   }

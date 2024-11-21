@@ -9,7 +9,7 @@ export default (Base) =>
   class extends HandlebarsApplicationMixin(Base) {
 
     /* -------------------------------------------- */
-    /*  Rendering                                   */
+    /*  Rendering
     /* -------------------------------------------- */
 
     /** @inheritdoc */
