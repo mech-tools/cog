@@ -209,6 +209,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       hitPoints: {
         ...this.makeField("health.hitPoints"),
         value: this.makeField("health.hitPoints.value"),
+        base: this.makeField("health.hitPoints.base"),
         max: this.makeField("health.hitPoints.max"),
       },
       tempDmgs: this.makeField("health.tempDmgs"),
@@ -226,10 +227,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
 
     // Temp Dmgs
     health.tempDmgs.pct = health.hitPoints.max.value
-      ? Math.min(
-          Math.round((health.tempDmgs.value.value * 100) / health.hitPoints.max.value) || 0,
-          100,
-        )
+      ? Math.min(Math.round((health.tempDmgs.value * 100) / health.hitPoints.max.value) || 0, 100)
       : 0;
 
     health.tempDmgs.cssPct = `--tempDmgs-pct: ${health.tempDmgs.pct}%;`;
@@ -300,10 +298,10 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       // Hit Points toggle
       this.element
         .querySelector(".hit-points > .label")
-        .addEventListener("click", this.#onToggleHitPoints.bind(this));
+        ?.addEventListener("click", this.#onToggleHitPoints.bind(this));
       this.element
         .querySelector(".hit-points > .field > input")
-        .addEventListener("blur", this.#onToggleHitPoints.bind(this));
+        ?.addEventListener("blur", this.#onToggleHitPoints.bind(this));
     }
   }
 

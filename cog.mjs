@@ -45,6 +45,9 @@ Hooks.once("init", async function () {
   Actors.registerSheet(COG.id, applications.actor.NpcSheet, {
     types: ["npc"],
   });
+
+  // Preload all partials
+  applications.preloadHandlebarsTemplates();
 });
 
 // Other Document Configuration

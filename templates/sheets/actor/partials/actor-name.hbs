@@ -1,0 +1,11 @@
+{{! Actor editable name }}
+<h1 class="actor-name">
+    {{#if editMode}}
+        {{formInput
+            name.field
+            value=name.value
+        }}
+    {{else}}
+        {{name.value}}
+    {{/if}}
+</h1>

@@ -1,7 +1,6 @@
 <section class="sheet-sidebar flexcol">
     {{! Profile Image }}
-    <img class="profile framed-section" src="{{img.value}}" alt="{{name.value}}" width="200" height="200" {{#if
-        editMode}} data-action="editImage" data-edit="img" {{/if}} />
+    {{> "cog.actor-img"}}
 
     {{! Health Pool }}
     <div class="health flexrow">
@@ -51,7 +50,7 @@
             </span>
         </div>
     </div>
+
     {{! Favorite Actions }}
     <h2 class="divider">{{localize "COG.ACTOR.LABELS.Favorite_actions"}}</h2>
-
 </section>

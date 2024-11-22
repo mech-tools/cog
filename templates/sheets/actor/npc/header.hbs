@@ -1,16 +1,7 @@
 <section class="sheet-header flexcol">
     <header class="flexrow">
         {{! NPC Name }}
-        <h1 class="actor-name">
-            {{#if editMode}}
-                {{formInput
-                    name.field
-                    value=name.value
-                }}
-            {{else}}
-                {{name.value}}
-            {{/if}}
-        </h1>
+        {{> "cog.actor-name"}}
 
         {{! NPC CR }}
         <div class="level flexrow flex0">
