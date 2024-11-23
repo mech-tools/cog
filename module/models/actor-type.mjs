@@ -15,13 +15,36 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
 
     const schema = {};
 
+    // Abilities
+    const abilities = [
+      "strength",
+      "dexterity",
+      "constitution",
+      "intelligence",
+      "perception",
+      "charisma",
+    ];
+    schema.abilities = new fields.SchemaField(
+      abilities.reduce((obj, id) => {
+        obj[id] = new fields.SchemaField(
+          {
+            base: new fields.NumberField({ ...requiredInteger, initial: 0 }),
+            bonus: new fields.NumberField({ ...requiredInteger, initial: 0 }),
+            max: new fields.NumberField({ ...requiredInteger, initial: 0 }),
+          },
+          { abbreviation: `COG.ACTOR.FIELDS.abilities.${id}.abbreviation` },
+        );
+        return obj;
+      }, {}),
+    );
+
     // Health Pool
     schema.health = new fields.SchemaField({
       hitPoints: new fields.SchemaField({
-        base: new fields.NumberField({ ...requiredInteger, initial: 0, value: 0 }),
-        bonus: new fields.NumberField({ ...requiredInteger, initial: 0, value: 0 }),
-        max: new fields.NumberField({ ...requiredInteger, initial: 0, value: 0 }),
-        value: new fields.NumberField({ ...requiredInteger, initial: 0, value: 0 }),
+        base: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+        bonus: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+        max: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+        value: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
       }),
       tempDmgs: new fields.NumberField({
         ...requiredInteger,
@@ -68,8 +91,17 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
 
   /** @override */
   prepareDerivedData() {
+    this._prepareDerivedAbilities();
     this._prepareDerivedHealth();
   }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Preparation of derived abilities for all actor subtimes.
+   * @override
+   */
+  _prepareDerivedAbilities() {}
 
   /* -------------------------------------------- */
 

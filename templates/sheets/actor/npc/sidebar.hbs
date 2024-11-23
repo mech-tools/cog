@@ -8,25 +8,26 @@
 
         {{! Hit Points }}
         <div class="hit-points flexrow" style="{{health.hitPoints.cssPct}} {{health.tempDmgs.cssPct}}">
-
-            <div class="label flexrow" data-tooltip="{{health.hitPoints.field.label}}" data-tooltip-class="cog">
-                <span class="value flex0">{{health.hitPoints.value.value}}</span>
-                <span class="separator flex0">/</span>
-                <span class="max flex0">{{health.hitPoints.max.value}}</span>
-            </div>
-            <div class="field flexrow hidden">
-                {{#if editMode}}
+            {{#if editMode}}
+                <div class="field flexrow" data-tooltip="{{health.hitPoints.field.label}}" data-tooltip-class="cog">
                     {{formInput
                         health.hitPoints.base.field
                         value=health.hitPoints.base.value
                     }}
-                {{else}}
+                </div>
+            {{else}}
+                <div class="label flexrow" data-tooltip="{{health.hitPoints.field.label}}" data-tooltip-class="cog">
+                    <span class="value flex0">{{health.hitPoints.value.value}}</span>
+                    <span class="separator flex0">/</span>
+                    <span class="max flex0">{{health.hitPoints.max.value}}</span>
+                </div>
+                <div class="field flexrow hidden">
                     {{formInput
                         health.hitPoints.value.field
                         value=health.hitPoints.value.value
                     }}
-                {{/if}}
-            </div>
+                </div>
+            {{/if}}
         </div>
 
         {{! Temp damages }}

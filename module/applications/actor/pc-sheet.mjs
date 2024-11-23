@@ -1,4 +1,5 @@
 import COGBaseActorSheet from "./base-actor-sheet.mjs";
+import AbilityConfigSheet from "./config/ability-config-sheet.mjs";
 import HitDieConfigSheet from "./config/hit-die-config-sheet.mjs";
 import HitPointsConfigSheet from "./config/hit-points-config-sheet.mjs";
 
@@ -19,6 +20,7 @@ export default class PcSheet extends COGBaseActorSheet {
       includesBiography: true,
     },
     configureProfiles: {
+      ability: AbilityConfigSheet,
       hitDie: HitDieConfigSheet,
       hitPoints: HitPointsConfigSheet,
     },

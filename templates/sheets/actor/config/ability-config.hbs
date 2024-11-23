@@ -1,0 +1,24 @@
+<section class="sheet-body flexcol">
+    {{! Header }}
+    <header class="sheet-header flexcol">
+        <span
+            class="description">{{localize "COG.CONFIG.ABILITY.LABELS.Description" ability=ability.field.label}}</span>
+        <span class="data value mini">{{ability.max.value}}</span>
+    </header>
+
+    {{! Content }}
+    <div class="sheet-content flexcol flex1">
+        {{formGroup
+            ability.base.field
+            value=ability.base.value
+            label=(localize "COG.ACTOR.FIELDS.abilities.*.base.label")
+            hint=(localize "COG.ACTOR.FIELDS.abilities.*.base.hint")
+        }}
+        {{formGroup
+            ability.bonus.field
+            value=ability.bonus.value
+            label=(localize "COG.ACTOR.FIELDS.abilities.*.bonus.label")
+            hint=(localize "COG.ACTOR.FIELDS.abilities.*.bonus.hint")
+        }}
+    </div>
+</section>

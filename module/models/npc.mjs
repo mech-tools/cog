@@ -20,7 +20,10 @@ export default class COGNpc extends COGActorType {
       cr: new fields.NumberField({ ...required, initial: 0, min: 0, step: 0.5 }),
     });
 
-    // Npc don't have Bonus HP
+    // Remove unused fields by Npc
+    for (const key of Object.keys(schema.abilities.fields)) {
+      delete schema.abilities.fields[key].fields.bonus;
+    }
     delete schema.health.fields.hitPoints.fields.bonus;
 
     return schema;
@@ -31,13 +34,15 @@ export default class COGNpc extends COGActorType {
   /* -------------------------------------------- */
 
   /** @override */
-  _prepareBaseHealth() {
-    super._prepareBaseHealth();
+  _prepareDerivedAbilities() {
+    for (const key of Object.keys(this.abilities)) {
+      this.abilities[key].max = this.abilities[key].base;
+    }
   }
 
   /* -------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _prepareDerivedHealth() {
     this.health.hitPoints.max = this.health.hitPoints.base;
 

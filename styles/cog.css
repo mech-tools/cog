@@ -52,6 +52,7 @@
   --font-h3: "Hyperion", serif;
   --font-body: "Signika", serif;
   --font-size-9: 0.5625rem;
+  --font-size-22: 1.375rem;
   /* ----------------------------------------- */
   /*  Spacing
   /* ----------------------------------------- */
@@ -99,7 +100,7 @@
   /*  Buttons
   /* ----------------------------------------- */
   /* ----------------------------------------- */
-  /*  Buttons
+  /*  Data values
   /* ----------------------------------------- */
 }
 .cog *::before {
@@ -172,7 +173,7 @@
   padding: var(--spacing-50);
 }
 .cog .framed-section:has(> h2) {
-  padding: var(--spacing-100) var(--spacing-175) var(--spacing-50) var(--spacing-100);
+  padding: var(--spacing-175) var(--spacing-100) var(--spacing-50) var(--spacing-100);
 }
 .cog .framed-section:has(> h2) h2 {
   position: absolute;
@@ -186,6 +187,9 @@
   top: calc(-1 * (var(--spacing-50)));
   left: 50%;
   transform: translateX(-50%);
+}
+.cog .framed-section h3 {
+  font-size: var(--font-size-12);
 }
 .cog.application input,
 .cog.application select {
@@ -224,12 +228,12 @@
   font-size: var(--font-size-12);
   color: var(--color-text-75);
 }
-.cog .framed-section > input,
-.cog .framed-section > select {
+.cog .framed-section input,
+.cog .framed-section select {
   --input-background-color: var(--color-frame-bg);
 }
-.cog .framed-section > input:disabled,
-.cog .framed-section > select:disabled {
+.cog .framed-section input:disabled,
+.cog .framed-section select:disabled {
   --input-background-color: var(--color-frame-bg-75);
 }
 .cog.application fieldset {
@@ -324,7 +328,12 @@
 .cog .icon-button:hover {
   color: var(--color-primary);
 }
-.cog .value {
+.cog h1 .icon-button,
+.cog h2 .icon-button,
+.cog h3 .icon-button {
+  margin-left: var(--spacing-25);
+}
+.cog .data.value {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -334,12 +343,36 @@
   height: var(--value-size);
   max-width: var(--value-size);
   max-height: var(--value-size);
+  font-size: var(--font-size);
   text-align: center;
 }
-.cog .value.mini {
+.cog .data.value.mini {
   --value-size: 50px;
-  font-size: var(--font-size-14);
+  --font-size: var(--font-size-14);
   background-image: url(/systems/cog/ui/values/mini.webp);
+  background-position: -0.5px 0;
+}
+.cog .data.value.large {
+  --value-size: 88px;
+  --font-size: var(--font-size-22);
+}
+.cog .data.value.large input {
+  --input-height: var(--spacing-200);
+}
+.cog .data.value.clickable {
+  cursor: pointer;
+  transition: color 0.5s;
+}
+.cog .data.value.clickable:hover {
+  color: var(--color-primary);
+}
+.cog .data.value input {
+  font-size: var(--font-size);
+  margin: 0 calc(var(--value-size) * 0.275);
+  padding: 0;
+}
+.cog .data.value input:focus {
+  box-shadow: none;
 }
 /* ---------------------------------- */
 /*  Slide Toggles
@@ -353,7 +386,7 @@ slide-toggle {
   --slide-toggle-track-color-unchecked: var(--color-frame-bg);
   --slide-toggle-track-color-checked: var(--color-primary);
   --slide-toggle-thumb-color: var(--color-text);
-  --slide-toggle-thumb-width: calc(var(--slide-toggle-height) - var(--slide-toggle-track-border-width) - (var(--slide-toggle-padding) * 2));
+  --slide-toggle-thumb-width: calc(var(--slide-toggle-height) - (var(--slide-toggle-track-border-width) * 2) - (var(--slide-toggle-padding) * 2));
   --slide-toggle-thumb-height: var(--slide-toggle-thumb-width);
   --slide-toggle-transition-time: 250ms;
   display: inline-block;
@@ -488,6 +521,9 @@ slide-toggle[checked] .slide-toggle-thumb {
   /* ----------------------------------------- */
   /* ----------------------------------------- */
   /*  Sheet header
+  /* ----------------------------------------- */
+  /* ----------------------------------------- */
+  /*  Attributes tab
   /* ----------------------------------------- */
 }
 .cog.sheet.actor .window-content {
@@ -772,6 +808,12 @@ slide-toggle[checked] .slide-toggle-thumb {
 }
 .cog.sheet.actor .sheet-header .subtitle {
   gap: var(--spacing-50);
+}
+.cog.sheet.actor .tab.attributes .abilities {
+  justify-content: space-between;
+}
+.cog.sheet.actor .tab.attributes .abilities .ability {
+  align-items: center;
 }
 /* ----------------------------------------- */
 /*  Creation Steps Tooltip

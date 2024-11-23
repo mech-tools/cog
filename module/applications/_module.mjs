@@ -16,6 +16,7 @@ export async function preloadHandlebarsTemplates() {
   ];
 
   const paths = {};
+
   for (const path of partials) {
     paths[`cog.${path.split("/").pop().replace(".hbs", "")}`] = path;
   }

@@ -1,7 +1,29 @@
 <section class="tab {{tabs.attributes.id}} {{tabs.attributes.cssClass}}" data-tab="{{tabs.attributes.id}}"
     data-group="{{tabs.attributes.group}}">
-    {{! Attributes }}
-    <div class="framed-section">
-        <h2>Npc Caractéristiques</h2>
+    {{! Abilities }}
+    <div class="framed-section flexrow abilities">
+        <h2>{{abilities.field.label}}</h2>
+        {{#each abilities.values as |ability|}}
+            <div class="ability flexcol flex0 {{@key}}">
+                <h3 class="flexrow">
+                    {{localize ability.field.options.abbreviation}}
+                </h3>
+                <span class="data value large hexa {{ifThen @root.editMode '' 'clickable'}}"
+                    style="background-image: url({{ability.fgPath}})">
+                    {{#if @root.editMode}}
+                        {{formInput
+                            ability.base.field
+                            value=ability.base.value
+                        }}
+                    {{else}}
+                        {{~#if ability.max.positive}}
+                            +
+                        {{~/if}}
+                        {{~ability.max.value}}
+                    {{/if}}
+                </span>
+
+            </div>
+        {{/each}}
     </div>
 </section>

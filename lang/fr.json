@@ -27,6 +27,26 @@
 
   "COG.ACTOR": {
     "FIELDS": {
+      "abilities": {
+        "label": "Caractéristiques",
+        "strength.label": "Force",
+        "strength.abbreviation": "For",
+        "dexterity.label": "Dextérité",
+        "dexterity.abbreviation": "Dex",
+        "constitution.label": "Constitution",
+        "constitution.abbreviation": "Con",
+        "intelligence.label": "Intelligence",
+        "intelligence.abbreviation": "Int",
+        "perception.label": "Perception",
+        "perception.abbreviation": "Per",
+        "charisma.label": "Charisme",
+        "charisma.abbreviation": "Cha",
+        "*.base.label": "Base",
+        "*.base.hint": "Valeur de base de votre personnage. Ne devrait pas être modifié après la création du personnage.",
+        "*.bonus.label": "Bonus",
+        "*.bonus.hint": "Bonus manuel ajouté à la valeur de base de votre personnage."
+      },
+
       "health.hitPoints": {
         "label": "Points de vie",
         "base.label": "Base",
@@ -78,6 +98,7 @@
     "LABELS": {
       "Configure_hit_die": "Configuration du dé de vie",
       "Configure_hit_points": "Configuration des points de vie",
+      "Configure_ability": "Configuration de la caractéristique",
       "Favorite_actions": "Favoris",
       "Creation_steps": {
         "Title": "Personnage incomplet !",
@@ -87,6 +108,12 @@
   },
 
   "COG.CONFIG": {
+    "ABILITY": {
+      "LABELS": {
+        "Window_title": "Configuration : {ability} ({name})",
+        "Description": "Configuration de la caractéristique \"{ability}\" du personnage."
+      }
+    },
     "HIT_DIE": {
       "LABELS": {
         "Window_title": "Configuration : dé de vie ({name})",

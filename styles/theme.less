@@ -102,7 +102,7 @@
     padding: var(--spacing-50);
 
     &:has(> h2) {
-      padding: var(--spacing-100) var(--spacing-175) var(--spacing-50) var(--spacing-100);
+      padding: var(--spacing-175) var(--spacing-100) var(--spacing-50) var(--spacing-100);
 
       h2 {
         position: absolute;
@@ -117,6 +117,10 @@
         left: 50%;
         transform: translateX(-50%);
       }
+    }
+
+    h3 {
+      font-size: var(--font-size-12);
     }
   }
 
@@ -170,8 +174,8 @@
     }
   }
 
-  .framed-section > input,
-  .framed-section > select {
+  .framed-section input,
+  .framed-section select {
     --input-background-color: var(--color-frame-bg);
 
     &:disabled {
@@ -299,11 +303,17 @@
     }
   }
 
+  h1 .icon-button,
+  h2 .icon-button,
+  h3 .icon-button {
+    margin-left: var(--spacing-25);
+  }
+
   /* ----------------------------------------- */
-  /*  Buttons
+  /*  Data values
   /* ----------------------------------------- */
 
-  .value {
+  .data.value {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -313,13 +323,43 @@
     height: var(--value-size);
     max-width: var(--value-size);
     max-height: var(--value-size);
+    font-size: var(--font-size);
     text-align: center;
 
     &.mini {
       --value-size: 50px;
+      --font-size: var(--font-size-14);
 
-      font-size: var(--font-size-14);
       background-image: url(/systems/cog/ui/values/mini.webp);
+      background-position: -0.5px 0;
+    }
+
+    &.large {
+      --value-size: 88px;
+      --font-size: var(--font-size-22);
+
+      input {
+        --input-height: var(--spacing-200);
+      }
+    }
+
+    &.clickable {
+      cursor: pointer;
+      transition: color 0.5s;
+
+      &:hover {
+        color: var(--color-primary);
+      }
+    }
+
+    input {
+      font-size: var(--font-size);
+      margin: 0 calc(var(--value-size) * 0.275);
+      padding: 0;
+
+      &:focus {
+        box-shadow: none;
+      }
     }
   }
 }

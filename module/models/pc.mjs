@@ -66,8 +66,17 @@ export default class COGPc extends COGActorType {
   /* -------------------------------------------- */
 
   /** @override */
-  _prepareDerivedHealth() {
+  _prepareDerivedAbilities() {
+    // Compute ability max based on base + bonus + increases
+    for (const key of Object.keys(this.abilities)) {
+      this.abilities[key].max = this.abilities[key].base + this.abilities[key].bonus;
+    }
+  }
 
+  /* -------------------------------------------- */
+
+  /** @inheritdoc */
+  _prepareDerivedHealth() {
     // Compute max Hit Points based on base + bonus
     this.health.hitPoints.max = this.health.hitPoints.base + this.health.hitPoints.bonus;
 

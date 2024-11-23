@@ -7,3 +7,4 @@ export { default as NpcSheet } from "./npc-sheet.mjs";
 export { default as BaseConfigSheet } from "./config/base-config-sheet.mjs";
 export { default as HitDieConfigSheet } from "./config/hit-die-config-sheet.mjs";
 export { default as HitPointsConfigSheet } from "./config/hit-points-config-sheet.mjs";
+export { default as AbilityConfigSheet } from "./config/ability-config-sheet.mjs";

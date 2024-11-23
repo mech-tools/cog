@@ -190,8 +190,35 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       type: this.actor.type,
       name: { field: this.document.schema.getField("name"), value: this.document.name },
       img: { field: this.document.schema.getField("img"), value: this.document.img },
+      abilities: this.#prepareAbilities(),
       health: this.#prepareHealth(),
     };
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Prepare and format the display of Abilities on the actor sheet.
+   * @returns {{ values: { fgPath: string; max: { positive: boolean } } }}
+   */
+  #prepareAbilities() {
+    const abilities = {
+      ...this.makeField("abilities"),
+      values: {},
+    };
+
+    for (const key of Object.keys(this.document.system.abilities)) {
+      abilities.values[key] = {
+        ...this.makeField(`abilities.${key}`),
+        base: this.makeField(`abilities.${key}.base`),
+        max: this.makeField(`abilities.${key}.max`),
+      };
+
+      abilities.values[key].fgPath = `systems/cog/ui/actor/abilities/${key}.webp`;
+      abilities.values[key].max.positive = abilities.values[key].max.value > 0;
+    }
+
+    return abilities;
   }
 
   /* -------------------------------------------- */
@@ -373,7 +400,10 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
     const profile = target.dataset.configureProfile;
 
     if (profile in this.options.configureProfiles) {
-      const app = new this.options.configureProfiles[profile]({ document: this.actor });
+      const options = {};
+      if (target.dataset.ability) options.key = target.dataset.ability;
+
+      const app = new this.options.configureProfiles[profile]({ document: this.actor, ...options });
       app.render(true);
     }
   }
@@ -453,8 +483,10 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
     const field = hitPoints.querySelector(":scope > .field");
     const input = field.querySelector(":scope > input");
 
-    label.classList.toggle("hidden");
-    field.classList.toggle("hidden");
-    if (!field.classList.contains("hidden")) input.focus();
+    if (label && field && input) {
+      label.classList.toggle("hidden");
+      field.classList.toggle("hidden");
+      if (!field.classList.contains("hidden")) input.focus();
+    }
   }
 }
