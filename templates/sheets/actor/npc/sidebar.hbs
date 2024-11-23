@@ -8,36 +8,29 @@
 
         {{! Hit Points }}
         <div class="hit-points flexrow" style="{{health.hitPoints.cssPct}} {{health.tempDmgs.cssPct}}">
-            {{#if editMode}}
-                {{formInput
-                    health.hitPoints.base.field
-                    value=health.hitPoints.base.value
-                }}
-            {{else}}
-                <div class="label flexrow" data-tooltip="{{health.hitPoints.field.label}}" data-tooltip-class="cog">
-                    <span class="value flex0">{{health.hitPoints.value.value}}</span>
-                    <span class="separator flex0">/</span>
-                    <span class="max flex0">{{health.hitPoints.max.value}}</span>
-                </div>
-                <div class="field flexrow hidden">
+
+            <div class="label flexrow" data-tooltip="{{health.hitPoints.field.label}}" data-tooltip-class="cog">
+                <span class="value flex0">{{health.hitPoints.value.value}}</span>
+                <span class="separator flex0">/</span>
+                <span class="max flex0">{{health.hitPoints.max.value}}</span>
+            </div>
+            <div class="field flexrow hidden">
+                {{#if editMode}}
+                    {{formInput
+                        health.hitPoints.base.field
+                        value=health.hitPoints.base.value
+                    }}
+                {{else}}
                     {{formInput
                         health.hitPoints.value.field
                         value=health.hitPoints.value.value
                     }}
-                </div>
-            {{/if}}
+                {{/if}}
+            </div>
         </div>
 
         {{! Temp damages }}
-        <div class="tmp-dmgs flexrow flex0">
-            <span data-tooltip="{{health.tempDmgs.field.label}}" data-tooltip-class="cog">
-                {{formInput
-                    health.tempDmgs.field
-                    value=health.tempDmgs.value
-                    placeholder=(localize health.tempDmgs.field.options.abbreviation)
-                }}
-            </span>
-        </div>
+        {{> "cog.actor-temp-dmgs"}}
     </div>
 
     {{! Favorite Actions }}

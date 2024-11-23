@@ -40,15 +40,7 @@
         </div>
 
         {{! Temp damages }}
-        <div class="tmp-dmgs flexrow flex0">
-            <span data-tooltip="{{health.tempDmgs.field.label}}" data-tooltip-class="cog">
-                {{formInput
-                    health.tempDmgs.field
-                    value=health.tempDmgs.value
-                    placeholder=(localize health.tempDmgs.field.options.abbreviation)
-                }}
-            </span>
-        </div>
+        {{> "cog.actor-temp-dmgs"}}
     </div>
 
     {{! Favorite Actions }}

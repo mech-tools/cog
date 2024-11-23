@@ -12,6 +12,7 @@ export async function preloadHandlebarsTemplates() {
   const partials = [
     "systems/cog/templates/sheets/actor/partials/actor-img.hbs",
     "systems/cog/templates/sheets/actor/partials/actor-name.hbs",
+    "systems/cog/templates/sheets/actor/partials/actor-temp-dmgs.hbs",
   ];
 
   const paths = {};
