@@ -65,12 +65,8 @@ export default class PcSheet extends COGBaseActorSheet {
    */
   #prepareLevelUp() {
     // Hit Die History
-    const hitDieHistory = Object.entries(this.document.system.hitDie.history)
-      .reduce(
-        (count, [level, value]) =>
-          parseInt(level) <= this.actor.system.advancement.level && !value ? count + 1 : count,
-        0,
-      );
+    const hitDieHistory = Object.values(this.document.currentHitDieHistory)
+      .reduce((count, value) => (!value ? count + 1 : count), 0);
 
     // Attacks increases
     const increasesDelta = this.document.increasesDelta;

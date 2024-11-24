@@ -58,8 +58,6 @@ export default class COGPc extends COGActorType {
       (max, value) => max + value,
       0,
     );
-
-    super._prepareBaseHealth();
   }
 
   /** @override */

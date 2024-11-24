@@ -8,7 +8,20 @@ export default class COGActor extends Actor {
   /* -------------------------------------------- */
 
   /**
-   * Get the attacks increases delta base on the current Actor level (PC only).
+   * Get the filtered Hit Die history based on the Actor current level (PC only).
+   * @returns {Object}
+   */
+  get currentHitDieHistory() {
+    return Object.fromEntries(
+      Object.entries(this.system.hitDie.history)
+        .filter(([level, value]) => parseInt(level) <= this.system.advancement.level),
+    );
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Get the attacks increases delta based on the Actor current level (PC only).
    * @returns {number}
    */
   get increasesDelta() {
