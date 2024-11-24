@@ -47,7 +47,7 @@ export default class AttackConfigSheet extends BaseConfigSheet {
   async _prepareContext(options) {
     return {
       // Sheet
-      increases: this.#prepareIncreases(),
+      increasesDelta: this.document.increasesDelta,
 
       // Data
       attack: {
@@ -58,18 +58,5 @@ export default class AttackConfigSheet extends BaseConfigSheet {
         max: this.makeField(`attacks.${this.options.key}.max`),
       },
     };
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Compute the number of Increases avaiable for this actor.
-   * @returns {number}
-   */
-  #prepareIncreases() {
-    return Object.values(this.document.system.attacks).reduce(
-      (count, { increases }) => count + increases,
-      0,
-    ) - this.document.system.advancement.level;
   }
 }

@@ -73,14 +73,10 @@ export default class PcSheet extends COGBaseActorSheet {
       );
 
     // Attacks increases
-    const attackIncreases =
-      Object.values(this.document.system.attacks).reduce(
-        (count, { increases }) => count + increases,
-        0,
-      ) - this.document.system.advancement.level;
+    const increasesDelta = this.document.increasesDelta;
 
     // Create the incomplete tooltip
-    const incomplete = !!hitDieHistory || attackIncreases !== 0;
+    const incomplete = !!hitDieHistory || increasesDelta !== 0;
 
     let details = `<p>${game.i18n.localize("COG.ACTOR.LABELS.Creation_steps.Title")}</p><ul>`;
 
@@ -91,15 +87,16 @@ export default class PcSheet extends COGBaseActorSheet {
       details += `<li><span>${hitDieHistoryLabel}</span></li>`;
     }
 
-    if (attackIncreases !== 0) {
-      const baseLabel =
-        attackIncreases > 0
+    if (increasesDelta !== 0) {
+      const increasesDeltaLabel = game.i18n.format(
+        increasesDelta > 0
           ? "COG.ACTOR.LABELS.Creation_steps.Attacks_increases_count_too_many"
-          : "COG.ACTOR.LABELS.Creation_steps.Attacks_increases_count_missing";
-      const attackIncreasesLabel = game.i18n.format(baseLabel, {
-        count: Math.abs(attackIncreases),
-      });
-      details += `<li><span>${attackIncreasesLabel}</span></li>`;
+          : "COG.ACTOR.LABELS.Creation_steps.Attacks_increases_count_missing",
+        {
+          count: Math.abs(increasesDelta),
+        },
+      );
+      details += `<li><span>${increasesDeltaLabel}</span></li>`;
     }
 
     details += "</ul>";

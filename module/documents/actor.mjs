@@ -8,11 +8,12 @@ export default class COGActor extends Actor {
   /* -------------------------------------------- */
 
   /**
-   * Does the Actor have a Hit Dice field.
-   * @returns {boolean}
+   * Get the attacks increases delta base on the current Actor level (PC only).
+   * @returns {number}
    */
-  get hasHitDie() {
-    return "hitDie" in this.system;
+  get increasesDelta() {
+    return Object.values(this.system.attacks).reduce((count, { increases }) => count + increases, 0) -
+      this.system.advancement.level;
   }
 
   /* -------------------------------------------- */
