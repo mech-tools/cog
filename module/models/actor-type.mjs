@@ -24,12 +24,23 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
       "perception",
       "charisma",
     ];
+
     schema.abilities = new fields.SchemaField(
       abilities.reduce((obj, id) => {
         obj[id] = new fields.SchemaField(
           {
-            base: new fields.NumberField({ ...requiredInteger, initial: 0 }),
-            bonus: new fields.NumberField({ ...requiredInteger, initial: 0 }),
+            base: new fields.NumberField({
+              ...requiredInteger,
+              initial: 0,
+              label: "COG.ACTOR.FIELDS.abilities.*.base.label",
+              hint: "COG.ACTOR.FIELDS.abilities.*.base.hint",
+            }),
+            bonus: new fields.NumberField({
+              ...requiredInteger,
+              initial: 0,
+              label: "COG.ACTOR.FIELDS.abilities.*.bonus.label",
+              hint: "COG.ACTOR.FIELDS.abilities.*.bonus.hint",
+            }),
             max: new fields.NumberField({ ...requiredInteger, initial: 0 }),
           },
           { abbreviation: `COG.ACTOR.FIELDS.abilities.${id}.abbreviation` },
@@ -56,6 +67,7 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
 
     // Attributes
     schema.attributes = new fields.SchemaField({
+      //Size
       size: new fields.NumberField({
         ...requiredInteger,
         initial: COG.SIZES.MEDIUM,
@@ -64,6 +76,36 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
         max: COG.SIZES.GARGANTUAN,
       }),
     });
+
+    // Attacks
+    schema.attacks = new fields.SchemaField(
+      ["melee", "range", "psy"].reduce((obj, id) => {
+        obj[id] = new fields.SchemaField({
+          base: new fields.NumberField({
+            ...requiredInteger,
+            initial: 0,
+            min: 0,
+            label: "COG.ACTOR.FIELDS.attacks.*.base.label",
+          }),
+          increases: new fields.NumberField({
+            ...requiredInteger,
+            initial: 0,
+            min: 0,
+            label: "COG.ACTOR.FIELDS.attacks.*.increases.label",
+            hint: id !== "psy" ? "COG.ACTOR.FIELDS.attacks.*.increases.hint" : undefined,
+          }),
+          bonus: new fields.NumberField({
+            ...requiredInteger,
+            initial: 0,
+            min: 0,
+            label: "COG.ACTOR.FIELDS.attacks.*.bonus.label",
+            hint: "COG.ACTOR.FIELDS.attacks.*.bonus.hint",
+          }),
+          max: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+        });
+        return obj;
+      }, []),
+    );
 
     return schema;
   }
@@ -77,15 +119,43 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
 
   /** @override */
   prepareBaseData() {
+    this._prepareBaseAbilities();
     this._prepareBaseHealth();
+    this._prepareBaseAttributes();
+    this._prepareBaseAttacks();
   }
 
   /* -------------------------------------------- */
 
   /**
+   * Preparation of base abilities for all actor subtypes.
+   * @override
+   */
+  _prepareBaseAbilities() {}
+
+  /* -------------------------------------------- */
+
+  /**
    * Preparation of base health for all actor subtypes.
+   * @override
    */
   _prepareBaseHealth() {}
+
+  /* -------------------------------------------- */
+
+  /**
+   * Preparation of base attributes for all actor subtypes.
+   * @override
+   */
+  _prepareBaseAttributes() {}
+
+  /* -------------------------------------------- */
+
+  /**
+   * Preparation of base attacks for all actor subtypes.
+   * @override
+   */
+  _prepareBaseAttacks() {}
 
   /* -------------------------------------------- */
 
@@ -93,6 +163,8 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
   prepareDerivedData() {
     this._prepareDerivedAbilities();
     this._prepareDerivedHealth();
+    this._prepareDerivedAttributes();
+    this._prepareDerivedAttacks();
   }
 
   /* -------------------------------------------- */
@@ -116,4 +188,20 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
       this.health.hitPoints.max,
     );
   }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Preparation of derived abilities for all actor subtimes.
+   * @override
+   */
+  _prepareDerivedAttributes() {}
+
+  /* -------------------------------------------- */
+
+  /**
+   * Preparation of derived abilities for all actor subtimes.
+   * @override
+   */
+  _prepareDerivedAttacks() {}
 }

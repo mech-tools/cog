@@ -47,7 +47,7 @@ Hooks.once("init", async function () {
   });
 
   // Preload all partials
-  applications.preloadHandlebarsTemplates();
+  applications.api.preloadHandlebarsTemplates();
 });
 
 // Other Document Configuration

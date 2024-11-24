@@ -389,12 +389,49 @@
   /* ----------------------------------------- */
 
   .tab.attributes {
-    .abilities {
+    gap: var(--spacing-150);
+
+    .derived {
+      gap: var(--spacing-100);
+      align-items: flex-start;
+
+      .main,
+      .secondary {
+        gap: var(--spacing-150);
+      }
+
+      .main {
+        flex-basis: 335px;
+        flex-grow: 0;
+
+        .row {
+          gap: var(--spacing-50);
+          align-items: stretch;
+
+          :first-child.ressources {
+            flex-basis: 229px;
+            flex-grow: 0;
+          }
+
+          :first-child.initiative {
+            flex-basis: 82px;
+            flex-grow: 0;
+          }
+        }
+      }
+    }
+
+    .abilities,
+    .attacks {
       justify-content: space-between;
 
-      .ability {
+      .item {
         align-items: center;
       }
+    }
+
+    .attacks .item .data.value {
+      padding-top: var(--spacing-75);
     }
   }
 }
@@ -406,6 +443,10 @@
 #tooltip.cog.creation-steps {
   p {
     color: var(--color-primary);
+  }
+
+  ul {
+    text-align: left;
   }
 
   li span {

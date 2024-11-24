@@ -8,7 +8,7 @@
                 <h3 class="flexrow">
                     {{localize ability.field.options.abbreviation}}
                 </h3>
-                <span class="data value large hexa {{ifThen @root.editMode '' 'clickable'}}"
+                <span class="data value large {{ifThen @root.editMode '' 'clickable'}}"
                     style="background-image: url({{ability.fgPath}})">
                     {{#if @root.editMode}}
                         {{formInput
@@ -25,5 +25,57 @@
 
             </div>
         {{/each}}
+    </div>
+
+    <div class="derived flexrow">
+        <div class="main flexcol">
+            {{! Attacks }}
+            <div class="framed-section flexrow attacks">
+                <h2>{{attacks.field.label}}</h2>
+                {{#each attacks.values as |attack|}}
+                    <div class="item flexcol flex0 {{@key}}">
+                        <h3 class="flexrow">
+                            {{attack.field.label}}
+                        </h3>
+                        <span class="data value large {{ifThen @root.editMode '' 'clickable'}}"
+                            style="background-image: url({{attack.fgPath}})">
+                            {{#if @root.editMode}}
+                                {{formInput
+                                    attack.base.field
+                                    value=attack.base.value
+                                }}
+                            {{else}}
+                                {{~#if attack.max.positive}}
+                                    +
+                                {{~/if}}
+                                {{~attack.max.value}}
+                            {{/if}}
+                        </span>
+                    </div>
+                {{/each}}
+            </div>
+
+            <div class="framed-section flexrow defense">
+                <h2>defense</h3>
+                    defense
+            </div>
+
+            <div class="row flexrow">
+                <div class="framed-section flexrow initiative">
+                    init
+                </div>
+
+                <div class="framed-section flexrow wounds">
+                    <h2>wounds</h3>
+                        wounds
+                </div>
+            </div>
+        </div>
+        <div class="secondary flexcol">
+            <div class="framed-section flexrow defense">
+                <h2>defense</h3>
+                    defense
+            </div>
+        </div>
     </div>
 </section>

@@ -350,11 +350,14 @@
   --value-size: 50px;
   --font-size: var(--font-size-14);
   background-image: url(/systems/cog/ui/values/mini.webp);
-  background-position: -0.5px 0;
 }
 .cog .data.value.large {
   --value-size: 88px;
   --font-size: var(--font-size-22);
+  background-image: url(/systems/cog/ui/values/large.webp);
+}
+.cog .data.value.large.alt {
+  background-image: url(/systems/cog/ui/values/large-alt.webp);
 }
 .cog .data.value.large input {
   --input-height: var(--spacing-200);
@@ -809,17 +812,52 @@ slide-toggle[checked] .slide-toggle-thumb {
 .cog.sheet.actor .sheet-header .subtitle {
   gap: var(--spacing-50);
 }
-.cog.sheet.actor .tab.attributes .abilities {
+.cog.sheet.actor .tab.attributes {
+  gap: var(--spacing-150);
+}
+.cog.sheet.actor .tab.attributes .derived {
+  gap: var(--spacing-100);
+  align-items: flex-start;
+}
+.cog.sheet.actor .tab.attributes .derived .main,
+.cog.sheet.actor .tab.attributes .derived .secondary {
+  gap: var(--spacing-150);
+}
+.cog.sheet.actor .tab.attributes .derived .main {
+  flex-basis: 335px;
+  flex-grow: 0;
+}
+.cog.sheet.actor .tab.attributes .derived .main .row {
+  gap: var(--spacing-50);
+  align-items: stretch;
+}
+.cog.sheet.actor .tab.attributes .derived .main .row :first-child.ressources {
+  flex-basis: 229px;
+  flex-grow: 0;
+}
+.cog.sheet.actor .tab.attributes .derived .main .row :first-child.initiative {
+  flex-basis: 82px;
+  flex-grow: 0;
+}
+.cog.sheet.actor .tab.attributes .abilities,
+.cog.sheet.actor .tab.attributes .attacks {
   justify-content: space-between;
 }
-.cog.sheet.actor .tab.attributes .abilities .ability {
+.cog.sheet.actor .tab.attributes .abilities .item,
+.cog.sheet.actor .tab.attributes .attacks .item {
   align-items: center;
+}
+.cog.sheet.actor .tab.attributes .attacks .item .data.value {
+  padding-top: var(--spacing-75);
 }
 /* ----------------------------------------- */
 /*  Creation Steps Tooltip
 /* ----------------------------------------- */
 #tooltip.cog.creation-steps p {
   color: var(--color-primary);
+}
+#tooltip.cog.creation-steps ul {
+  text-align: left;
 }
 #tooltip.cog.creation-steps li span {
   font-size: var(--font-size-12);
@@ -870,9 +908,9 @@ slide-toggle[checked] .slide-toggle-thumb {
   gap: var(--spacing-100);
   padding-top: var(--spacing-25);
 }
-.cog.sheet.config.hit-die .incomplete {
+.cog.sheet.config .incomplete {
   color: var(--color-primary);
 }
-.cog.sheet.config.hit-die .icon-button {
+.cog.sheet.config .icon-button {
   font-size: var(--font-size-18);
 }

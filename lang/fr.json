@@ -42,9 +42,9 @@
         "charisma.label": "Charisme",
         "charisma.abbreviation": "Cha",
         "*.base.label": "Base",
-        "*.base.hint": "Valeur de base de votre personnage. Ne devrait pas être modifié après la création du personnage.",
+        "*.base.hint": "Valeur de base du personnage. Ne devrait pas être modifié après la création du personnage.",
         "*.bonus.label": "Bonus",
-        "*.bonus.hint": "Bonus manuel ajouté à la valeur de base de votre personnage."
+        "*.bonus.hint": "Bonus manuel ajouté à la valeur de base du personnage."
       },
 
       "health.hitPoints": {
@@ -63,10 +63,10 @@
       "hitDie": {
         "type.label": "Dé de vie",
         "history": {
-          "level.label": "Niveau {level}",
-          "level.hint.profile": "Défini par le profil.",
-          "level.hint.hitdie": "Résultat du Dé de vie + Constitution si négative (minimum de 0).",
-          "level.hint.con": "Constitution (minimum de 0)."
+          "*.label": "Niveau {level}",
+          "*.hint.profile": "Défini par le profil.",
+          "*.hint.hitdie": "Résultat du Dé de vie + Constitution si négative (minimum de 0).",
+          "*.hint.con": "Constitution (minimum de 0)."
         }
       },
 
@@ -78,6 +78,22 @@
 
       "attributes": {
         "size.label": "Taille"
+      },
+
+      "attacks": {
+        "label": "Attaques",
+        "melee.label": "Contact",
+        "melee.base.hint": "Valeur de base du personnage. Elle est égale à la Force du personnage plus tout autre modificateur de base (profil, trait, ...).",
+        "range.label": "Distance",
+        "range.base.hint": "Valeur de base du personnage. Elle est égale à la Dextérité du personnage plus tout autre modificateur de base (profil, trait, ...).",
+        "psy.label": "Psychique",
+        "psy.base.hint": "Valeur de base du personnage. Elle est égale à la Perception du personnage plus tout autre modificateur de base (profil, trait, ...).",
+        "psy.increases.hint": "Amélioration de niveau du personnage ajouté à la valeur de base du personnage. Seuls les personnages avec un profil de psi peuvent accroître leur score de base au-delà de 2.",
+        "*.base.label": "Base",
+        "*.increases.label": "Augmentations",
+        "*.increases.hint": "Amélioration de niveau du personnage ajouté à la valeur de base du personnage.",
+        "*.bonus.label": "Bonus",
+        "*.bonus.hint": "Bonus manuel ajouté à la valeur de base du personnage."
       }
     },
 
@@ -99,10 +115,13 @@
       "Configure_hit_die": "Configuration du dé de vie",
       "Configure_hit_points": "Configuration des points de vie",
       "Configure_ability": "Configuration de la caractéristique",
+      "Configure_attack": "Configuration de l'attaque",
       "Favorite_actions": "Favoris",
       "Creation_steps": {
         "Title": "Personnage incomplet !",
-        "Hit_die_count": "Points de vie manquant sur {count} niveau(x)."
+        "Hit_die_count": "Points de vie manquant sur {count} niveau(x).",
+        "Attacks_increases_count_missing": "{count} augmentation(s) d'attaque manquante(s).",
+        "Attacks_increases_count_too_many": "{count} augmentation(s) d'attaque en trop."
       }
     }
   },
@@ -125,6 +144,12 @@
       "LABELS": {
         "Window_title": "Configuration : points de vie ({name})",
         "Description": "Configuration des points de vie maximum du personnage."
+      }
+    },
+    "ATTACK": {
+      "LABELS": {
+        "Window_title": "Configuration : {attack} ({name})",
+        "Description": "Configuration de l'attaque \"{attack}\" du personnage."
       }
     }
   }

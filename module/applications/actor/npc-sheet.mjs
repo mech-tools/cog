@@ -10,6 +10,7 @@ export default class NpcSheet extends COGBaseActorSheet {
     actions: {},
     actor: {
       type: "npc",
+      includesActions: true,
       includesEffects: true,
       includesBiography: true,
     },

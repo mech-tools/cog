@@ -331,12 +331,16 @@
       --font-size: var(--font-size-14);
 
       background-image: url(/systems/cog/ui/values/mini.webp);
-      background-position: -0.5px 0;
     }
 
     &.large {
       --value-size: 88px;
       --font-size: var(--font-size-22);
+      background-image: url(/systems/cog/ui/values/large.webp);
+
+      &.alt {
+        background-image: url(/systems/cog/ui/values/large-alt.webp);
+      }
 
       input {
         --input-height: var(--spacing-200);

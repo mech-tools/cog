@@ -1,0 +1,38 @@
+<section class="sheet-body flexcol">
+    {{! Header }}
+    <header class="sheet-header flexcol">
+        <span class="description">{{localize "COG.CONFIG.ATTACK.LABELS.Description" attack=attack.field.label}}</span>
+        <span class="data value mini">{{attack.max.value}}</span>
+    </header>
+
+    {{! Content }}
+    <div class="sheet-content flexcol flex1">
+        {{formGroup
+            attack.base.field
+            value=attack.base.value
+            localize=true
+            disabled=true
+        }}
+        <div class="form-group">
+            <label>
+                {{localize attack.increases.field.label}}
+                {{#if increases}}
+                    <i class="incomplete fa-solid fa-triangle-exclamation"></i>
+                {{/if}}
+            </label>
+            <div class="form-fields">
+
+                {{formInput
+                    attack.increases.field
+                    value=attack.increases.value
+                }}
+            </div>
+            <p class="hint">{{localize attack.increases.field.hint}}</p>
+        </div>
+        {{formGroup
+            attack.bonus.field
+            value=attack.bonus.value
+            localize=true
+        }}
+    </div>
+</section>

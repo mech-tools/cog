@@ -192,6 +192,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       img: { field: this.document.schema.getField("img"), value: this.document.img },
       abilities: this.#prepareAbilities(),
       health: this.#prepareHealth(),
+      attacks: this.#prepareAttacks(),
     };
   }
 
@@ -261,6 +262,32 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
     if (health.tempDmgs.value === 0) health.tempDmgs.value = null;
 
     return health;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Prepare and format the display of Attacks on the actor sheet.
+   * @returns {{ values: { fgPath: string; max: { positive: boolean } } }}
+   */
+  #prepareAttacks() {
+    const attacks = {
+      ...this.makeField("attacks"),
+      values: {},
+    };
+
+    for (const key of Object.keys(this.document.system.attacks)) {
+      attacks.values[key] = {
+        ...this.makeField(`attacks.${key}`),
+        base: this.makeField(`attacks.${key}.base`),
+        max: this.makeField(`attacks.${key}.max`),
+      };
+
+      attacks.values[key].fgPath = `systems/cog/ui/actor/attacks/${key}.webp`;
+      attacks.values[key].max.positive = attacks.values[key].max.value > 0;
+    }
+
+    return attacks;
   }
 
   /* -------------------------------------------- */
@@ -401,7 +428,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
 
     if (profile in this.options.configureProfiles) {
       const options = {};
-      if (target.dataset.ability) options.key = target.dataset.ability;
+      if (target.dataset.key) options.key = target.dataset.key;
 
       const app = new this.options.configureProfiles[profile]({ document: this.actor, ...options });
       app.render(true);

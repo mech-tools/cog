@@ -32,8 +32,8 @@ export default class COGPc extends COGActorType {
             ...nullableInteger,
             initial: null,
             min: 0,
-            label: "COG.ACTOR.FIELDS.hitDie.history.level.label",
-            hint: "COG.ACTOR.FIELDS.hitDie.history.level.hint",
+            label: "COG.ACTOR.FIELDS.hitDie.history.*.label",
+            hint: "COG.ACTOR.FIELDS.hitDie.history.*.hint",
           });
           return obj;
         }, {}),
@@ -54,7 +54,6 @@ export default class COGPc extends COGActorType {
 
   /** @override */
   _prepareBaseHealth() {
-    // Compute base Hit Points based on Hit Die history
     this.health.hitPoints.base = Object.values(this.hitDie.history).reduce(
       (max, value) => max + value,
       0,
@@ -63,11 +62,17 @@ export default class COGPc extends COGActorType {
     super._prepareBaseHealth();
   }
 
+  /** @override */
+  _prepareBaseAttacks() {
+    this.attacks.melee.base = this.abilities.strength.base + this.abilities.strength.bonus;
+    this.attacks.range.base = this.abilities.dexterity.base + this.abilities.dexterity.bonus;
+    this.attacks.psy.base = this.abilities.perception.base + this.abilities.perception.bonus;
+  }
+
   /* -------------------------------------------- */
 
   /** @override */
   _prepareDerivedAbilities() {
-    // Compute ability max based on base + bonus + increases
     for (const key of Object.keys(this.abilities)) {
       this.abilities[key].max = this.abilities[key].base + this.abilities[key].bonus;
     }
@@ -81,5 +86,15 @@ export default class COGPc extends COGActorType {
     this.health.hitPoints.max = this.health.hitPoints.base + this.health.hitPoints.bonus;
 
     super._prepareDerivedHealth();
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  _prepareDerivedAttacks() {
+    for (const key of Object.keys(this.attacks)) {
+      this.attacks[key].max =
+        this.attacks[key].base + this.attacks[key].increases + this.attacks[key].bonus;
+    }
   }
 }

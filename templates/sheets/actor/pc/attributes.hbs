@@ -4,16 +4,16 @@
     <div class="framed-section flexrow abilities">
         <h2>{{abilities.field.label}}</h2>
         {{#each abilities.values as |ability|}}
-            <div class="ability flexcol flex0 {{@key}}">
+            <div class="item flexcol flex0 {{@key}}">
                 <h3 class="flexrow">
                     {{localize ability.field.options.abbreviation}}
                     {{#if @root.editMode}}
                         <i class="fas fa-cog icon-button" data-action="configure" data-configure-profile="ability"
-                            data-ability="{{@key}}" data-tooltip="COG.ACTOR.LABELS.Configure_ability"
+                            data-key="{{@key}}" data-tooltip="COG.ACTOR.LABELS.Configure_ability"
                             data-tooltip-class="cog" data-tooltip-direction="UP"></i>
                     {{/if}}
                 </h3>
-                <span class="clickable data value large hexa" style="background-image: url({{ability.fgPath}})">
+                <span class="clickable data value large" style="background-image: url({{ability.fgPath}})">
                     {{~#if ability.max.positive}}
                         +
                     {{~/if}}
@@ -21,5 +21,57 @@
                 </span>
             </div>
         {{/each}}
+    </div>
+
+    <div class="derived flexrow">
+        <div class="main flexcol">
+            {{! Attacks }}
+            <div class="framed-section flexrow attacks">
+                <h2>{{attacks.field.label}}</h2>
+                {{#each attacks.values as |attack|}}
+                    <div class="item flexcol flex0 {{@key}}">
+                        <h3 class="flexrow">
+                            {{attack.field.label}}
+                            {{#if @root.editMode}}
+                                <i class="fas fa-cog icon-button" data-action="configure"
+                                    data-configure-profile="attack" data-key="{{@key}}"
+                                    data-tooltip="COG.ACTOR.LABELS.Configure_attack" data-tooltip-class="cog"
+                                    data-tooltip-direction="UP"></i>
+                            {{/if}}
+                        </h3>
+                        <span class="clickable data value large" style="background-image: url({{attack.fgPath}})">
+                            {{~#if attack.max.positive}}
+                                +
+                            {{~/if}}
+                            {{~attack.max.value}}
+                        </span>
+                    </div>
+                {{/each}}
+            </div>
+            <div class="row flexrow">
+                <div class="framed-section flexrow ressources">
+                    <h2>ressources</h3>
+                        ressources
+                </div>
+                <div class="framed-section flexrow initiative">
+                    initiative
+                </div>
+            </div>
+            <div class="framed-section flexrow wounds">
+                <h2>wounds</h3>
+                    wounds
+            </div>
+        </div>
+
+        <div class="secondary flexcol">
+            <div class="framed-section flexrow equipment">
+                <h2>attaques</h3>
+                    attaques
+            </div>
+            <div class="framed-section flexrow features">
+                <h2>features</h3>
+                    features
+            </div>
+        </div>
     </div>
 </section>

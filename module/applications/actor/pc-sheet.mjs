@@ -2,6 +2,7 @@ import COGBaseActorSheet from "./base-actor-sheet.mjs";
 import AbilityConfigSheet from "./config/ability-config-sheet.mjs";
 import HitDieConfigSheet from "./config/hit-die-config-sheet.mjs";
 import HitPointsConfigSheet from "./config/hit-points-config-sheet.mjs";
+import AttackConfigSheet from "./config/attack-config-sheet.mjs";
 
 /**
  * A COGBaseActorSheet subclass used to configure Actors of the "pc" type.
@@ -23,6 +24,7 @@ export default class PcSheet extends COGBaseActorSheet {
       ability: AbilityConfigSheet,
       hitDie: HitDieConfigSheet,
       hitPoints: HitPointsConfigSheet,
+      attack: AttackConfigSheet,
     },
   };
 
@@ -70,8 +72,15 @@ export default class PcSheet extends COGBaseActorSheet {
         0,
       );
 
+    // Attacks increases
+    const attackIncreases =
+      Object.values(this.document.system.attacks).reduce(
+        (count, { increases }) => count + increases,
+        0,
+      ) - this.document.system.advancement.level;
+
     // Create the incomplete tooltip
-    const incomplete = !!hitDieHistory;
+    const incomplete = !!hitDieHistory || attackIncreases !== 0;
 
     let details = `<p>${game.i18n.localize("COG.ACTOR.LABELS.Creation_steps.Title")}</p><ul>`;
 
@@ -80,6 +89,17 @@ export default class PcSheet extends COGBaseActorSheet {
         count: hitDieHistory,
       });
       details += `<li><span>${hitDieHistoryLabel}</span></li>`;
+    }
+
+    if (attackIncreases !== 0) {
+      const baseLabel =
+        attackIncreases > 0
+          ? "COG.ACTOR.LABELS.Creation_steps.Attacks_increases_count_too_many"
+          : "COG.ACTOR.LABELS.Creation_steps.Attacks_increases_count_missing";
+      const attackIncreasesLabel = game.i18n.format(baseLabel, {
+        count: Math.abs(attackIncreases),
+      });
+      details += `<li><span>${attackIncreasesLabel}</span></li>`;
     }
 
     details += "</ul>";
