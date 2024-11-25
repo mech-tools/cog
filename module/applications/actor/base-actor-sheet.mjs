@@ -191,14 +191,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       img: { field: this.document.schema.getField("img"), value: this.document.img },
       abilities: this.#prepareAbilities(),
       health: this.#prepareHealth(),
-      attributes: {
-        size: this.makeField("attributes.size"),
-        initiative: {
-          ...this.makeField("attributes.initiative"),
-          base: this.makeField("attributes.initiative.base"),
-          max: this.makeField("attributes.initiative.max"),
-        },
-      },
+      attributes: this.#prepareAttributes(),
       attacks: this.#prepareAttacks(),
     };
   }
@@ -269,6 +262,27 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
     if (health.tempDmgs.value === 0) health.tempDmgs.value = null;
 
     return health;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Prepare and format the display of Attributes on the actor sheet.
+   * @returns {{ initiative: { max: { positive: boolean } } }}
+   */
+  #prepareAttributes() {
+    const attributes = {
+      size: this.makeField("attributes.size"),
+      initiative: {
+        ...this.makeField("attributes.initiative"),
+        base: this.makeField("attributes.initiative.base"),
+        max: this.makeField("attributes.initiative.max"),
+      },
+    };
+
+    attributes.initiative.max.positive = attributes.initiative.max.value > 0;
+
+    return attributes;
   }
 
   /* -------------------------------------------- */

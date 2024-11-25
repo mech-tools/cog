@@ -341,7 +341,6 @@
   align-items: center;
   justify-content: center;
   font-family: var(--font-h3);
-  background-repeat: no-repeat;
   width: var(--value-size);
   height: var(--value-size);
   max-width: var(--value-size);
@@ -359,6 +358,7 @@
   right: 0;
   bottom: 0;
   background-image: var(--background-image);
+  background-repeat: no-repeat;
   transition: filter 0.5s;
 }
 .cog .data.value input {
