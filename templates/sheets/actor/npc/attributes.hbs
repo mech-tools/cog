@@ -8,8 +8,8 @@
                 <h3 class="flexrow">
                     {{localize ability.field.options.abbreviation}}
                 </h3>
-                <span class="data value large {{ifThen @root.editMode '' 'clickable'}}"
-                    style="background-image: url({{ability.fgPath}})">
+                <span class="data value large {{#unless @root.editMode}}clickable{{/unless}}"
+                    style="--background-image: url({{ability.fgPath}})">
                     {{#if @root.editMode}}
                         {{formInput
                             ability.base.field
@@ -37,8 +37,8 @@
                         <h3 class="flexrow">
                             {{attack.field.label}}
                         </h3>
-                        <span class="data value large {{ifThen @root.editMode '' 'clickable'}}"
-                            style="background-image: url({{attack.fgPath}})">
+                        <span class="data value large {{#unless @root.editMode}}clickable{{/unless}}"
+                            style="--background-image: url({{attack.fgPath}})">
                             {{#if @root.editMode}}
                                 {{formInput
                                     attack.base.field

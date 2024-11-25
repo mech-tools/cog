@@ -152,22 +152,26 @@
         }
       }
 
-      img.foreground {
+      &::before {
+        content: "";
         position: absolute;
         z-index: 1;
         pointer-events: none;
+        background-image: var(--foreground-image);
+      }
 
-        &.pc {
-          min-width: 228px;
-          top: -55px;
-          left: -16px;
-        }
+      .pc&::before {
+        width: 228px;
+        height: 104px;
+        top: -55px;
+        left: -16px;
+      }
 
-        &.npc {
-          min-width: 227px;
-          top: -19px;
-          left: -15px;
-        }
+      .npc&::before {
+        width: 227px;
+        height: 68px;
+        top: -19px;
+        left: -15px;
       }
 
       .hit-die {
@@ -437,12 +441,12 @@
       padding: var(--spacing-125) 0 var(--spacing-100) 0;
     }
 
-    .attacks .item .data.value {
-      padding-top: var(--spacing-75);
-    }
-
     .item {
       align-items: center;
+    }
+
+    .attacks .data.value {
+      padding-top: var(--spacing-75);
     }
   }
 }

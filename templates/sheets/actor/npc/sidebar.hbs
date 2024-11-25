@@ -3,9 +3,7 @@
     {{> "cog.actor-img"}}
 
     {{! Health Pool }}
-    <div class="health flexrow">
-        <img src="{{health.fgPath}}" class="foreground {{type}}" />
-
+    <div class="health flexrow" style="--foreground-image: url({{health.fgPath}})">
         {{! Hit Points }}
         <div class="hit-points flexrow" style="{{health.hitPoints.cssPct}} {{health.tempDmgs.cssPct}}">
             {{#if editMode}}

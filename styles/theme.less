@@ -315,6 +315,7 @@
   /* ----------------------------------------- */
 
   .data.value {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -328,39 +329,16 @@
     text-align: center;
     transition: color 0.5s;
 
-    &.mini {
-      --value-size: 50px;
-      --font-size: var(--font-size-14);
-
-      background-image: url(/systems/cog/ui/values/mini.webp);
-    }
-
-    &.large {
-      --value-size: 88px;
-      --font-size: var(--font-size-22);
-      background-image: url(/systems/cog/ui/values/large.webp);
-
-      &.alt {
-        background-image: url(/systems/cog/ui/values/large-alt.webp);
-      }
-
-      input {
-        --input-height: var(--spacing-200);
-      }
-    }
-
-    &.clickable {
-      cursor: pointer;
-
-      &:hover {
-        color: var(--color-primary);
-      }
-    }
-
-    &.editable input {
-      --input-background-color: transparent;
-      --input-border-color: transparent;
-      --input-focus-outline-color: transparent;
+    &::before {
+      z-index: -1;
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: var(--background-image);
+      transition: filter 0.5s;
     }
 
     input {
@@ -370,6 +348,50 @@
 
       &:focus {
         box-shadow: none;
+      }
+    }
+
+    &.clickable {
+      cursor: pointer;
+
+      &:hover {
+        color: var(--color-primary);
+      }
+
+      &:hover::before {
+        filter: contrast(120%);
+      }
+    }
+
+    &.editable {
+      &:hover::before {
+        filter: contrast(105%);
+      }
+
+      input {
+        --input-background-color: transparent;
+        --input-border-color: transparent;
+        --input-focus-outline-color: transparent;
+      }
+    }
+
+    &.mini {
+      --value-size: 50px;
+      --font-size: var(--font-size-14);
+      --background-image: url(/systems/cog/ui/values/mini.webp);
+    }
+
+    &.large {
+      --value-size: 88px;
+      --font-size: var(--font-size-22);
+      --background-image: url(/systems/cog/ui/values/large.webp);
+
+      &.alt {
+        --background-image: url(/systems/cog/ui/values/large-alt.webp);
+      }
+
+      input {
+        --input-height: var(--spacing-200);
       }
     }
   }

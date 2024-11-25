@@ -187,7 +187,6 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       editMode: this.isEditable && this.#mode === this.constructor.MODES.EDIT,
 
       // Data
-      type: this.actor.type,
       name: { field: this.document.schema.getField("name"), value: this.document.name },
       img: { field: this.document.schema.getField("img"), value: this.document.img },
       abilities: this.#prepareAbilities(),
@@ -223,7 +222,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
         max: this.makeField(`abilities.${key}.max`),
       };
 
-      abilities.values[key].fgPath = `systems/cog/ui/actor/abilities/${key}.webp`;
+      abilities.values[key].fgPath = `/systems/cog/ui/actor/abilities/${key}.webp`;
       abilities.values[key].max.positive = abilities.values[key].max.value > 0;
     }
 
@@ -252,7 +251,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
     };
 
     // Foreground
-    health.fgPath = `systems/cog/ui/actor/health/${this.document.type}-health-pool.webp`;
+    health.fgPath = `/systems/cog/ui/actor/health/${this.document.type}-health-pool.webp`;
 
     // Hit Points
     health.hitPoints.pct = health.hitPoints.max.value
@@ -291,7 +290,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
         max: this.makeField(`attacks.${key}.max`),
       };
 
-      attacks.values[key].fgPath = `systems/cog/ui/actor/attacks/${key}.webp`;
+      attacks.values[key].fgPath = `/systems/cog/ui/actor/attacks/${key}.webp`;
       attacks.values[key].max.positive = attacks.values[key].max.value > 0;
     }
 

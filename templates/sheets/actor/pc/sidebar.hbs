@@ -3,9 +3,7 @@
     {{> "cog.actor-img"}}
 
     {{! Health Pool }}
-    <div class="health flexrow">
-        <img src="{{health.fgPath}}" class="foreground {{type}}" />
-
+    <div class="health flexrow" style="--foreground-image: url({{health.fgPath}})">
         {{! Hit Die }}
         <div class="hit-die flexrow">
             {{#if editMode}}

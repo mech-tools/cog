@@ -336,6 +336,7 @@
   margin-left: var(--spacing-25);
 }
 .cog .data.value {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -349,32 +350,16 @@
   text-align: center;
   transition: color 0.5s;
 }
-.cog .data.value.mini {
-  --value-size: 50px;
-  --font-size: var(--font-size-14);
-  background-image: url(/systems/cog/ui/values/mini.webp);
-}
-.cog .data.value.large {
-  --value-size: 88px;
-  --font-size: var(--font-size-22);
-  background-image: url(/systems/cog/ui/values/large.webp);
-}
-.cog .data.value.large.alt {
-  background-image: url(/systems/cog/ui/values/large-alt.webp);
-}
-.cog .data.value.large input {
-  --input-height: var(--spacing-200);
-}
-.cog .data.value.clickable {
-  cursor: pointer;
-}
-.cog .data.value.clickable:hover {
-  color: var(--color-primary);
-}
-.cog .data.value.editable input {
-  --input-background-color: transparent;
-  --input-border-color: transparent;
-  --input-focus-outline-color: transparent;
+.cog .data.value::before {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: var(--background-image);
+  transition: filter 0.5s;
 }
 .cog .data.value input {
   font-size: var(--font-size);
@@ -383,6 +368,39 @@
 }
 .cog .data.value input:focus {
   box-shadow: none;
+}
+.cog .data.value.clickable {
+  cursor: pointer;
+}
+.cog .data.value.clickable:hover {
+  color: var(--color-primary);
+}
+.cog .data.value.clickable:hover::before {
+  filter: contrast(120%);
+}
+.cog .data.value.editable:hover::before {
+  filter: contrast(105%);
+}
+.cog .data.value.editable input {
+  --input-background-color: transparent;
+  --input-border-color: transparent;
+  --input-focus-outline-color: transparent;
+}
+.cog .data.value.mini {
+  --value-size: 50px;
+  --font-size: var(--font-size-14);
+  --background-image: url(/systems/cog/ui/values/mini.webp);
+}
+.cog .data.value.large {
+  --value-size: 88px;
+  --font-size: var(--font-size-22);
+  --background-image: url(/systems/cog/ui/values/large.webp);
+}
+.cog .data.value.large.alt {
+  --background-image: url(/systems/cog/ui/values/large-alt.webp);
+}
+.cog .data.value.large input {
+  --input-height: var(--spacing-200);
 }
 /* ---------------------------------- */
 /*  Slide Toggles
@@ -644,18 +662,22 @@ slide-toggle[checked] .slide-toggle-thumb {
 .cog.sheet.actor .sheet-sidebar .health input:focus {
   box-shadow: none;
 }
-.cog.sheet.actor .sheet-sidebar .health img.foreground {
+.cog.sheet.actor .sheet-sidebar .health::before {
+  content: "";
   position: absolute;
   z-index: 1;
   pointer-events: none;
+  background-image: var(--foreground-image);
 }
-.cog.sheet.actor .sheet-sidebar .health img.foreground.pc {
-  min-width: 228px;
+.pc.cog.sheet.actor .sheet-sidebar .health::before {
+  width: 228px;
+  height: 104px;
   top: -55px;
   left: -16px;
 }
-.cog.sheet.actor .sheet-sidebar .health img.foreground.npc {
-  min-width: 227px;
+.npc.cog.sheet.actor .sheet-sidebar .health::before {
+  width: 227px;
+  height: 68px;
   top: -19px;
   left: -15px;
 }
@@ -859,11 +881,11 @@ slide-toggle[checked] .slide-toggle-thumb {
   justify-content: center;
   padding: var(--spacing-125) 0 var(--spacing-100) 0;
 }
-.cog.sheet.actor .tab.attributes .attacks .item .data.value {
-  padding-top: var(--spacing-75);
-}
 .cog.sheet.actor .tab.attributes .item {
   align-items: center;
+}
+.cog.sheet.actor .tab.attributes .attacks .data.value {
+  padding-top: var(--spacing-75);
 }
 /* ----------------------------------------- */
 /*  Creation Steps Tooltip
