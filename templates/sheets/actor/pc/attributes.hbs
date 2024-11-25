@@ -49,10 +49,36 @@
                 {{/each}}
             </div>
             <div class="row flexrow">
-                <div class="framed-section flexrow ressources">
-                    <h2>ressources</h3>
-                        ressources
+                {{! Ressources }}
+                <div class="framed-section flexrow resources">
+                    <h2>{{resources.field.label}}</h2>
+                    {{! Luck }}
+                    <div class="item flexcol flex0 luck">
+                        <span class="editable data value large">
+                            {{formInput
+                                resources.luck.field
+                                value=resources.luck.value
+                            }}
+                        </span>
+                        <h3 class="flexrow">
+                            {{resources.luck.field.label}}
+                        </h3>
+                    </div>
+
+                    {{! Instability }}
+                    <div class="item flexcol flex0 luck">
+                        <span class="editable data value large">
+                            {{formInput
+                                resources.instability.field
+                                value=resources.instability.value
+                            }}
+                        </span>
+                        <h3 class="flexrow">
+                            {{resources.instability.field.label}}
+                        </h3>
+                    </div>
                 </div>
+
                 {{! Initiative }}
                 <div class="framed-section flexrow initiative">
                     <div class="item flexcol flex0">

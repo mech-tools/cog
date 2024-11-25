@@ -408,7 +408,7 @@
           gap: var(--spacing-50);
           align-items: stretch;
 
-          :first-child.ressources {
+          :first-child.resources {
             flex-basis: 229px;
             flex-grow: 0;
           }
@@ -423,21 +423,26 @@
 
     .abilities,
     .attacks,
-    .initiative {
+    .resources {
       justify-content: space-between;
+    }
 
-      .item {
-        align-items: center;
-      }
+    .resources {
+      padding-top: var(--spacing-125);
+      padding-bottom: var(--spacing-100);
+    }
+
+    .initiative {
+      justify-content: center;
+      padding: var(--spacing-125) 0 var(--spacing-100) 0;
     }
 
     .attacks .item .data.value {
       padding-top: var(--spacing-75);
     }
 
-    .initiative {
-      justify-content: center;
-      padding: var(--spacing-100) 0;
+    .item {
+      align-items: center;
     }
   }
 }

@@ -56,6 +56,11 @@ export default class PcSheet extends COGBaseActorSheet {
           icon: `systems/cog/ui/dice/${this.document.system.hitDie.type}.svg`,
         },
       },
+      resources: {
+        ...this.makeField("resources"),
+        luck: this.makeField("resources.luck"),
+        instability: this.makeField("resources.instability"),
+      },
     };
   }
 

@@ -171,6 +171,7 @@
   border-radius: var(--border-radius);
   backdrop-filter: blur(1px);
   padding: var(--spacing-50);
+  align-items: flex-start;
 }
 .cog .framed-section:has(> h2) {
   padding: var(--spacing-175) var(--spacing-100) var(--spacing-50) var(--spacing-100);
@@ -346,6 +347,7 @@
   max-height: var(--value-size);
   font-size: var(--font-size);
   text-align: center;
+  transition: color 0.5s;
 }
 .cog .data.value.mini {
   --value-size: 50px;
@@ -365,15 +367,18 @@
 }
 .cog .data.value.clickable {
   cursor: pointer;
-  transition: color 0.5s, filter 0.5s;
 }
 .cog .data.value.clickable:hover {
-  filter: saturate(1.75);
   color: var(--color-primary);
+}
+.cog .data.value.editable input {
+  --input-background-color: transparent;
+  --input-border-color: transparent;
+  --input-focus-outline-color: transparent;
 }
 .cog .data.value input {
   font-size: var(--font-size);
-  margin: 0 calc(var(--value-size) * 0.275);
+  margin: 0 calc(var(--value-size) * 0.2);
   padding: 0;
 }
 .cog .data.value input:focus {
@@ -833,7 +838,7 @@ slide-toggle[checked] .slide-toggle-thumb {
   gap: var(--spacing-50);
   align-items: stretch;
 }
-.cog.sheet.actor .tab.attributes .derived .main .row :first-child.ressources {
+.cog.sheet.actor .tab.attributes .derived .main .row :first-child.resources {
   flex-basis: 229px;
   flex-grow: 0;
 }
@@ -843,20 +848,22 @@ slide-toggle[checked] .slide-toggle-thumb {
 }
 .cog.sheet.actor .tab.attributes .abilities,
 .cog.sheet.actor .tab.attributes .attacks,
-.cog.sheet.actor .tab.attributes .initiative {
+.cog.sheet.actor .tab.attributes .resources {
   justify-content: space-between;
 }
-.cog.sheet.actor .tab.attributes .abilities .item,
-.cog.sheet.actor .tab.attributes .attacks .item,
-.cog.sheet.actor .tab.attributes .initiative .item {
-  align-items: center;
+.cog.sheet.actor .tab.attributes .resources {
+  padding-top: var(--spacing-125);
+  padding-bottom: var(--spacing-100);
+}
+.cog.sheet.actor .tab.attributes .initiative {
+  justify-content: center;
+  padding: var(--spacing-125) 0 var(--spacing-100) 0;
 }
 .cog.sheet.actor .tab.attributes .attacks .item .data.value {
   padding-top: var(--spacing-75);
 }
-.cog.sheet.actor .tab.attributes .initiative {
-  justify-content: center;
-  padding: var(--spacing-100) 0;
+.cog.sheet.actor .tab.attributes .item {
+  align-items: center;
 }
 /* ----------------------------------------- */
 /*  Creation Steps Tooltip
