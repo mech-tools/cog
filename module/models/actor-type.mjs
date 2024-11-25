@@ -60,14 +60,13 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
       tempDmgs: new fields.NumberField({
         ...requiredInteger,
         initial: 0,
-        value: 0,
+        min: 0,
         abbreviation: "COG.ACTOR.FIELDS.health.tempDmgs.abbreviation",
       }),
     });
 
     // Attributes
     schema.attributes = new fields.SchemaField({
-      //Size
       size: new fields.NumberField({
         ...requiredInteger,
         initial: COG.SIZES.MEDIUM,
@@ -75,6 +74,14 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
         min: COG.SIZES.TINY,
         max: COG.SIZES.GARGANTUAN,
       }),
+      initiative: new fields.SchemaField(
+        {
+          base: new fields.NumberField({ ...requiredInteger, initial: 0 }),
+          bonus: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+          max: new fields.NumberField({ ...requiredInteger, initial: 0 }),
+        },
+        { abbreviation: "COG.ACTOR.FIELDS.attributes.initiative.abbreviation" },
+      ),
     });
 
     // Attacks
@@ -84,7 +91,6 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
           base: new fields.NumberField({
             ...requiredInteger,
             initial: 0,
-            min: 0,
             label: "COG.ACTOR.FIELDS.attacks.*.base.label",
           }),
           increases: new fields.NumberField({

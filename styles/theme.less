@@ -292,6 +292,7 @@
     cursor: pointer;
     transition: color 0.5s;
     font-size: var(--font-size-14);
+    line-height: normal;
 
     &::before {
       text-shadow: 0 0 5px var(--color-drop-shadow);
@@ -348,9 +349,12 @@
 
     &.clickable {
       cursor: pointer;
-      transition: color 0.5s;
+      transition:
+        color 0.5s,
+        filter 0.5s;
 
       &:hover {
+        filter: saturate(1.75);
         color: var(--color-primary);
       }
     }

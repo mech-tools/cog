@@ -53,8 +53,22 @@
                     <h2>ressources</h3>
                         ressources
                 </div>
+                {{! Initiative }}
                 <div class="framed-section flexrow initiative">
-                    initiative
+                    <div class="item flexcol flex0">
+                        <span class="data value large alt">
+                            {{attributes.initiative.max.value}}
+                        </span>
+                        <h3 class="flexrow">
+                            {{attributes.initiative.field.label}}
+                            {{#if @root.editMode}}
+                                <i class="fas fa-cog icon-button" data-action="configure"
+                                    data-configure-profile="initiative"
+                                    data-tooltip="COG.ACTOR.LABELS.Configure_initiative" data-tooltip-class="cog"
+                                    data-tooltip-direction="UP"></i>
+                            {{/if}}
+                        </h3>
+                    </div>
                 </div>
             </div>
             <div class="framed-section flexrow wounds">

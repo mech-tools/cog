@@ -34,7 +34,6 @@ export default class NpcSheet extends COGBaseActorSheet {
 
       // Data
       advancement: { cr: this.makeField("advancement.cr") },
-      attributes: { size: this.makeField("attributes.size") },
     };
   }
 }

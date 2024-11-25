@@ -25,6 +25,7 @@ export default class COGNpc extends COGActorType {
       delete schema.abilities.fields[key].fields.bonus;
     }
     delete schema.health.fields.hitPoints.fields.bonus;
+    delete schema.attributes.fields.initiative.fields.bonus;
     for (const key of Object.keys(schema.attacks.fields)) {
       delete schema.attacks.fields[key].fields.bonus;
       delete schema.attacks.fields[key].fields.increases;
@@ -51,6 +52,13 @@ export default class COGNpc extends COGActorType {
     this.health.hitPoints.max = this.health.hitPoints.base;
 
     super._prepareDerivedHealth();
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  _prepareDerivedAttributes() {
+    this.attributes.initiative.max = this.attributes.initiative.base;
   }
 
   /* -------------------------------------------- */

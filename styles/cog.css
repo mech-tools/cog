@@ -321,6 +321,7 @@
   cursor: pointer;
   transition: color 0.5s;
   font-size: var(--font-size-14);
+  line-height: normal;
 }
 .cog .icon-button::before {
   text-shadow: 0 0 5px var(--color-drop-shadow);
@@ -364,9 +365,10 @@
 }
 .cog .data.value.clickable {
   cursor: pointer;
-  transition: color 0.5s;
+  transition: color 0.5s, filter 0.5s;
 }
 .cog .data.value.clickable:hover {
+  filter: saturate(1.75);
   color: var(--color-primary);
 }
 .cog .data.value input {
@@ -840,15 +842,21 @@ slide-toggle[checked] .slide-toggle-thumb {
   flex-grow: 0;
 }
 .cog.sheet.actor .tab.attributes .abilities,
-.cog.sheet.actor .tab.attributes .attacks {
+.cog.sheet.actor .tab.attributes .attacks,
+.cog.sheet.actor .tab.attributes .initiative {
   justify-content: space-between;
 }
 .cog.sheet.actor .tab.attributes .abilities .item,
-.cog.sheet.actor .tab.attributes .attacks .item {
+.cog.sheet.actor .tab.attributes .attacks .item,
+.cog.sheet.actor .tab.attributes .initiative .item {
   align-items: center;
 }
 .cog.sheet.actor .tab.attributes .attacks .item .data.value {
   padding-top: var(--spacing-75);
+}
+.cog.sheet.actor .tab.attributes .initiative {
+  justify-content: center;
+  padding: var(--spacing-100) 0;
 }
 /* ----------------------------------------- */
 /*  Creation Steps Tooltip

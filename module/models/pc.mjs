@@ -60,6 +60,20 @@ export default class COGPc extends COGActorType {
     );
   }
 
+  /* -------------------------------------------- */
+
+  /** @override */
+  _prepareBaseAttributes() {
+    this.attributes.initiative.base =
+      COG.INITIATIVE_BASE +
+      this.abilities.dexterity.base +
+      this.abilities.dexterity.bonus +
+      this.abilities.perception.base +
+      this.abilities.perception.bonus;
+  }
+
+  /* -------------------------------------------- */
+
   /** @override */
   _prepareBaseAttacks() {
     this.attacks.melee.base = this.abilities.strength.base + this.abilities.strength.bonus;
@@ -80,10 +94,17 @@ export default class COGPc extends COGActorType {
 
   /** @inheritdoc */
   _prepareDerivedHealth() {
-    // Compute max Hit Points based on base + bonus
     this.health.hitPoints.max = this.health.hitPoints.base + this.health.hitPoints.bonus;
 
     super._prepareDerivedHealth();
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  _prepareDerivedAttributes() {
+    this.attributes.initiative.max =
+      this.attributes.initiative.base + this.attributes.initiative.bonus;
   }
 
   /* -------------------------------------------- */

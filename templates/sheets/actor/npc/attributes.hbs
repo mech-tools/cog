@@ -4,7 +4,7 @@
     <div class="framed-section flexrow abilities">
         <h2>{{abilities.field.label}}</h2>
         {{#each abilities.values as |ability|}}
-            <div class="ability flexcol flex0 {{@key}}">
+            <div class="item flexcol flex0 {{@key}}">
                 <h3 class="flexrow">
                     {{localize ability.field.options.abbreviation}}
                 </h3>
@@ -61,8 +61,26 @@
             </div>
 
             <div class="row flexrow">
+                {{! Initiative }}
                 <div class="framed-section flexrow initiative">
-                    init
+                    <div class="item flexcol flex0">
+                        <span class="data value mini">
+                            {{#if @root.editMode}}
+                                {{formInput
+                                    attributes.initiative.base.field
+                                    value=attributes.initiative.base.value
+                                }}
+                            {{else}}
+                                {{~#if attributes.initiative.max.positive}}
+                                    +
+                                {{~/if}}
+                                {{~attributes.initiative.max.value}}
+                            {{/if}}
+                        </span>
+                        <h3 class="flexrow">
+                            {{localize attributes.initiative.field.options.abbreviation}}
+                        </h3>
+                    </div>
                 </div>
 
                 <div class="framed-section flexrow wounds">

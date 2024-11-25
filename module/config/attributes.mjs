@@ -25,3 +25,11 @@ export const SIZES = new Enum({
   HUGE: { label: "COG.SIZES.Huge", value: 6 },
   GARGANTUAN: { label: "COG.SIZES.Gargantuan", value: 7 },
 });
+
+/* -------------------------------------------- */
+
+/**
+ * The base threshold for initiative onto which bonuses are added.
+ * @type {number}
+ */
+export const INITIATIVE_BASE = 10;

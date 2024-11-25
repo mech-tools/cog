@@ -192,6 +192,14 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       img: { field: this.document.schema.getField("img"), value: this.document.img },
       abilities: this.#prepareAbilities(),
       health: this.#prepareHealth(),
+      attributes: {
+        size: this.makeField("attributes.size"),
+        initiative: {
+          ...this.makeField("attributes.initiative"),
+          base: this.makeField("attributes.initiative.base"),
+          max: this.makeField("attributes.initiative.max"),
+        },
+      },
       attacks: this.#prepareAttacks(),
     };
   }
