@@ -71,11 +71,18 @@ export default class COGPc extends COGActorType {
   /** @override */
   _prepareBaseAttributes() {
     this.attributes.initiative.base =
-      COG.INITIATIVE_BASE +
+      COG.BASE_INITIATIVE +
       this.abilities.dexterity.base +
       this.abilities.dexterity.bonus +
       this.abilities.perception.base +
       this.abilities.perception.bonus;
+
+    this.attributes.wounds.threshold.base =
+      COG.BASE_WOUND_THRESHOLD +
+      this.abilities.constitution.base +
+      this.abilities.constitution.bonus +
+      this.abilities.strength.base +
+      this.abilities.strength.bonus;
   }
 
   /* -------------------------------------------- */
@@ -111,6 +118,9 @@ export default class COGPc extends COGActorType {
   _prepareDerivedAttributes() {
     this.attributes.initiative.max =
       this.attributes.initiative.base + this.attributes.initiative.bonus;
+
+    this.attributes.wounds.threshold.max =
+      this.attributes.wounds.threshold.base + this.attributes.wounds.threshold.bonus;
   }
 
   /* -------------------------------------------- */

@@ -48,6 +48,7 @@
                     </div>
                 {{/each}}
             </div>
+
             <div class="row flexrow">
                 {{! Ressources }}
                 <div class="framed-section flexrow resources">
@@ -97,16 +98,35 @@
                     </div>
                 </div>
             </div>
+
+            {{! Wounds }}
             <div class="framed-section flexrow wounds">
-                <h2>wounds</h3>
-                    wounds
+                <h2>{{attributes.wounds.field.label}}</h2>
+                <div class="item flexcol flex0">
+                    <span class="data value mini">
+                        {{attributes.wounds.threshold.max.value}}
+                    </span>
+                    <h3 class="flexrow">
+                        {{attributes.wounds.threshold.field.label}}
+                        {{#if @root.editMode}}
+                            <i class="fas fa-cog icon-button" data-action="configure"
+                                data-configure-profile="woundThreshold"
+                                data-tooltip="COG.ACTOR.LABELS.Configure_threshold" data-tooltip-class="cog"
+                                data-tooltip-direction="UP"></i>
+                        {{/if}}
+                    </h3>
+                </div>
+
+                <div class="count">
+                    count
+                </div>
             </div>
         </div>
 
         <div class="secondary flexcol">
             <div class="framed-section flexrow defense">
-                <h2>defense</h3>
-                    defense
+                <h2>defense</h2>
+                defense
             </div>
         </div>
     </div>

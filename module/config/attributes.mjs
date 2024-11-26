@@ -32,4 +32,12 @@ export const SIZES = new Enum({
  * The base threshold for initiative onto which bonuses are added.
  * @type {number}
  */
-export const INITIATIVE_BASE = 10;
+export const BASE_INITIATIVE = 10;
+
+/* -------------------------------------------- */
+
+/**
+ * The base threshold for wounds onto which bonuses are added.
+ * @type {number}
+ */
+export const BASE_WOUND_THRESHOLD = 10;

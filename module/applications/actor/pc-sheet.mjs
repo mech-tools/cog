@@ -4,6 +4,7 @@ import HitDieConfigSheet from "./config/hit-die-config-sheet.mjs";
 import HitPointsConfigSheet from "./config/hit-points-config-sheet.mjs";
 import AttackConfigSheet from "./config/attack-config-sheet.mjs";
 import InitiativeConfigSheet from "./config/initiative-config-sheet.mjs";
+import WoundThresholdConfigSheet from "./config/wound-threshold-config-sheet.mjs";
 
 /**
  * A COGBaseActorSheet subclass used to configure Actors of the "pc" type.
@@ -27,6 +28,7 @@ export default class PcSheet extends COGBaseActorSheet {
       hitPoints: HitPointsConfigSheet,
       attack: AttackConfigSheet,
       initiative: InitiativeConfigSheet,
+      woundThreshold: WoundThresholdConfigSheet,
     },
   };
 

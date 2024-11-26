@@ -56,8 +56,8 @@
             </div>
 
             <div class="framed-section flexrow defense">
-                <h2>defense</h3>
-                    defense
+                <h2>defense</h2>
+                defense
             </div>
 
             <div class="row flexrow">
@@ -83,20 +83,41 @@
                     </div>
                 </div>
 
+                {{! Wounds }}
                 <div class="framed-section flexrow wounds">
-                    <h2>wounds</h3>
-                        wounds
+                    <h2>{{attributes.wounds.field.label}}</h2>
+                    <div class="item flexcol flex0">
+                        <span class="data value mini">
+                            {{#if @root.editMode}}
+                                {{formInput
+                                    attributes.wounds.threshold.base.field
+                                    value=attributes.wounds.threshold.base.value
+                                }}
+                            {{else}}
+                                {{~attributes.wounds.threshold.max.value}}
+                            {{/if}}
+                        </span>
+                        <h3 class="flexrow">
+                            {{attributes.wounds.threshold.field.label}}
+                        </h3>
+                    </div>
+
+                    <div class="count">
+                        count
+                    </div>
                 </div>
             </div>
         </div>
+
         <div class="secondary flexcol">
             <div class="framed-section flexrow equipment">
-                <h2>attaques</h3>
-                    attaques
+                <h2>attaques</h2>
+                attaques
             </div>
+
             <div class="framed-section flexrow features">
-                <h2>features</h3>
-                    features
+                <h2>features</h2>
+                features
             </div>
         </div>
     </div>

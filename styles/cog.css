@@ -870,10 +870,12 @@ slide-toggle[checked] .slide-toggle-thumb {
 }
 .cog.sheet.actor .tab.attributes .abilities,
 .cog.sheet.actor .tab.attributes .attacks,
-.cog.sheet.actor .tab.attributes .resources {
+.cog.sheet.actor .tab.attributes .resources,
+.cog.sheet.actor .tab.attributes .wounds {
   justify-content: space-between;
 }
-.cog.sheet.actor .tab.attributes .resources {
+.cog.sheet.actor .tab.attributes .resources,
+.cog.sheet.actor .tab.attributes .wounds {
   padding-top: var(--spacing-125);
   padding-bottom: var(--spacing-100);
 }
@@ -886,6 +888,9 @@ slide-toggle[checked] .slide-toggle-thumb {
 }
 .cog.sheet.actor .tab.attributes .attacks .data.value {
   padding-top: var(--spacing-75);
+}
+.cog.sheet.actor .tab.attributes .wounds h3 {
+  flex-wrap: nowrap;
 }
 /* ----------------------------------------- */
 /*  Creation Steps Tooltip

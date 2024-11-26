@@ -427,11 +427,13 @@
 
     .abilities,
     .attacks,
-    .resources {
+    .resources,
+    .wounds {
       justify-content: space-between;
     }
 
-    .resources {
+    .resources,
+    .wounds {
       padding-top: var(--spacing-125);
       padding-bottom: var(--spacing-100);
     }
@@ -447,6 +449,10 @@
 
     .attacks .data.value {
       padding-top: var(--spacing-75);
+    }
+
+    .wounds h3 {
+      flex-wrap: nowrap;
     }
   }
 }

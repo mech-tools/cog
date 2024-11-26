@@ -278,6 +278,15 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
         base: this.makeField("attributes.initiative.base"),
         max: this.makeField("attributes.initiative.max"),
       },
+      wounds: {
+        ...this.makeField("attributes.wounds"),
+        threshold: {
+          ...this.makeField("attributes.wounds.threshold"),
+          base: this.makeField("attributes.wounds.threshold.base"),
+          max: this.makeField("attributes.wounds.threshold.max"),
+        },
+        count: this.makeField("attributes.wounds.count"),
+      },
     };
 
     attributes.initiative.max.positive = attributes.initiative.max.value > 0;

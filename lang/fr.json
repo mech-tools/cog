@@ -83,7 +83,14 @@
         "initiative.base.label": "Base",
         "initiative.base.hint": "Valeur de base du personnage. Elle est égale à 10 + Dextérité + Perception plus tout autre modificateur de base (profil, trait, ...).",
         "initiative.bonus.label": "Bonus",
-        "initiative.bonus.hint": "Bonus manuel ajouté à la valeur de base du personnage."
+        "initiative.bonus.hint": "Bonus manuel ajouté à la valeur de base du personnage.",
+        "wounds.label": "Blessures",
+        "wounds.threshold.label": "Seuil",
+        "wounds.threshold.base.label": "Base",
+        "wounds.threshold.base.hint": "Valeur de base du personnage. Elle est égale à 10 + Constitution + Force plus tout autre modificateur de base (profil, trait, ...).",
+        "wounds.threshold.bonus.label": "Bonus",
+        "wounds.threshold.bonus.hint": "Bonus manuel ajouté à la valeur de base du personnage.",
+        "wounds.count.label": "Blessures graves"
       },
 
       "attacks": {
@@ -129,6 +136,7 @@
       "Configure_ability": "Configuration de la caractéristique",
       "Configure_attack": "Configuration de l'attaque",
       "Configure_initiative": "Configuration de l'initiative",
+      "Configure_threshold": "Configuration du seuil de blessure",
       "Favorite_actions": "Favoris",
       "Creation_steps": {
         "Title": "Personnage incomplet !",
@@ -169,6 +177,12 @@
       "LABELS": {
         "Window_title": "Configuration : initiative ({name})",
         "Description": "Configuration de l'initiative du personnage."
+      }
+    },
+    "WOUND_THRESHOLD": {
+      "LABELS": {
+        "Window_title": "Configuration : seuil de blessure ({name})",
+        "Description": "Configuration du seuil de blessure du personnage."
       }
     }
   }

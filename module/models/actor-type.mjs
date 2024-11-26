@@ -82,6 +82,19 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
         },
         { abbreviation: "COG.ACTOR.FIELDS.attributes.initiative.abbreviation" },
       ),
+      wounds: new fields.SchemaField({
+        threshold: new fields.SchemaField({
+          base: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+          bonus: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+          max: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+        }),
+        count: new fields.NumberField({
+          ...requiredInteger,
+          initial: 0,
+          min: 0,
+          abbreviation: "COG.ACTOR.FIELDS.attributes.wounds.count.abbreviation",
+        }),
+      }),
     });
 
     // Attacks

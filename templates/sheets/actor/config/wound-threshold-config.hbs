@@ -1,0 +1,21 @@
+<section class="sheet-body flexcol">
+    {{! Header }}
+    <header class="sheet-header flexcol">
+        <span
+            class="description">{{localize "COG.CONFIG.WOUND_THRESHOLD.LABELS.Description" ability=threshold.field.label}}</span>
+        <span class="data value mini">{{threshold.max.value}}</span>
+    </header>
+
+    {{! Content }}
+    <div class="sheet-content flexcol flex1">
+        {{formGroup
+            threshold.base.field
+            value=threshold.base.value
+            disabled=true
+        }}
+        {{formGroup
+            threshold.bonus.field
+            value=threshold.bonus.value
+        }}
+    </div>
+</section>
