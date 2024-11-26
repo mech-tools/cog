@@ -90,7 +90,10 @@
         "wounds.threshold.base.hint": "Valeur de base du personnage. Elle est égale à 10 + Constitution + Force plus tout autre modificateur de base (profil, trait, ...).",
         "wounds.threshold.bonus.label": "Bonus",
         "wounds.threshold.bonus.hint": "Bonus manuel ajouté à la valeur de base du personnage.",
-        "wounds.count.label": "Blessures graves"
+        "wounds.count.label": "Bless. graves",
+        "wounds.count.pips.equal": "Retirer cette blessure",
+        "wounds.count.pips.greater": "Augmenter le nombre de blessures à {count}",
+        "wounds.count.pips.lesser": "Diminuer le nombre de blessures à {count}"
       },
 
       "attacks": {

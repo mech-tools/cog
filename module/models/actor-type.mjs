@@ -92,7 +92,7 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
           ...requiredInteger,
           initial: 0,
           min: 0,
-          abbreviation: "COG.ACTOR.FIELDS.attributes.wounds.count.abbreviation",
+          pips: "COG.ACTOR.FIELDS.attributes.wounds.count.pips",
         }),
       }),
     });

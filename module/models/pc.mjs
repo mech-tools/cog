@@ -26,8 +26,7 @@ export default class COGPc extends COGActorType {
         choices: COG.HIT_DIE_TYPES.choices,
       }),
       history: new fields.SchemaField(
-        [...Array(20)].reduce((obj, value, index) => {
-          const level = index + 1;
+        Array.fromRange(20, 1).reduce((obj, level) => {
           obj[level] = new fields.NumberField({
             ...nullableInteger,
             initial: null,

@@ -200,7 +200,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
 
   /**
    * Prepare and format the display of Abilities on the actor sheet.
-   * @returns {{ values: { fgPath: string; max: { positive: boolean } } }}
+   * @returns {{ values: { fgPath: string } }}
    */
   #prepareAbilities() {
     const abilities = {
@@ -216,7 +216,6 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       };
 
       abilities.values[key].fgPath = `/systems/cog/ui/actor/abilities/${key}.webp`;
-      abilities.values[key].max.positive = abilities.values[key].max.value > 0;
     }
 
     return abilities;
@@ -268,7 +267,9 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
 
   /**
    * Prepare and format the display of Attributes on the actor sheet.
-   * @returns {{ initiative: { max: { positive: boolean } } }}
+   * @returns {{
+   *   wounds: { count: { pips: [n: number, filled: boolean, label: string] } };
+   * }}
    */
   #prepareAttributes() {
     const attributes = {
@@ -289,7 +290,16 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       },
     };
 
-    attributes.initiative.max.positive = attributes.initiative.max.value > 0;
+    attributes.wounds.count.pips = Array.fromRange(4, 1).map((n) => ({
+      n,
+      filled: attributes.wounds.count.value >= n,
+      label:
+        attributes.wounds.count.value === n
+          ? `${attributes.wounds.count.field.options.pips}.equal`
+          : attributes.wounds.count.value > n
+            ? `${attributes.wounds.count.field.options.pips}.lesser`
+            : `${attributes.wounds.count.field.options.pips}.greater`,
+    }));
 
     return attributes;
   }
@@ -298,7 +308,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
 
   /**
    * Prepare and format the display of Attacks on the actor sheet.
-   * @returns {{ values: { fgPath: string; max: { positive: boolean } } }}
+   * @returns {{ values: { fgPath: string } }}
    */
   #prepareAttacks() {
     const attacks = {
@@ -314,7 +324,6 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       };
 
       attacks.values[key].fgPath = `/systems/cog/ui/actor/attacks/${key}.webp`;
-      attacks.values[key].max.positive = attacks.values[key].max.value > 0;
     }
 
     return attacks;
@@ -386,6 +395,11 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       this.element
         .querySelector(".hit-points > .field > input")
         ?.addEventListener("blur", this.#onToggleHitPoints.bind(this));
+
+      // Pips
+      for (const pips of this.element.querySelectorAll(".pips[data-prop]")) {
+        pips.addEventListener("click", this.#onTogglePip.bind(this));
+      }
     }
   }
 
@@ -497,7 +511,11 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
    * @param {FocusEvent} event  The triggering event.
    */
   #onFocusIn(event) {
-    if (event.target.tagName === "INPUT" && event.target.type === "number") {
+    if (
+      event.target.tagName === "INPUT" &&
+      event.target.type === "number" &&
+      event.target.parentElement.classList.contains("relative-input")
+    ) {
       event.target.type = "text";
       event.target.classList.add("number-input");
     }
@@ -545,5 +563,21 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       field.classList.toggle("hidden");
       if (!field.classList.contains("hidden")) input.focus();
     }
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle toggling a pip on the character sheet.
+   * @param {PointerEvent} event  The triggering event.
+   */
+  #onTogglePip(event) {
+    const n = Number(event.target.closest("[data-n]")?.dataset.n);
+    if (!n || isNaN(n)) return;
+    const prop = event.currentTarget.dataset.prop;
+    let value = foundry.utils.getProperty(this.document.system, prop);
+    if (value === n) value--;
+    else value = n;
+    this.actor.update({ [`system.${prop}`]: value });
   }
 }

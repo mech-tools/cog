@@ -16,10 +16,7 @@
                             value=ability.base.value
                         }}
                     {{else}}
-                        {{~#if ability.max.positive}}
-                            +
-                        {{~/if}}
-                        {{~ability.max.value}}
+                        {{signedString ability.max.value}}
                     {{/if}}
                 </span>
 
@@ -45,10 +42,7 @@
                                     value=attack.base.value
                                 }}
                             {{else}}
-                                {{~#if attack.max.positive}}
-                                    +
-                                {{~/if}}
-                                {{~attack.max.value}}
+                                {{signedString attack.max.value}}
                             {{/if}}
                         </span>
                     </div>
@@ -102,8 +96,17 @@
                         </h3>
                     </div>
 
-                    <div class="count">
-                        count
+                    <div class="item flexcol flex0">
+                        <div class="pips">
+                            {{#each attributes.wounds.count.pips}}
+                                <span class="pip {{#if filled}}filled{{/if}}" data-n="{{n}}"
+                                    data-tooltip="{{localize label count=n}}" data-tooltip-class="cog"
+                                    data-tooltip-direction="UP"></span>
+                            {{/each}}
+                        </div>
+                        <h3 class="flexrow">
+                            {{attributes.wounds.count.field.label}}
+                        </h3>
                     </div>
                 </div>
             </div>

@@ -100,6 +100,9 @@
   /*  Buttons
   /* ----------------------------------------- */
   /* ----------------------------------------- */
+  /*  Pips
+  /* ----------------------------------------- */
+  /* ----------------------------------------- */
   /*  Data values
   /* ----------------------------------------- */
 }
@@ -107,6 +110,7 @@
   text-shadow: none;
 }
 .cog h1 {
+  white-space: nowrap;
   font-family: var(--font-h1);
   color: var(--color-primary);
   font-size: var(--font-size-20);
@@ -115,6 +119,7 @@
   border: 0;
 }
 .cog h2 {
+  white-space: nowrap;
   font-family: var(--font-h2);
   color: var(--color-primary);
   font-size: var(--font-size-12);
@@ -143,6 +148,7 @@
   clip-path: path("M0 0V2H40L37 0H0Z");
 }
 .cog h3 {
+  white-space: nowrap;
   font-family: var(--font-h3);
   font-size: var(--font-size-14);
   color: var(--color-text);
@@ -334,6 +340,42 @@
 .cog h2 .icon-button,
 .cog h3 .icon-button {
   margin-left: var(--spacing-25);
+}
+.cog h3:has(.icon-button) {
+  flex-wrap: nowrap;
+}
+.cog .pips {
+  display: flex;
+  gap: var(--spacing-100);
+  margin: var(--spacing-50);
+}
+.cog .pips .pip {
+  --pip-size: 20px;
+  --pip-border: 1px;
+  --pip-radius: var(--border-radius-half);
+  cursor: pointer;
+  position: relative;
+  border: var(--pip-border) solid var(--color-secondary);
+  border-radius: var(--border-radius-half);
+  width: var(--pip-size);
+  height: var(--pip-size);
+  background-color: var(--color-frame-bg);
+  box-shadow: 0 0 5px var(--color-drop-shadow);
+  transition: filter 0.5s;
+}
+.cog .pips .pip:hover {
+  filter: drop-shadow(0 0 3px var(--color-secondary-75));
+}
+.cog .pips .pip.filled::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-secondary);
+  border: calc(var(--pip-border) * 2) solid var(--color-frame-bg);
+  border-radius: calc(var(--pip-radius) / 2);
 }
 .cog .data.value {
   position: relative;
@@ -883,14 +925,18 @@ slide-toggle[checked] .slide-toggle-thumb {
   justify-content: center;
   padding: var(--spacing-125) 0 var(--spacing-100) 0;
 }
+.cog.sheet.actor .tab.attributes .wounds {
+  align-items: flex-end;
+  justify-content: space-around;
+}
 .cog.sheet.actor .tab.attributes .item {
   align-items: center;
 }
 .cog.sheet.actor .tab.attributes .attacks .data.value {
-  padding-top: var(--spacing-75);
+  padding-top: var(--spacing-100);
 }
-.cog.sheet.actor .tab.attributes .wounds h3 {
-  flex-wrap: nowrap;
+.cog.sheet.actor .tab.attributes .wounds .pips {
+  margin-bottom: var(--spacing-100);
 }
 /* ----------------------------------------- */
 /*  Creation Steps Tooltip

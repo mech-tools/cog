@@ -46,8 +46,9 @@ Hooks.once("init", async function () {
     types: ["npc"],
   });
 
-  // Preload all partials
-  applications.api.preloadHandlebarsTemplates();
+  // Handlebars utils
+  applications.api.utils.preloadHandlebarsTemplates();
+  applications.api.utils.registerHandlebarsHelpers();
 });
 
 // Other Document Configuration
