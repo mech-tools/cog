@@ -41,3 +41,10 @@ export const BASE_INITIATIVE = 10;
  * @type {number}
  */
 export const BASE_WOUND_THRESHOLD = 10;
+/* -------------------------------------------- */
+
+/**
+ * The base defense protection onto which bonuses are added.
+ * @type {number}
+ */
+export const BASE_DEFENSE_PROTECTION = 10;

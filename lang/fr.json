@@ -116,6 +116,32 @@
         "label": "Ressources",
         "luck.label": "Chance",
         "instability.label": "Instabilité"
+      },
+
+      "defenses": {
+        "label": "Défenses",
+        "protection.physical.label": "Physique",
+        "protection.psy.label": "Psychique",
+        "reduction.label": "Réd. Domm.",
+        "temp.label": "Dommages temporaires",
+        "temp.reduction.base.hint": "Valeur de base du personnage. Elle est égale à la Force plus tout autre modificateur de base (profil, trait, ...).",
+        "archaic.label": "Armes archaïques",
+        "firearm.label": "Armes à feu",
+        "ionic.label": "Armes ioniques",
+        "laser.label": "Armes lasers",
+        "plasma.label": "Armes plasmatiques",
+        "psy.label": "Effets psychiques",
+        "psy.protection.base.hint": "Valeur de base du personnage. Elle est égale à 10 + Charisme plus tout autre modificateur de base (profil, trait, ...).",
+        "*.protection.label": "Défense",
+        "*.reduction.label": "Réduction de dommages",
+        "*.protection.base.label": "Base",
+        "*.protection.base.hint": "Valeur de base du personnage. Elle est égale à 10 + Dextérité + Armure plus tout autre modificateur de base (profil, trait, ...).",
+        "*.protection.bonus.label": "Bonus",
+        "*.protection.bonus.hint": "Bonus manuel ajouté à la valeur de base du personnage.",
+        "*.reduction.base.label": "Base",
+        "*.reduction.base.hint": "Valeur de base du personnage. Elle est égale à 0 plus tout autre modificateur de base (profil, trait, ...).",
+        "*.reduction.bonus.label": "Bonus",
+        "*.reduction.bonus.hint": "Bonus manuel ajouté à la valeur de base du personnage."
       }
     },
 
@@ -139,7 +165,8 @@
       "Configure_ability": "Configuration de la caractéristique",
       "Configure_attack": "Configuration de l'attaque",
       "Configure_initiative": "Configuration de l'initiative",
-      "Configure_threshold": "Configuration du seuil de blessure",
+      "Configure_wound_threshold": "Configuration du seuil de blessure",
+      "Configure_defense": "Configuration de la défense",
       "Favorite_actions": "Favoris",
       "Creation_steps": {
         "Title": "Personnage incomplet !",
@@ -186,6 +213,12 @@
       "LABELS": {
         "Window_title": "Configuration : seuil de blessure ({name})",
         "Description": "Configuration du seuil de blessure du personnage."
+      }
+    },
+    "DEFENSE": {
+      "LABELS": {
+        "Window_title": "Configuration : {defense} ({name})",
+        "Description": "Configuration de la défense contre les \"{defense}\" du personnage."
       }
     }
   }

@@ -178,8 +178,8 @@
     }
   }
 
-  .framed-section input,
-  .framed-section select {
+  &.application .framed-section input,
+  &.application .framed-section select {
     --input-background-color: var(--color-frame-bg);
 
     &:disabled {
@@ -189,12 +189,23 @@
 
   &.application fieldset {
     --color-fieldset-border: var(--color-secondary);
+    --font-size-fieldset: var(--font-size-14);
 
+    position: relative;
     border-radius: var(--border-radius);
 
     legend {
-      color: var(--color-primary);
+      color: var(--color-secondary);
       font-family: var(--font-h3);
+      font-size: var(--font-size-fieldset);
+      line-height: var(--font-size-fieldset);
+    }
+
+    .data.value {
+      position: absolute;
+      top: calc(-1 * ((var(--value-size) / 2) + var(--font-size-fieldset) / 2));
+      right: 0;
+      z-index: 1;
     }
   }
 
@@ -421,6 +432,16 @@
         --input-background-color: transparent;
         --input-border-color: transparent;
         --input-focus-outline-color: transparent;
+      }
+    }
+
+    &.tiny {
+      --value-size: 26px;
+      --font-size: var(--font-size-12);
+      --background-image: url(/systems/cog/ui/values/tiny.webp);
+
+      &.alt {
+        --background-image: url(/systems/cog/ui/values/tiny-alt.webp);
       }
     }
 

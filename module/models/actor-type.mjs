@@ -111,7 +111,7 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
             initial: 0,
             min: 0,
             label: "COG.ACTOR.FIELDS.attacks.*.increases.label",
-            hint: id !== "psy" ? "COG.ACTOR.FIELDS.attacks.*.increases.hint" : undefined,
+            hint: id !== "psy" && "COG.ACTOR.FIELDS.attacks.*.increases.hint",
           }),
           bonus: new fields.NumberField({
             ...requiredInteger,
@@ -123,7 +123,7 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
           max: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
         });
         return obj;
-      }, []),
+      }, {}),
     );
 
     return schema;
@@ -133,7 +133,7 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
   static LOCALIZATION_PREFIXES = ["COG.ACTOR"];
 
   /* -------------------------------------------- */
-  /*  Data Preparation
+  /*  Base Data Preparation
   /* -------------------------------------------- */
 
   /** @override */
@@ -142,6 +142,7 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
     this._prepareBaseHealth();
     this._prepareBaseAttributes();
     this._prepareBaseAttacks();
+    this._prepareBaseDefenses();
   }
 
   /* -------------------------------------------- */
@@ -178,12 +179,23 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
 
   /* -------------------------------------------- */
 
+  /**
+   * Preparation of base attacks for all actor subtypes.
+   * @override
+   */
+  _prepareBaseDefenses() {}
+
+  /* -------------------------------------------- */
+  /*  Derived Data Preparation
+  /* -------------------------------------------- */
+
   /** @override */
   prepareDerivedData() {
     this._prepareDerivedAbilities();
     this._prepareDerivedHealth();
     this._prepareDerivedAttributes();
     this._prepareDerivedAttacks();
+    this._prepareDerivedDefenses();
   }
 
   /* -------------------------------------------- */
@@ -223,4 +235,12 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
    * @override
    */
   _prepareDerivedAttacks() {}
+
+  /* -------------------------------------------- */
+
+  /**
+   * Preparation of derived abilities for all actor subtimes.
+   * @override
+   */
+  _prepareDerivedDefenses() {}
 }

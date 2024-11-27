@@ -397,7 +397,7 @@
 
     .derived {
       gap: var(--spacing-100);
-      align-items: flex-start;
+      align-items: stretch;
 
       .main,
       .secondary {
@@ -428,12 +428,14 @@
     .abilities,
     .attacks,
     .resources,
-    .wounds {
+    .wounds,
+    .defenses.basic {
       justify-content: space-between;
     }
 
     .resources,
-    .wounds {
+    .wounds,
+    .defenses.basic {
       padding-top: var(--spacing-125);
       padding-bottom: var(--spacing-100);
     }
@@ -448,6 +450,13 @@
       justify-content: space-around;
     }
 
+    .defenses.detailed {
+      padding-bottom: var(--spacing-50);
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+    }
+
     .item {
       align-items: center;
     }
@@ -458,6 +467,99 @@
 
     .wounds .pips {
       margin-bottom: var(--spacing-100);
+    }
+
+    .defenses.detailed .item {
+      width: 100%;
+      gap: var(--spacing-25);
+
+      .chart {
+        --chart-height: 26px;
+        --bar-height: 8px;
+        --protection-height: 8px;
+        --reduction-height: 6px;
+        --bar-max-pct: 46.5%;
+        --bar-pct: 0%;
+
+        position: relative;
+        width: 100%;
+        display: flex;
+        height: var(--bar-height);
+        margin: calc((var(--chart-height) - var(--bar-height)) / 2) 0;
+        justify-content: center;
+        align-items: center;
+
+        &::before {
+          content: "";
+          display: block;
+          width: 100%;
+          position: absolute;
+          height: var(--bar-height);
+          width: 100%;
+          background:
+            radial-gradient(circle, var(--color-secondary) 40%, transparent 41%) left center,
+            radial-gradient(circle, var(--color-secondary) 40%, transparent 41%) right center,
+            linear-gradient(to right, var(--color-secondary) 0, var(--color-secondary) 100%);
+          background-size:
+            var(--bar-height) var(--bar-height),
+            var(--bar-height) var(--bar-height),
+            calc(100% - var(--bar-height)) 1px;
+          background-position:
+            0 center,
+            100% center,
+            calc(var(--bar-height) / 2) center;
+          background-repeat: no-repeat;
+        }
+
+        .value {
+          z-index: 2;
+        }
+
+        .protection {
+          position: absolute;
+          height: var(--protection-height);
+          max-width: var(--bar-max-pct);
+          border: 1px solid;
+          border-radius: 2px;
+          background: var(--color-frame-bg);
+          border: 1px solid;
+          z-index: 0;
+
+          &.positive {
+            width: var(--bar-pct);
+            left: calc(50% + var(--bar-height));
+            border-color: var(--color-reduction-positive);
+            border-left: none;
+          }
+
+          &.negative {
+            width: var(--bar-pct);
+            right: calc(50% + var(--bar-height));
+            border-color: var(--color-secondary);
+            border-right: none;
+          }
+        }
+
+        .reduction {
+          position: absolute;
+          height: var(--reduction-height);
+          max-width: var(--bar-max-pct);
+          z-index: 1;
+          background-repeat: no-repeat;
+
+          &.positive {
+            background-image: url(/systems/cog/ui/actor/defense/positive-reduction.webp);
+            width: var(--bar-pct);
+            left: calc(50% + var(--bar-height));
+          }
+
+          &.negative {
+            background-image: url(/systems/cog/ui/actor/defense/negative-reduction.webp);
+            width: var(--bar-pct);
+            right: calc(50% + var(--bar-height));
+          }
+        }
+      }
     }
   }
 }

@@ -105,7 +105,7 @@
                         {{#if @root.editMode}}
                             <i class="fas fa-cog icon-button" data-action="configure"
                                 data-configure-profile="woundThreshold"
-                                data-tooltip="COG.ACTOR.LABELS.Configure_threshold" data-tooltip-class="cog"
+                                data-tooltip="COG.ACTOR.LABELS.Configure_wound_threshold" data-tooltip-class="cog"
                                 data-tooltip-direction="UP"></i>
                         {{/if}}
                     </h3>
@@ -126,10 +126,32 @@
             </div>
         </div>
 
+        {{! Defenses }}
         <div class="secondary flexcol">
-            <div class="framed-section flexrow defense">
-                <h2>defense</h2>
-                defense
+            <div class="framed-section flexcol defenses detailed">
+                <h2>{{defenses.field.label}}</h2>
+                {{#each defenses.values as |def|}}
+                    <div class="item flexcol">
+                        <h3 class="flexrow">
+                            {{def.field.label}}
+                            {{#if @root.editMode}}
+                                <i class="fas fa-cog icon-button" data-action="configure"
+                                    data-configure-profile="defense" data-key="{{@key}}"
+                                    data-tooltip="COG.ACTOR.LABELS.Configure_defense" data-tooltip-class="cog"
+                                    data-tooltip-direction="UP"></i>
+                            {{/if}}
+                        </h3>
+                        <div class="chart">
+                            <span class="data value tiny {{#if def.protection.positive}}alt{{/if}}">
+                                {{def.protection.max.value}}
+                            </span>
+                            <span class="protection {{ifThen def.protection.positive 'positive' 'negative'}}"
+                                style="{{def.protection.cssPct}}"></span>
+                            <span class="reduction {{ifThen def.reduction.positive 'positive' 'negative'}}"
+                                style="{{def.reduction.cssPct}}"></span>
+                        </div>
+                    </div>
+                {{/each}}
             </div>
         </div>
     </div>

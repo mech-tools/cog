@@ -1,0 +1,45 @@
+<section class="sheet-body flexcol">
+    {{! Header }}
+    <header class="sheet-header flexcol">
+        <span class="description">
+            {{localize "COG.CONFIG.DEFENSE.LABELS.Description" defense=defense.field.label}}
+        </span>
+    </header>
+
+    {{! Content }}
+    <div class="sheet-content flexcol flex1">
+        {{! Protection }}
+        <fieldset>
+            <span class="data value mini">{{defense.protection.max.value}}</span>
+            <legend>{{localize defense.protection.field.label}}</legend>
+            {{formGroup
+                defense.protection.base.field
+                value=defense.protection.base.value
+                localize=true
+                disabled=true
+            }}
+            {{formGroup
+                defense.protection.bonus.field
+                value=defense.protection.bonus.value
+                localize=true
+            }}
+        </fieldset>
+
+        {{! Reduction }}
+        <fieldset>
+            <span class="data value mini">{{defense.reduction.max.value}}</span>
+            <legend>{{localize defense.reduction.field.label}}</legend>
+            {{formGroup
+                defense.reduction.base.field
+                value=defense.reduction.base.value
+                localize=true
+                disabled=true
+            }}
+            {{formGroup
+                defense.reduction.bonus.field
+                value=defense.reduction.bonus.value
+                localize=true
+            }}
+        </fieldset>
+    </div>
+</section>

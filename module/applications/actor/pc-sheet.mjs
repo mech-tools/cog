@@ -5,6 +5,7 @@ import HitPointsConfigSheet from "./config/hit-points-config-sheet.mjs";
 import AttackConfigSheet from "./config/attack-config-sheet.mjs";
 import InitiativeConfigSheet from "./config/initiative-config-sheet.mjs";
 import WoundThresholdConfigSheet from "./config/wound-threshold-config-sheet.mjs";
+import DefenseConfigSheet from "./config/defense-config-sheet.mjs";
 
 /**
  * A COGBaseActorSheet subclass used to configure Actors of the "pc" type.
@@ -29,6 +30,7 @@ export default class PcSheet extends COGBaseActorSheet {
       attack: AttackConfigSheet,
       initiative: InitiativeConfigSheet,
       woundThreshold: WoundThresholdConfigSheet,
+      defense: DefenseConfigSheet,
     },
   };
 
@@ -63,6 +65,7 @@ export default class PcSheet extends COGBaseActorSheet {
         luck: this.makeField("resources.luck"),
         instability: this.makeField("resources.instability"),
       },
+      defenses: this.#prepareDefenses(),
     };
   }
 
@@ -110,5 +113,60 @@ export default class PcSheet extends COGBaseActorSheet {
       incomplete,
       details,
     };
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Prepare and format the display of Defenses on the actor sheet.
+   * @returns {{
+   *   values: {
+   *     any: {
+   *       protection: { positive: boolean; pct: number; cssPct: string };
+   *       reduction: { positive: boolean; pct: number; cssPct: string };
+   *     };
+   *   };
+   * }}
+   */
+  #prepareDefenses() {
+    const defenses = {
+      ...this.makeField("defenses"),
+      values: {},
+    };
+
+    for (const key of Object.keys(this.document.system.defenses)) {
+      defenses.values[key] = {
+        ...this.makeField(`defenses.${key}`),
+        protection: { max: this.makeField(`defenses.${key}.protection.max`) },
+        reduction: { max: this.makeField(`defenses.${key}.reduction.max`) },
+      };
+    }
+
+    // Chart data
+    const barCap = Math.max(
+      ...Object.values(defenses.values).map(({ protection }) => protection.max.value),
+      ...Object.values(defenses.values).map(({ reduction }) => reduction.max.value),
+    );
+
+    // Max css percentage is defined by CSS to 46.5%
+    const cssCap = 46.5;
+
+    for (const key of Object.keys(defenses.values)) {
+      // Protection
+      defenses.values[key].protection.positive = defenses.values[key].protection.max.value > 0;
+      defenses.values[key].protection.pct = barCap
+        ? Math.round((Math.abs(defenses.values[key].protection.max.value) * cssCap) / barCap)
+        : 0;
+      defenses.values[key].protection.cssPct = `--bar-pct: ${defenses.values[key].protection.pct}%`;
+
+      // Reduction
+      defenses.values[key].reduction.positive = defenses.values[key].reduction.max.value > 0;
+      defenses.values[key].reduction.pct = barCap
+        ? Math.round((Math.abs(defenses.values[key].reduction.max.value) * cssCap) / barCap)
+        : 0;
+      defenses.values[key].reduction.cssPct = `--bar-pct: ${defenses.values[key].reduction.pct}%`;
+    }
+
+    return defenses;
   }
 }

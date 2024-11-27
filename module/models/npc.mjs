@@ -13,6 +13,7 @@ export default class COGNpc extends COGActorType {
   static defineSchema() {
     const fields = foundry.data.fields;
     const required = { required: true, nullable: false };
+    const requiredInteger = { ...required, integer: true };
     const schema = super.defineSchema();
 
     // advancement
@@ -32,11 +33,28 @@ export default class COGNpc extends COGActorType {
       delete schema.attacks.fields[key].fields.increases;
     }
 
+    // Defenses
+    schema.defenses = new fields.SchemaField({
+      protection: new fields.SchemaField(
+        ["physical", "psy"].reduce((obj, id) => {
+          obj[id] = new fields.SchemaField({
+            base: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+            max: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+          });
+          return obj;
+        }, {}),
+      ),
+      reduction: new fields.SchemaField({
+        base: new fields.NumberField({ ...requiredInteger, initial: 0 }),
+        max: new fields.NumberField({ ...requiredInteger, initial: 0 }),
+      }),
+    });
+
     return schema;
   }
 
   /* -------------------------------------------- */
-  /*  Data Preparation
+  /*  Derived Data Preparation
   /* -------------------------------------------- */
 
   /** @override */
@@ -70,5 +88,16 @@ export default class COGNpc extends COGActorType {
     for (const key of Object.keys(this.attacks)) {
       this.attacks[key].max = this.attacks[key].base;
     }
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  _prepareDerivedDefenses() {
+    for (const key of Object.keys(this.defenses.protection)) {
+      this.defenses.protection[key].max = this.defenses.protection[key].base;
+    }
+
+    this.defenses.reduction.max = this.defenses.reduction.base;
   }
 }

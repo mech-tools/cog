@@ -215,6 +215,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
         max: this.makeField(`abilities.${key}.max`),
       };
 
+      // Foreground
       abilities.values[key].fgPath = `/systems/cog/ui/actor/abilities/${key}.webp`;
     }
 
@@ -227,8 +228,8 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
    * Prepare and format the display of Health attributes on the actor sheet.
    * @returns {{
    *   fgPath: string;
-   *   hitPoints: { pct: string; cssPct: string; value: DocumentField; max: DocumentField };
-   *   tempDmgs: { pct: string; cssPct: string };
+   *   hitPoints: { pct: string; cssPct: string };
+   *   tempDmgs: { pct: string; cssPct: string; value: number | null };
    * }}
    */
   #prepareHealth() {
@@ -290,6 +291,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       },
     };
 
+    // Pips
     attributes.wounds.count.pips = Array.fromRange(4, 1).map((n) => ({
       n,
       filled: attributes.wounds.count.value >= n,
@@ -323,6 +325,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
         max: this.makeField(`attacks.${key}.max`),
       };
 
+      // Foreground
       attacks.values[key].fgPath = `/systems/cog/ui/actor/attacks/${key}.webp`;
     }
 

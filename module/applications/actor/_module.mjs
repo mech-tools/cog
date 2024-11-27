@@ -11,3 +11,4 @@ export { default as AbilityConfigSheet } from "./config/ability-config-sheet.mjs
 export { default as AttackConfigSheet } from "./config/attack-config-sheet.mjs";
 export { default as InitiativeConfigSheet } from "./config/initiative-config-sheet.mjs";
 export { default as WoundThresholdConfigSheet } from "./config/wound-threshold-config-sheet.mjs";
+export { default as DefenseConfigSheet } from "./config/defense-config-sheet.mjs";

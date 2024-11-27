@@ -49,9 +49,59 @@
                 {{/each}}
             </div>
 
-            <div class="framed-section flexrow defense">
-                <h2>defense</h2>
-                defense
+            {{! Defenses }}
+            <div class="framed-section flexrow defenses basic">
+                <h2>{{defenses.field.label}}</h2>
+                {{! Physical }}
+                <div class="item flexcol flex0">
+                    <span class="data value large">
+                        {{#if @root.editMode}}
+                            {{formInput
+                                defenses.protection.physical.base.field
+                                value=defenses.protection.physical.base.value
+                            }}
+                        {{else}}
+                            {{defenses.protection.physical.max.value}}
+                        {{/if}}
+                    </span>
+                    <h3 class=" flexrow">
+                        {{defenses.protection.physical.field.label}}
+                    </h3>
+                </div>
+
+                {{! Psy }}
+                <div class="item flexcol flex0">
+                    <span class="data value large">
+                        {{#if @root.editMode}}
+                            {{formInput
+                                defenses.protection.psy.base.field
+                                value=defenses.protection.psy.base.value
+                            }}
+                        {{else}}
+                            {{defenses.protection.psy.max.value}}
+                        {{/if}}
+                    </span>
+                    <h3 class=" flexrow">
+                        {{defenses.protection.psy.field.label}}
+                    </h3>
+                </div>
+
+                {{! Reduction }}
+                <div class="item flexcol flex0">
+                    <span class="data value large">
+                        {{#if @root.editMode}}
+                            {{formInput
+                                defenses.reduction.base.field
+                                value=defenses.reduction.base.value
+                            }}
+                        {{else}}
+                            {{defenses.reduction.max.value}}
+                        {{/if}}
+                    </span>
+                    <h3 class=" flexrow">
+                        {{defenses.reduction.field.label}}
+                    </h3>
+                </div>
             </div>
 
             <div class="row flexrow">
@@ -97,7 +147,7 @@
                     </div>
 
                     <div class="item flexcol flex0">
-                        <div class="pips">
+                        <div class="pips" data-prop="attributes.wounds.count">
                             {{#each attributes.wounds.count.pips}}
                                 <span class="pip {{#if filled}}filled{{/if}}" data-n="{{n}}"
                                     data-tooltip="{{localize label count=n}}" data-tooltip-class="cog"

@@ -44,6 +44,7 @@
   --color-tempDmgs-bar-start: #3c3f53;
   --color-tempDmgs-bar-end: #646a8b;
   --color-tempDmgs-bar-border: #50556f;
+  --color-reduction-positive: #928f5f;
   /* ----------------------------------------- */
   /*  Fonts
   /* ----------------------------------------- */
@@ -235,21 +236,31 @@
   font-size: var(--font-size-12);
   color: var(--color-text-75);
 }
-.cog .framed-section input,
-.cog .framed-section select {
+.cog.application .framed-section input,
+.cog.application .framed-section select {
   --input-background-color: var(--color-frame-bg);
 }
-.cog .framed-section input:disabled,
-.cog .framed-section select:disabled {
+.cog.application .framed-section input:disabled,
+.cog.application .framed-section select:disabled {
   --input-background-color: var(--color-frame-bg-75);
 }
 .cog.application fieldset {
   --color-fieldset-border: var(--color-secondary);
+  --font-size-fieldset: var(--font-size-14);
+  position: relative;
   border-radius: var(--border-radius);
 }
 .cog.application fieldset legend {
-  color: var(--color-primary);
+  color: var(--color-secondary);
   font-family: var(--font-h3);
+  font-size: var(--font-size-fieldset);
+  line-height: var(--font-size-fieldset);
+}
+.cog.application fieldset .data.value {
+  position: absolute;
+  top: calc(-1 * ((var(--value-size) / 2) + var(--font-size-fieldset) / 2));
+  right: 0;
+  z-index: 1;
 }
 .cog.application .form-group {
   gap: var(--spacing-50);
@@ -427,6 +438,14 @@
   --input-background-color: transparent;
   --input-border-color: transparent;
   --input-focus-outline-color: transparent;
+}
+.cog .data.value.tiny {
+  --value-size: 26px;
+  --font-size: var(--font-size-12);
+  --background-image: url(/systems/cog/ui/values/tiny.webp);
+}
+.cog .data.value.tiny.alt {
+  --background-image: url(/systems/cog/ui/values/tiny-alt.webp);
 }
 .cog .data.value.mini {
   --value-size: 50px;
@@ -888,7 +907,7 @@ slide-toggle[checked] .slide-toggle-thumb {
 }
 .cog.sheet.actor .tab.attributes .derived {
   gap: var(--spacing-100);
-  align-items: flex-start;
+  align-items: stretch;
 }
 .cog.sheet.actor .tab.attributes .derived .main,
 .cog.sheet.actor .tab.attributes .derived .secondary {
@@ -913,11 +932,13 @@ slide-toggle[checked] .slide-toggle-thumb {
 .cog.sheet.actor .tab.attributes .abilities,
 .cog.sheet.actor .tab.attributes .attacks,
 .cog.sheet.actor .tab.attributes .resources,
-.cog.sheet.actor .tab.attributes .wounds {
+.cog.sheet.actor .tab.attributes .wounds,
+.cog.sheet.actor .tab.attributes .defenses.basic {
   justify-content: space-between;
 }
 .cog.sheet.actor .tab.attributes .resources,
-.cog.sheet.actor .tab.attributes .wounds {
+.cog.sheet.actor .tab.attributes .wounds,
+.cog.sheet.actor .tab.attributes .defenses.basic {
   padding-top: var(--spacing-125);
   padding-bottom: var(--spacing-100);
 }
@@ -929,6 +950,12 @@ slide-toggle[checked] .slide-toggle-thumb {
   align-items: flex-end;
   justify-content: space-around;
 }
+.cog.sheet.actor .tab.attributes .defenses.detailed {
+  padding-bottom: var(--spacing-50);
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
 .cog.sheet.actor .tab.attributes .item {
   align-items: center;
 }
@@ -937,6 +964,77 @@ slide-toggle[checked] .slide-toggle-thumb {
 }
 .cog.sheet.actor .tab.attributes .wounds .pips {
   margin-bottom: var(--spacing-100);
+}
+.cog.sheet.actor .tab.attributes .defenses.detailed .item {
+  width: 100%;
+  gap: var(--spacing-25);
+}
+.cog.sheet.actor .tab.attributes .defenses.detailed .item .chart {
+  --chart-height: 26px;
+  --bar-height: 8px;
+  --protection-height: 8px;
+  --reduction-height: 6px;
+  --bar-max-pct: 46.5%;
+  --bar-pct: 0%;
+  position: relative;
+  width: 100%;
+  display: flex;
+  height: var(--bar-height);
+  margin: calc((var(--chart-height) - var(--bar-height)) / 2) 0;
+  justify-content: center;
+  align-items: center;
+}
+.cog.sheet.actor .tab.attributes .defenses.detailed .item .chart::before {
+  content: "";
+  display: block;
+  position: absolute;
+  height: var(--bar-height);
+  width: 100%;
+  background: radial-gradient(circle, var(--color-secondary) 40%, transparent 41%) left center, radial-gradient(circle, var(--color-secondary) 40%, transparent 41%) right center, linear-gradient(to right, var(--color-secondary) 0, var(--color-secondary) 100%);
+  background-size: var(--bar-height) var(--bar-height), var(--bar-height) var(--bar-height), calc(100% - var(--bar-height)) 1px;
+  background-position: 0 center, 100% center, calc(var(--bar-height) / 2) center;
+  background-repeat: no-repeat;
+}
+.cog.sheet.actor .tab.attributes .defenses.detailed .item .chart .value {
+  z-index: 2;
+}
+.cog.sheet.actor .tab.attributes .defenses.detailed .item .chart .protection {
+  position: absolute;
+  height: var(--protection-height);
+  max-width: var(--bar-max-pct);
+  border-radius: 2px;
+  background: var(--color-frame-bg);
+  border: 1px solid;
+  z-index: 0;
+}
+.cog.sheet.actor .tab.attributes .defenses.detailed .item .chart .protection.positive {
+  width: var(--bar-pct);
+  left: calc(50% + var(--bar-height));
+  border-color: var(--color-reduction-positive);
+  border-left: none;
+}
+.cog.sheet.actor .tab.attributes .defenses.detailed .item .chart .protection.negative {
+  width: var(--bar-pct);
+  right: calc(50% + var(--bar-height));
+  border-color: var(--color-secondary);
+  border-right: none;
+}
+.cog.sheet.actor .tab.attributes .defenses.detailed .item .chart .reduction {
+  position: absolute;
+  height: var(--reduction-height);
+  max-width: var(--bar-max-pct);
+  z-index: 1;
+  background-repeat: no-repeat;
+}
+.cog.sheet.actor .tab.attributes .defenses.detailed .item .chart .reduction.positive {
+  background-image: url(/systems/cog/ui/actor/defense/positive-reduction.webp);
+  width: var(--bar-pct);
+  left: calc(50% + var(--bar-height));
+}
+.cog.sheet.actor .tab.attributes .defenses.detailed .item .chart .reduction.negative {
+  background-image: url(/systems/cog/ui/actor/defense/negative-reduction.webp);
+  width: var(--bar-pct);
+  right: calc(50% + var(--bar-height));
 }
 /* ----------------------------------------- */
 /*  Creation Steps Tooltip

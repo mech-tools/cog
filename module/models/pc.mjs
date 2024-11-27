@@ -50,11 +50,56 @@ export default class COGPc extends COGActorType {
       instability: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
     });
 
+    // Defenses
+    schema.defenses = new fields.SchemaField(
+      ["temp", "archaic", "firearm", "ionic", "laser", "plasma", "psy"].reduce((obj, id) => {
+        obj[id] = new fields.SchemaField({
+          protection: new fields.SchemaField(
+            {
+              base: new fields.NumberField({
+                ...requiredInteger,
+                initial: 0,
+                label: "COG.ACTOR.FIELDS.defenses.*.protection.base.label",
+                hint: id !== "psy" && "COG.ACTOR.FIELDS.defenses.*.protection.base.hint",
+              }),
+              bonus: new fields.NumberField({
+                ...requiredInteger,
+                initial: 0,
+                label: "COG.ACTOR.FIELDS.defenses.*.protection.bonus.label",
+                hint: "COG.ACTOR.FIELDS.defenses.*.protection.bonus.hint",
+              }),
+              max: new fields.NumberField({ ...requiredInteger, initial: 0 }),
+            },
+            { label: "COG.ACTOR.FIELDS.defenses.*.protection.label" },
+          ),
+          reduction: new fields.SchemaField(
+            {
+              base: new fields.NumberField({
+                ...requiredInteger,
+                initial: 0,
+                label: "COG.ACTOR.FIELDS.defenses.*.reduction.base.label",
+                hint: id !== "temp" && "COG.ACTOR.FIELDS.defenses.*.reduction.base.hint",
+              }),
+              bonus: new fields.NumberField({
+                ...requiredInteger,
+                initial: 0,
+                label: "COG.ACTOR.FIELDS.defenses.*.reduction.bonus.label",
+                hint: "COG.ACTOR.FIELDS.defenses.*.reduction.bonus.hint",
+              }),
+              max: new fields.NumberField({ ...requiredInteger, initial: 0 }),
+            },
+            { label: "COG.ACTOR.FIELDS.defenses.*.reduction.label" },
+          ),
+        });
+        return obj;
+      }, {}),
+    );
+
     return schema;
   }
 
   /* -------------------------------------------- */
-  /*  Data Preparation
+  /*  Base Data Preparation
   /* -------------------------------------------- */
 
   /** @override */
@@ -96,6 +141,33 @@ export default class COGPc extends COGActorType {
   /* -------------------------------------------- */
 
   /** @override */
+  _prepareBaseDefenses() {
+    for (const key of Object.keys(this.defenses)) {
+      switch (key) {
+        case "psy":
+          this.defenses[key].protection.base =
+            COG.BASE_DEFENSE_PROTECTION +
+            this.abilities.charisma.base +
+            this.abilities.charisma.bonus;
+          break;
+        case "temp":
+          this.defenses[key].reduction.base =
+            this.abilities.strength.base + this.abilities.strength.bonus;
+        // falls through
+        default:
+          this.defenses[key].protection.base =
+            COG.BASE_DEFENSE_PROTECTION +
+            this.abilities.dexterity.base +
+            this.abilities.dexterity.bonus;
+      }
+    }
+  }
+
+  /* -------------------------------------------- */
+  /*  Derived Data Preparation
+  /* -------------------------------------------- */
+
+  /** @override */
   _prepareDerivedAbilities() {
     for (const key of Object.keys(this.abilities)) {
       this.abilities[key].max = this.abilities[key].base + this.abilities[key].bonus;
@@ -129,6 +201,19 @@ export default class COGPc extends COGActorType {
     for (const key of Object.keys(this.attacks)) {
       this.attacks[key].max =
         this.attacks[key].base + this.attacks[key].increases + this.attacks[key].bonus;
+    }
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  _prepareDerivedDefenses() {
+    for (const key of Object.keys(this.defenses)) {
+      this.defenses[key].protection.max =
+        this.defenses[key].protection.base + this.defenses[key].protection.bonus;
+
+      this.defenses[key].reduction.max =
+        this.defenses[key].reduction.base + this.defenses[key].reduction.bonus;
     }
   }
 }
