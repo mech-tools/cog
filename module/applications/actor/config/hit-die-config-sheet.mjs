@@ -7,10 +7,6 @@ export default class HitDieConfigSheet extends BaseConfigSheet {
 
   /** @inheritDoc */
   static DEFAULT_OPTIONS = {
-    position: {
-      width: 375,
-      height: 400,
-    },
     config: {
       type: "hit-die",
     },

@@ -1063,7 +1063,10 @@ slide-toggle[checked] .slide-toggle-thumb {
   /*  Sheet Content
   /* ----------------------------------------- */
   /* ----------------------------------------- */
-  /*  Hit Die Config
+  /*  General styles
+  /* ----------------------------------------- */
+  /* ----------------------------------------- */
+  /*  Hit Die
   /* ----------------------------------------- */
 }
 .cog.sheet.config .window-header button[data-action="copyUuid"] {
@@ -1099,4 +1102,7 @@ slide-toggle[checked] .slide-toggle-thumb {
 }
 .cog.sheet.config .icon-button {
   font-size: var(--font-size-18);
+}
+.cog.sheet.config.hit-die .sheet-content {
+  max-height: 300px;
 }

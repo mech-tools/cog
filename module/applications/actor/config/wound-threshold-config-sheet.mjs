@@ -7,9 +7,6 @@ export default class WoundThresholdConfigSheet extends BaseConfigSheet {
 
   /** @inheritDoc */
   static DEFAULT_OPTIONS = {
-    position: {
-      width: 375,
-    },
     config: {
       type: "wound-threshold",
     },

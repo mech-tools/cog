@@ -10,6 +10,10 @@ export default class BaseConfigSheet extends COGBaseSheet(api.DocumentSheetV2) {
   /** @inheritDoc */
   static DEFAULT_OPTIONS = {
     classes: ["config"],
+    position: {
+      width: 375,
+      height: "auto",
+    },
     sheetConfig: false,
     config: {
       type: undefined, // Defined by subclass

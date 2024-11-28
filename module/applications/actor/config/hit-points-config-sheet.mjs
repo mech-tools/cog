@@ -6,9 +6,6 @@ import BaseConfigSheet from "./base-config-sheet.mjs";
 export default class HitPointsConfigSheet extends BaseConfigSheet {
 
   static DEFAULT_OPTIONS = {
-    position: {
-      width: 375,
-    },
     config: {
       type: "hit-points",
     },
