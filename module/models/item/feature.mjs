@@ -14,7 +14,7 @@ export default class COGFeature extends COGItemType {
     const schema = super.defineSchema();
 
     // Remove unused fields
-    //delete schema.description.fields.secret;
+    delete schema.description.fields.secret;
 
     return schema;
   }

@@ -10,7 +10,6 @@ export default class FeatureSheet extends COGBaseItemSheet {
     actions: {},
     item: {
       type: "feature",
-      advancedDescription: true,
     },
   };
 
