@@ -142,7 +142,7 @@ export default class COGPc extends COGActorType {
 
   /** @override */
   _prepareBaseDefenses() {
-    for (const key of Object.keys(this.defenses)) {
+    for (const key in this.defenses) {
       switch (key) {
         case "psy":
           this.defenses[key].protection.base =
@@ -169,7 +169,7 @@ export default class COGPc extends COGActorType {
 
   /** @override */
   _prepareDerivedAbilities() {
-    for (const key of Object.keys(this.abilities)) {
+    for (const key in this.abilities) {
       this.abilities[key].max = this.abilities[key].base + this.abilities[key].bonus;
     }
   }
@@ -198,7 +198,7 @@ export default class COGPc extends COGActorType {
 
   /** @override */
   _prepareDerivedAttacks() {
-    for (const key of Object.keys(this.attacks)) {
+    for (const key in this.attacks) {
       this.attacks[key].max =
         this.attacks[key].base + this.attacks[key].increases + this.attacks[key].bonus;
     }
@@ -208,7 +208,7 @@ export default class COGPc extends COGActorType {
 
   /** @override */
   _prepareDerivedDefenses() {
-    for (const key of Object.keys(this.defenses)) {
+    for (const key in this.defenses) {
       this.defenses[key].protection.max =
         this.defenses[key].protection.base + this.defenses[key].protection.bonus;
 

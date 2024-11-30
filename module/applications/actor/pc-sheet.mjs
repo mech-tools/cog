@@ -134,7 +134,7 @@ export default class PcSheet extends COGBaseActorSheet {
       values: {},
     };
 
-    for (const key of Object.keys(this.document.system.defenses)) {
+    for (const key in this.document.system.defenses) {
       defenses.values[key] = {
         ...this.makeField(`defenses.${key}`),
         protection: { max: this.makeField(`defenses.${key}.protection.max`) },
@@ -151,7 +151,7 @@ export default class PcSheet extends COGBaseActorSheet {
     // Max css percentage is defined by CSS to 46.5%
     const cssCap = 46.5;
 
-    for (const key of Object.keys(defenses.values)) {
+    for (const key in defenses.values) {
       // Protection
       defenses.values[key].protection.positive = defenses.values[key].protection.max.value > 0;
       defenses.values[key].protection.pct = barCap

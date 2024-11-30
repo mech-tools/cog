@@ -1,0 +1,17 @@
+<section class="tab sheet-body flexcol {{tabs.description.cssClass}}" data-tab="{{tabs.description.id}}"
+    data-group="{{tabs.description.group}}">
+    {{! Secondary Tabs Nav }}
+    {{> (lookup @root "tabsPartial") tabs=tabGroups.description }}
+
+    {{! Public description }}
+    <section class="tab flexcol {{tabGroups.description.public.cssClass}}"
+        data-tab="{{tabGroups.description.public.id}}" data-group="{{tabGroups.description.public.group}}">
+        public
+    </section>
+
+    {{! Secret description }}
+    <section class="tab flexcol {{tabGroups.description.secret.cssClass}}"
+        data-tab="{{tabGroups.description.secret.id}}" data-group="{{tabGroups.description.secret.group}}">
+        secret
+    </section>
+</section>

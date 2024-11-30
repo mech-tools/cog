@@ -199,6 +199,36 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
   /* -------------------------------------------- */
 
   /**
+   * Configure the tabs used by this sheet.
+   * @returns {Record<string, Record<string, ApplicationTab>>}
+   */
+  #getTabs() {
+    const tabs = {};
+
+    for (const [groupId, config] of Object.entries(this.constructor.TABS)) {
+      const group = {};
+
+      for (const t of config) {
+        const active = this.tabGroups[t.group] === t.id;
+        const icon = `systems/cog/ui/actor/tabs/${t.id}.svg`;
+
+        group[t.id] = {
+          active,
+          cssClass: active ? "active" : "",
+          icon,
+          ...t,
+        };
+      }
+
+      tabs[groupId] = group;
+    }
+
+    return tabs;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
    * Prepare and format the display of Abilities on the actor sheet.
    * @returns {{ values: { fgPath: string } }}
    */
@@ -208,7 +238,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       values: {},
     };
 
-    for (const key of Object.keys(this.document.system.abilities)) {
+    for (const key in this.document.system.abilities) {
       abilities.values[key] = {
         ...this.makeField(`abilities.${key}`),
         base: this.makeField(`abilities.${key}.base`),
@@ -318,7 +348,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       values: {},
     };
 
-    for (const key of Object.keys(this.document.system.attacks)) {
+    for (const key in this.document.system.attacks) {
       attacks.values[key] = {
         ...this.makeField(`attacks.${key}`),
         base: this.makeField(`attacks.${key}.base`),
@@ -334,36 +364,6 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
 
   /* -------------------------------------------- */
   /*  Sheet Rendering
-  /* -------------------------------------------- */
-
-  /**
-   * Configure the tabs used by this sheet.
-   * @returns {Record<string, Record<string, ApplicationTab>>}
-   */
-  #getTabs() {
-    const tabs = {};
-
-    for (const [groupId, config] of Object.entries(this.constructor.TABS)) {
-      const group = {};
-
-      for (const t of config) {
-        const active = this.tabGroups[t.group] === t.id;
-        const icon = `systems/cog/ui/actor/tabs/${t.id}.svg`;
-
-        group[t.id] = {
-          active,
-          cssClass: active ? "active" : "",
-          icon,
-          ...t,
-        };
-      }
-
-      tabs[groupId] = group;
-    }
-
-    return tabs;
-  }
-
   /* -------------------------------------------- */
 
   /** @inheritDoc */

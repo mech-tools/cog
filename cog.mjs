@@ -34,8 +34,8 @@ Hooks.once("init", async function () {
   // Actor Document configuration
   CONFIG.Actor.documentClass = documents.COGActor;
   CONFIG.Actor.dataModels = {
-    pc: models.COGPc,
-    npc: models.COGNpc,
+    pc: models.actor.COGPc,
+    npc: models.actor.COGNpc,
   };
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet(COG.id, applications.actor.PcSheet, {
@@ -44,6 +44,18 @@ Hooks.once("init", async function () {
   });
   Actors.registerSheet(COG.id, applications.actor.NpcSheet, {
     types: ["npc"],
+    makeDefault: true,
+  });
+
+  // Item document configuration
+  CONFIG.Item.documentClass = documents.COGItem;
+  CONFIG.Item.dataModels = {
+    feature: models.item.COGFeature,
+  };
+  Items.unregisterSheet("core", ItemSheet);
+  Items.registerSheet(COG.id, applications.item.FeatureSheet, {
+    types: ["feature"],
+    makeDefault: true,
   });
 
   // Handlebars utils

@@ -85,7 +85,7 @@ export default class COGActor extends Actor {
 
     const updates = {};
 
-    for (const level of Object.keys(this.system.hitDie.history)) {
+    for (const level in this.system.hitDie.history) {
       if (parseInt(level) > newLevel) {
         updates[`system.hitDie.history.${level}`] = null;
       }

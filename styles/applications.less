@@ -4,8 +4,8 @@
 
 .cog.application {
   --color-header-background: transparent;
-  --background-texture: url("../ui/applications/background.webp");
-  --background-overlay: url("../ui/applications/overlay.webp");
+  --background-texture: url("../ui/application/background.webp");
+  --background-overlay: url("../ui/application/overlay.webp");
 
   background:
     var(--background-texture) no-repeat,
@@ -74,16 +74,6 @@
   }
 
   .window-content {
-    padding: var(--spacing-25) var(--spacing-100) var(--spacing-100);
-
-    .scrollable {
-      --color-scrollbar: var(--color-secondary-50);
-      --color-scrollbar-border: var(--color-secondary-75);
-      --scroll-margin: var(--spacing-75);
-      --scroll-gutter: var(--spacing-50);
-
-      margin-right: calc(-1 * var(--scroll-gutter)) !important;
-      padding-right: var(--scroll-gutter) !important;
-    }
+    padding: 0;
   }
 }

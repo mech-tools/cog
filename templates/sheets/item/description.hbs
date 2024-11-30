@@ -1,0 +1,11 @@
+<section class="tab sheet-body flexcol {{tabs.description.cssClass}}" data-tab="{{tabs.description.id}}"
+    data-group="{{tabs.description.group}}">
+    {{! Public description }}
+    {{formInput
+        description.public.field
+        value=description.public.value
+        enriched=description.public.enriched
+        toggled=true
+        height=100
+    }}
+</section>

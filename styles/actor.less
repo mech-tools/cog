@@ -9,9 +9,8 @@
   overflow: visible;
 
   .window-content {
-    display: flex;
+    padding: var(--spacing-25) var(--spacing-100) var(--spacing-100);
     flex-direction: row;
-    flex-wrap: nowrap;
     gap: var(--spacing-100);
   }
 
@@ -83,20 +82,26 @@
       border-left: none;
       border-radius: 0 var(--border-radius-half) var(--border-radius-half) 0;
       box-shadow: 0 0 4px 0px var(--color-drop-shadow);
+      transition: border-color 0.25s;
+
+      &.active {
+        border-color: var(--color-primary);
+      }
 
       .tab-icon {
         background-color: var(--color-tertiary-50);
         mask-repeat: no-repeat;
         mask-position: center;
         mask-size: auto var(--icon-size);
+        transition: background-color 0.5s;
+      }
+
+      &:hover .tab-icon {
+        background-color: var(--color-primary);
       }
 
       &.active .tab-icon {
         background-color: var(--color-primary);
-      }
-
-      &.active {
-        border-color: var(--color-primary);
       }
     }
   }
@@ -118,11 +123,6 @@
     position: relative;
     flex: 0 0 var(--sidebar-width);
     gap: 55px;
-
-    img.profile {
-      object-fit: contain;
-      padding: 0;
-    }
 
     .health {
       --health-width: 195px;
@@ -308,7 +308,7 @@
   }
 
   /* ----------------------------------------- */
-  /*  Sheet header
+  /*  Sheet Header
   /* ----------------------------------------- */
 
   .sheet-header {
@@ -379,7 +379,6 @@
         --input-height: var(--spacing-200);
 
         margin-top: calc(-1 * var(--spacing-25));
-        font-size: var(--font-size-16);
       }
     }
 
@@ -389,7 +388,7 @@
   }
 
   /* ----------------------------------------- */
-  /*  Attributes tab
+  /*  Attributes Tab
   /* ----------------------------------------- */
 
   .tab.attributes {
@@ -472,94 +471,6 @@
     .defenses.detailed .item {
       width: 100%;
       gap: var(--spacing-25);
-
-      .chart {
-        --chart-height: 26px;
-        --bar-height: 8px;
-        --protection-height: 8px;
-        --reduction-height: 6px;
-        --bar-max-pct: 46.5%;
-        --bar-pct: 0%;
-
-        position: relative;
-        width: 100%;
-        display: flex;
-        height: var(--bar-height);
-        margin: calc((var(--chart-height) - var(--bar-height)) / 2) 0;
-        justify-content: center;
-        align-items: center;
-
-        &::before {
-          content: "";
-          display: block;
-          width: 100%;
-          position: absolute;
-          height: var(--bar-height);
-          width: 100%;
-          background:
-            radial-gradient(circle, var(--color-secondary) 40%, transparent 41%) left center,
-            radial-gradient(circle, var(--color-secondary) 40%, transparent 41%) right center,
-            linear-gradient(to right, var(--color-secondary) 0, var(--color-secondary) 100%);
-          background-size:
-            var(--bar-height) var(--bar-height),
-            var(--bar-height) var(--bar-height),
-            calc(100% - var(--bar-height)) 1px;
-          background-position:
-            0 center,
-            100% center,
-            calc(var(--bar-height) / 2) center;
-          background-repeat: no-repeat;
-        }
-
-        .value {
-          z-index: 2;
-        }
-
-        .protection {
-          position: absolute;
-          height: var(--protection-height);
-          max-width: var(--bar-max-pct);
-          border: 1px solid;
-          border-radius: 2px;
-          background: var(--color-frame-bg);
-          border: 1px solid;
-          z-index: 0;
-
-          &.positive {
-            width: var(--bar-pct);
-            left: calc(50% + var(--bar-height));
-            border-color: var(--color-reduction-positive);
-            border-left: none;
-          }
-
-          &.negative {
-            width: var(--bar-pct);
-            right: calc(50% + var(--bar-height));
-            border-color: var(--color-secondary);
-            border-right: none;
-          }
-        }
-
-        .reduction {
-          position: absolute;
-          height: var(--reduction-height);
-          max-width: var(--bar-max-pct);
-          z-index: 1;
-          background-repeat: no-repeat;
-
-          &.positive {
-            background-image: url(/systems/cog/ui/actor/defense/positive-reduction.webp);
-            width: var(--bar-pct);
-            left: calc(50% + var(--bar-height));
-          }
-
-          &.negative {
-            background-image: url(/systems/cog/ui/actor/defense/negative-reduction.webp);
-            width: var(--bar-pct);
-            right: calc(50% + var(--bar-height));
-          }
-        }
-      }
     }
   }
 }

@@ -1,0 +1,86 @@
+/* ----------------------------------------- */
+/*  Item Sheet
+/* ----------------------------------------- */
+
+.cog.sheet.item {
+  /* ----------------------------------------- */
+  /*  Sheet Header
+  /* ----------------------------------------- */
+
+  .sheet-header {
+    --sheet-header-height: 80px;
+
+    box-sizing: content-box;
+    padding: var(--spacing-25) var(--spacing-100) var(--spacing-100) var(--spacing-100);
+    height: var(--sheet-header-height);
+    align-items: flex-start;
+    gap: var(--spacing-50);
+
+    img.profile {
+      flex: 0 0 var(--sheet-header-height);
+      width: var(--sheet-header-height);
+      height: var(--sheet-header-height);
+    }
+
+    .name {
+      gap: var(--spacing-50);
+
+      .field input {
+        --input-height: var(--spacing-300);
+
+        font-size: var(--font-size-18);
+      }
+
+      .tags {
+        justify-content: flex-end;
+        padding-right: var(--spacing-75);
+      }
+    }
+  }
+
+  /* ----------------------------------------- */
+  /*  Sheet Tabs
+  /* ----------------------------------------- */
+
+  .sheet-tabs {
+    margin: 0;
+    border-color: var(--color-secondary-75);
+
+    > a {
+      font-family: var(--font-h3);
+      font-size: var(--font-size-14);
+      color: var(--color-secondary);
+      padding: var(--spacing-50) 0;
+      transition: color 0.5s;
+
+      &:hover {
+        color: var(--color-text);
+      }
+
+      &.active {
+        color: var(--color-text);
+      }
+    }
+  }
+
+  /* ----------------------------------------- */
+  /*  Sheet Body
+  /* ----------------------------------------- */
+
+  .sheet-body {
+    padding: var(--spacing-100);
+
+    &:has(> .sheet-tabs) {
+      gap: 0;
+      padding: 0;
+
+      .sheet-tabs {
+        border-top: 0;
+      }
+    }
+
+    > .tab {
+      padding: var(--spacing-100);
+    }
+  }
+}

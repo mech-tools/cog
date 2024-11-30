@@ -7,12 +7,10 @@
         <div class="level flexrow flex0">
             <span class="label">{{advancement.cr.field.label}}</span>
             {{#if editMode}}
-                <span data-tooltip="{{advancement.cr.field.hint}}" data-tooltip-class="cog">
-                    {{formInput
-                        advancement.cr.field
-                        value=advancement.cr.value
-                    }}
-                </span>
+                {{formInput
+                    advancement.cr.field
+                    value=advancement.cr.value
+                }}
             {{else}}
                 <span class="value">{{advancement.cr.value}}</span>
                 /

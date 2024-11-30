@@ -39,6 +39,9 @@
     "Actor": {
       "pc": {},
       "npc": {}
+    },
+    "Item": {
+      "feature": { "htmlFields": ["description.public"] }
     }
   },
   "grid": {

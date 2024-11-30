@@ -3,6 +3,9 @@
     "Actor": {
       "pc": "PJ ",
       "npc": "PNJ "
+    },
+    "Item": {
+      "feature": "Capacité "
     }
   },
 
@@ -42,7 +45,7 @@
         "charisma.label": "Charisme",
         "charisma.abbreviation": "Cha",
         "*.base.label": "Base",
-        "*.base.hint": "Valeur de base du personnage. Ne devrait pas être modifié après la création du personnage.",
+        "*.base.hint": "Valeur de base du personnage. Ne devrait plus être modifié après la création du personnage.",
         "*.bonus.label": "Bonus",
         "*.bonus.hint": "Bonus manuel ajouté à la valeur de base du personnage."
       },
@@ -72,8 +75,7 @@
 
       "advancement": {
         "level.label": "Niveau",
-        "cr.label": "NC",
-        "cr.hint": "Niveau de créature avant ajout des gabarits et des capacités."
+        "cr.label": "NC"
       },
 
       "attributes": {
@@ -220,6 +222,15 @@
         "Window_title": "Configuration : {defense} ({name})",
         "Description": "Configuration de la défense contre les \"{defense}\" du personnage."
       }
+    }
+  },
+
+  "COG.ITEM": {
+    "TABS": {
+      "Description": "Description",
+      "Config": "Configuration",
+      "Public": "Publique",
+      "Secret": "Secrète"
     }
   }
 }

@@ -1,4 +1,3 @@
-// Actor Models
-export { default as COGActorType } from "./actor-type.mjs";
-export { default as COGPc } from "./pc.mjs";
-export { default as COGNpc } from "./npc.mjs";
+// Models
+export * as actor from "./actor/_module.mjs";
+export * as item from "./item/_module.mjs";

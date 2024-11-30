@@ -8,9 +8,10 @@
                 <h3 class="flexrow">
                     {{localize ability.field.options.abbreviation}}
                     {{#if @root.editMode}}
-                        <i class="fas fa-cog icon-button" data-action="configure" data-configure-profile="ability"
-                            data-key="{{@key}}" data-tooltip="COG.ACTOR.LABELS.Configure_ability"
-                            data-tooltip-class="cog" data-tooltip-direction="UP"></i>
+                        <i class="fa-duotone fa-regular fa-gear icon-button" data-action="configure"
+                            data-configure-profile="ability" data-key="{{@key}}"
+                            data-tooltip="COG.ACTOR.LABELS.Configure_ability" data-tooltip-class="cog"
+                            data-tooltip-direction="UP"></i>
                     {{/if}}
                 </h3>
                 <span class="clickable data value large" style="--background-image: url({{ability.fgPath}})">
@@ -30,7 +31,7 @@
                         <h3 class="flexrow">
                             {{attack.field.label}}
                             {{#if @root.editMode}}
-                                <i class="fas fa-cog icon-button" data-action="configure"
+                                <i class="fa-duotone fa-regular fa-gear icon-button" data-action="configure"
                                     data-configure-profile="attack" data-key="{{@key}}"
                                     data-tooltip="COG.ACTOR.LABELS.Configure_attack" data-tooltip-class="cog"
                                     data-tooltip-direction="UP"></i>
@@ -83,7 +84,7 @@
                         <h3 class="flexrow">
                             {{attributes.initiative.field.label}}
                             {{#if @root.editMode}}
-                                <i class="fas fa-cog icon-button" data-action="configure"
+                                <i class="fa-duotone fa-regular fa-gear icon-button" data-action="configure"
                                     data-configure-profile="initiative"
                                     data-tooltip="COG.ACTOR.LABELS.Configure_initiative" data-tooltip-class="cog"
                                     data-tooltip-direction="UP"></i>
@@ -103,7 +104,7 @@
                     <h3 class="flexrow">
                         {{attributes.wounds.threshold.field.label}}
                         {{#if @root.editMode}}
-                            <i class="fas fa-cog icon-button" data-action="configure"
+                            <i class="fa-duotone fa-regular fa-gear icon-button" data-action="configure"
                                 data-configure-profile="woundThreshold"
                                 data-tooltip="COG.ACTOR.LABELS.Configure_wound_threshold" data-tooltip-class="cog"
                                 data-tooltip-direction="UP"></i>
@@ -135,19 +136,19 @@
                         <h3 class="flexrow">
                             {{def.field.label}}
                             {{#if @root.editMode}}
-                                <i class="fas fa-cog icon-button" data-action="configure"
+                                <i class="fa-duotone fa-regular fa-gear icon-button" data-action="configure"
                                     data-configure-profile="defense" data-key="{{@key}}"
                                     data-tooltip="COG.ACTOR.LABELS.Configure_defense" data-tooltip-class="cog"
                                     data-tooltip-direction="UP"></i>
                             {{/if}}
                         </h3>
-                        <div class="chart">
+                        <div class="data chart diverging">
                             <span class="data value tiny {{#if def.protection.positive}}alt{{/if}}">
                                 {{def.protection.max.value}}
                             </span>
-                            <span class="protection {{ifThen def.protection.positive 'positive' 'negative'}}"
+                            <span class="primary {{ifThen def.protection.positive 'positive' 'negative'}}"
                                 style="{{def.protection.cssPct}}"></span>
-                            <span class="reduction {{ifThen def.reduction.positive 'positive' 'negative'}}"
+                            <span class="secondary {{ifThen def.reduction.positive 'positive' 'negative'}}"
                                 style="{{def.reduction.cssPct}}"></span>
                         </div>
                     </div>

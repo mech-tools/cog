@@ -1,0 +1,21 @@
+<header class="sheet-header flexrow">
+    {{! Item editable image }}
+    <img class="profile framed-section" src="{{img.value}}" alt="{{name.value}}" width="200" height="200"
+        data-action="editImage" data-edit="img" />
+
+    {{! Title and tags }}
+    <div class="name flexcol">
+        <div class="field">
+            {{formInput
+                name.field
+                value=name.value
+            }}
+        </div>
+        <div class="tags">
+            <span class="tag">Tag</span>
+            <span class="tag">Tag</span>
+            <span class="tag">Tag</span>
+            <span class="tag">Tag</span>
+        </div>
+    </div>
+</header>

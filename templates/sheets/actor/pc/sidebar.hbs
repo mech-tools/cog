@@ -7,9 +7,9 @@
         {{! Hit Die }}
         <div class="hit-die flexrow">
             {{#if editMode}}
-                <i class="fas fa-cog icon-button" data-action="configure" data-configure-profile="hitDie"
-                    data-tooltip="COG.ACTOR.LABELS.Configure_hit_die" data-tooltip-class="cog"
-                    data-tooltip-direction="UP"></i>
+                <i class="fa-duotone fa-regular fa-gear icon-button" data-action="configure"
+                    data-configure-profile="hitDie" data-tooltip="COG.ACTOR.LABELS.Configure_hit_die"
+                    data-tooltip-class="cog" data-tooltip-direction="UP"></i>
             {{else}}
                 <div class="dice-icon" style="mask-image: url({{hitDie.type.icon}})"
                     data-tooltip="{{hitDie.type.field.label}}" data-tooltip-class="cog" data-tooltip-direction="UP">
@@ -31,9 +31,9 @@
                 }}
             </div>
             {{#if editMode}}
-                <i class="fas fa-cog icon-button" data-action="configure" data-configure-profile="hitPoints"
-                    data-tooltip="COG.ACTOR.LABELS.Configure_hit_points" data-tooltip-class="cog"
-                    data-tooltip-direction="UP"></i>
+                <i class="fa-duotone fa-regular fa-gear icon-button" data-action="configure"
+                    data-configure-profile="hitPoints" data-tooltip="COG.ACTOR.LABELS.Configure_hit_points"
+                    data-tooltip-class="cog" data-tooltip-direction="UP"></i>
             {{/if}}
         </div>
 

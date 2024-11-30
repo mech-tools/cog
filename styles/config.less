@@ -9,12 +9,16 @@
     }
   }
 
+  .window-content {
+    padding: 0 var(--spacing-100) var(--spacing-100);
+  }
+
   /* ----------------------------------------- */
   /*  Sheet Body
   /* ----------------------------------------- */
 
   .sheet-body {
-    gap: var(--spacing-100);
+    gap: var(--spacing-75);
     height: 100%;
   }
 
@@ -35,7 +39,7 @@
 
     position: absolute;
     content: "";
-    bottom: calc(-1 * (var(--scrolled-shadow-height) + var(--spacing-100)));
+    bottom: calc(-1 * (var(--scrolled-shadow-height) + var(--spacing-75)));
     width: 100%;
     min-height: var(--scrolled-shadow-height);
 

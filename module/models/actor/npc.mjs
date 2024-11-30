@@ -21,18 +21,6 @@ export default class COGNpc extends COGActorType {
       cr: new fields.NumberField({ ...required, initial: 0, min: 0, step: 0.5 }),
     });
 
-    // Remove unused fields by Npc
-    for (const key of Object.keys(schema.abilities.fields)) {
-      delete schema.abilities.fields[key].fields.bonus;
-    }
-    delete schema.health.fields.hitPoints.fields.bonus;
-    delete schema.attributes.fields.initiative.fields.bonus;
-    delete schema.attributes.fields.wounds.fields.threshold.fields.bonus;
-    for (const key of Object.keys(schema.attacks.fields)) {
-      delete schema.attacks.fields[key].fields.bonus;
-      delete schema.attacks.fields[key].fields.increases;
-    }
-
     // Defenses
     schema.defenses = new fields.SchemaField({
       protection: new fields.SchemaField(
@@ -50,6 +38,18 @@ export default class COGNpc extends COGActorType {
       }),
     });
 
+    // Remove unused fields
+    for (const key in schema.abilities.fields) {
+      delete schema.abilities.fields[key].fields.bonus;
+    }
+    delete schema.health.fields.hitPoints.fields.bonus;
+    delete schema.attributes.fields.initiative.fields.bonus;
+    delete schema.attributes.fields.wounds.fields.threshold.fields.bonus;
+    for (const key in schema.attacks.fields) {
+      delete schema.attacks.fields[key].fields.bonus;
+      delete schema.attacks.fields[key].fields.increases;
+    }
+
     return schema;
   }
 
@@ -59,7 +59,7 @@ export default class COGNpc extends COGActorType {
 
   /** @override */
   _prepareDerivedAbilities() {
-    for (const key of Object.keys(this.abilities)) {
+    for (const key in this.abilities) {
       this.abilities[key].max = this.abilities[key].base;
     }
   }
@@ -85,7 +85,7 @@ export default class COGNpc extends COGActorType {
 
   /** @override */
   _prepareDerivedAttacks() {
-    for (const key of Object.keys(this.attacks)) {
+    for (const key in this.attacks) {
       this.attacks[key].max = this.attacks[key].base;
     }
   }
@@ -94,7 +94,7 @@ export default class COGNpc extends COGActorType {
 
   /** @override */
   _prepareDerivedDefenses() {
-    for (const key of Object.keys(this.defenses.protection)) {
+    for (const key in this.defenses.protection) {
       this.defenses.protection[key].max = this.defenses.protection[key].base;
     }
 
