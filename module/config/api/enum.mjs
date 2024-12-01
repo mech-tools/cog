@@ -60,18 +60,4 @@ export default class Enum {
    * @type {Record<ValueType, string>}
    */
   choices;
-
-  /* -------------------------------------------- */
-  /*  Methods
-  /* -------------------------------------------- */
-
-  /**
-   * Provide the label for an enum entry by its key or by its value.
-   * @param {string | ValueType} keyOrValue  Key or Value to access the label.
-   * @returns {string}
-   */
-  label(keyOrValue) {
-    const key = keyOrValue in this.labels ? keyOrValue : this.#values[keyOrValue];
-    return this.labels[key];
-  }
 }

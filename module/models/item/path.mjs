@@ -18,7 +18,7 @@ export default class COGPath extends COGItemType {
    */
   get tags() {
     return {
-      type: COG.PATH_TYPES.label(this.type),
+      type: COG.PATH_TYPES.choices[this.type],
     };
   }
 

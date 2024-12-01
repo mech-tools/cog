@@ -624,7 +624,7 @@
   gap: var(--spacing-25);
 }
 .cog.application .tags .tag {
-  padding: calc(var(--spacing-25) / 2);
+  padding: calc(var(--spacing-25) / 2) var(--spacing-25);
   font-size: var(--font-size-10);
   color: var(--color-secondary);
   background-color: var(--color-frame-bg);
@@ -1255,7 +1255,7 @@ slide-toggle[checked] .slide-toggle-thumb {
 }
 .cog.sheet.item .sheet-header .name .tags {
   justify-content: flex-end;
-  padding-right: var(--spacing-75);
+  padding-right: var(--spacing-25);
 }
 .cog.sheet.item .sheet-tabs {
   margin: 0;
