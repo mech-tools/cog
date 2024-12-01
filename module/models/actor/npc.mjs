@@ -6,6 +6,23 @@ import COGActorType from "./actor-type.mjs";
 export default class COGNpc extends COGActorType {
 
   /* -------------------------------------------- */
+  /*  Database Workflows
+  /* -------------------------------------------- */
+
+  /** @override */
+  async _preCreate(_data, _options, _user) {
+    const prototypeToken = {
+      bar1: { attribute: "health.hitPoints" },
+      sight: { enabled: true },
+      displayBars: CONST.TOKEN_DISPLAY_MODES.OWNER,
+      actorLink: false,
+      disposition: CONST.TOKEN_DISPOSITIONS.HOSTILE,
+    };
+
+    this.parent.updateSource({ prototypeToken });
+  }
+
+  /* -------------------------------------------- */
   /*  Data Schema
   /* -------------------------------------------- */
 
@@ -22,9 +39,11 @@ export default class COGNpc extends COGActorType {
     });
 
     // Defenses
+    const defenses = ["physical", "psy"];
+
     schema.defenses = new fields.SchemaField({
       protection: new fields.SchemaField(
-        ["physical", "psy"].reduce((obj, id) => {
+        defenses.reduce((obj, id) => {
           obj[id] = new fields.SchemaField({
             base: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
             max: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),

@@ -41,7 +41,8 @@
       "npc": {}
     },
     "Item": {
-      "feature": { "htmlFields": ["description.public"] }
+      "feature": { "htmlFields": ["description.public"] },
+      "path": { "htmlFields": ["description.public"] }
     }
   },
   "grid": {

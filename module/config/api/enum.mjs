@@ -4,6 +4,11 @@
  */
 export default class Enum {
 
+  /**
+   * Initliaze and freeze an Enum like class.
+   * @param {Record<string, { label: string; value: ValueType }>} values
+   * A record of values of the same type.
+   */
   constructor(values) {
     Object.defineProperty(this, "labels", { value: {}, enumerable: false });
     Object.defineProperty(this, "choices", { value: {}, enumerable: false });
@@ -28,6 +33,10 @@ export default class Enum {
     Object.freeze(this.#values);
   }
 
+  /* -------------------------------------------- */
+  /*  Properties
+  /* -------------------------------------------- */
+
   /**
    * An internal registry of enum values.
    * @type {Record<string, ValueType>}
@@ -51,4 +60,18 @@ export default class Enum {
    * @type {Record<ValueType, string>}
    */
   choices;
+
+  /* -------------------------------------------- */
+  /*  Methods
+  /* -------------------------------------------- */
+
+  /**
+   * Provide the label for an enum entry by its key or by its value.
+   * @param {string | ValueType} keyOrValue  Key or Value to access the label.
+   * @returns {string}
+   */
+  label(keyOrValue) {
+    const key = keyOrValue in this.labels ? keyOrValue : this.#values[keyOrValue];
+    return this.labels[key];
+  }
 }

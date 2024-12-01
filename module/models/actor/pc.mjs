@@ -6,6 +6,78 @@ import COGActorType from "./actor-type.mjs";
 export default class COGPc extends COGActorType {
 
   /* -------------------------------------------- */
+  /*  Properties
+  /* -------------------------------------------- */
+
+  /**
+   * Get the filtered Hit Die history based on the Actor current level (PC only).
+   * @returns {Array}
+   */
+  get currentHitDieHistory() {
+    return Object.entries(this.hitDie.history)
+      .filter(([level, value]) => parseInt(level) <= this.advancement.level);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Get the attacks increases delta based on the Actor current level (PC only).
+   * @returns {number}
+   */
+  get increasesDelta() {
+    return Object.values(this.attacks).reduce((count, { increases }) => count + increases, 0) -
+      this.advancement.level;
+  }
+
+  /* -------------------------------------------- */
+  /*  Database Workflows
+  /* -------------------------------------------- */
+
+  /** @override */
+  async _preCreate(_data, _options, _user) {
+    const prototypeToken = {
+      bar1: { attribute: "health.hitPoints" },
+      sight: { enabled: true },
+      displayBars: CONST.TOKEN_DISPLAY_MODES.ALWAYS,
+      actorLink: true,
+      disposition: CONST.TOKEN_DISPOSITIONS.FRIENDLY,
+    };
+
+    this.parent.updateSource({ prototypeToken });
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  async _preUpdate(changes, _options, _user) {
+    this.#resetHitDieHistory(changes);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Reset Hit Die History for levels that are below the new level.
+   * @param {Object} changes  The changes applied to the Document.
+   * @returns {void}
+   */
+  #resetHitDieHistory(changes) {
+    const newLevel = changes.system?.advancement?.level;
+
+    // Exit early of no relevant changes
+    if (!newLevel || newLevel >= this.advancement.level) return;
+
+    const updates = {};
+
+    for (const level in this.hitDie.history) {
+      if (parseInt(level) > newLevel) {
+        updates[`system.hitDie.history.${level}`] = null;
+      }
+    }
+
+    Object.assign(changes, updates);
+  }
+
+  /* -------------------------------------------- */
   /*  Data Schema
   /* -------------------------------------------- */
 
@@ -51,8 +123,10 @@ export default class COGPc extends COGActorType {
     });
 
     // Defenses
+    const defenses = ["temp", "archaic", "firearm", "ionic", "laser", "plasma", "psy"];
+
     schema.defenses = new fields.SchemaField(
-      ["temp", "archaic", "firearm", "ionic", "laser", "plasma", "psy"].reduce((obj, id) => {
+      defenses.reduce((obj, id) => {
         obj[id] = new fields.SchemaField({
           protection: new fields.SchemaField(
             {

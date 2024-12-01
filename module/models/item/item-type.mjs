@@ -22,7 +22,4 @@ export default class COGItemType extends foundry.abstract.TypeDataModel {
 
     return schema;
   }
-
-  /** @override */
-  static LOCALIZATION_PREFIXES = ["COG.ITEM"];
 }

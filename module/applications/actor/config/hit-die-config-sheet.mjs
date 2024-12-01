@@ -60,7 +60,7 @@ export default class HitDieConfigSheet extends BaseConfigSheet {
    */
   #prepareHistory() {
     // Remove entries that are under current Actor Level and reverse order
-    const history = this.document.currentHitDieHistory
+    const history = this.document.system.currentHitDieHistory
       .reverse()
       .map(([level, value]) => {
         const obj = this.makeField(`hitDie.history.${level}`);

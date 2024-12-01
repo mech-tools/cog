@@ -4,6 +4,9 @@
  */
 export default class COGActorType extends foundry.abstract.TypeDataModel {
 
+  /** @override */
+  static LOCALIZATION_PREFIXES = ["COG.ACTOR"];
+
   /* -------------------------------------------- */
   /*  Data Schema
   /* -------------------------------------------- */
@@ -69,10 +72,10 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
     schema.attributes = new fields.SchemaField({
       size: new fields.NumberField({
         ...requiredInteger,
-        initial: COG.SIZES.MEDIUM,
-        choices: COG.SIZES.choices,
-        min: COG.SIZES.TINY,
-        max: COG.SIZES.GARGANTUAN,
+        initial: COG.ACTOR_SIZES.MEDIUM,
+        choices: COG.ACTOR_SIZES.choices,
+        min: COG.ACTOR_SIZES.TINY,
+        max: COG.ACTOR_SIZES.GARGANTUAN,
       }),
       initiative: new fields.SchemaField(
         {
@@ -98,8 +101,10 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
     });
 
     // Attacks
+    const attacks = ["melee", "range", "psy"];
+
     schema.attacks = new fields.SchemaField(
-      ["melee", "range", "psy"].reduce((obj, id) => {
+      attacks.reduce((obj, id) => {
         obj[id] = new fields.SchemaField({
           base: new fields.NumberField({
             ...requiredInteger,
@@ -128,9 +133,6 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
 
     return schema;
   }
-
-  /** @override */
-  static LOCALIZATION_PREFIXES = ["COG.ACTOR"];
 
   /* -------------------------------------------- */
   /*  Base Data Preparation

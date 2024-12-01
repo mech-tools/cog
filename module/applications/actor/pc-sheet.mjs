@@ -77,11 +77,11 @@ export default class PcSheet extends COGBaseActorSheet {
    */
   #prepareLevelUp() {
     // Hit Die History
-    const hitDieHistory = this.document.currentHitDieHistory
+    const hitDieHistory = this.document.system.currentHitDieHistory
       .reduce((count, [, value]) => (!value ? count + 1 : count), 0);
 
     // Attacks increases
-    const increasesDelta = this.document.increasesDelta;
+    const increasesDelta = this.document.system.increasesDelta;
 
     // Create the incomplete tooltip
     const incomplete = !!hitDieHistory || increasesDelta !== 0;

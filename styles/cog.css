@@ -265,11 +265,8 @@
   position: relative;
   border-radius: var(--border-radius);
 }
-.cog.application fieldset:hover legend {
-  color: var(--color-text);
-}
 .cog.application fieldset legend {
-  color: var(--color-secondary-75);
+  color: var(--color-primary);
   font-family: var(--font-h3);
   font-size: var(--font-size-fieldset);
   line-height: var(--font-size-fieldset);

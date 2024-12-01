@@ -51,10 +51,15 @@ Hooks.once("init", async function () {
   CONFIG.Item.documentClass = documents.COGItem;
   CONFIG.Item.dataModels = {
     feature: models.item.COGFeature,
+    path: models.item.COGPath,
   };
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet(COG.id, applications.item.FeatureSheet, {
     types: ["feature"],
+    makeDefault: true,
+  });
+  Items.registerSheet(COG.id, applications.item.PathSheet, {
+    types: ["path"],
     makeDefault: true,
   });
 
@@ -72,7 +77,7 @@ CONFIG.Token.documentClass = documents.COGToken;
 
 Hooks.once("i18nInit", function () {
   // Apply localizations
-  const toLocalize = ["HIT_DIE_TYPES", "SIZES"];
+  const toLocalize = ["HIT_DIE_TYPES", "ACTOR_SIZES", "PATH_TYPES"];
   for (let loc of toLocalize) {
     const conf = foundry.utils.getProperty(COG, loc);
 

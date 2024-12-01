@@ -16,14 +16,14 @@ export const HIT_DIE_TYPES = new Enum({
  * Possible sizes of an Actor.
  * @type {Enum<number>}
  */
-export const SIZES = new Enum({
-  TINY: { label: "COG.SIZES.Tiny", value: 1 },
-  VERY_SMALL: { label: "COG.SIZES.Very_small", value: 2 },
-  SMALL: { label: "COG.SIZES.Small", value: 3 },
-  MEDIUM: { label: "COG.SIZES.Medium", value: 4 },
-  LARGE: { label: "COG.SIZES.Large", value: 5 },
-  HUGE: { label: "COG.SIZES.Huge", value: 6 },
-  GARGANTUAN: { label: "COG.SIZES.Gargantuan", value: 7 },
+export const ACTOR_SIZES = new Enum({
+  TINY: { label: "COG.ACTOR_SIZES.Tiny", value: 1 },
+  VERY_SMALL: { label: "COG.ACTOR_SIZES.Very_small", value: 2 },
+  SMALL: { label: "COG.ACTOR_SIZES.Small", value: 3 },
+  MEDIUM: { label: "COG.ACTOR_SIZES.Medium", value: 4 },
+  LARGE: { label: "COG.ACTOR_SIZES.Large", value: 5 },
+  HUGE: { label: "COG.ACTOR_SIZES.Huge", value: 6 },
+  GARGANTUAN: { label: "COG.ACTOR_SIZES.Gargantuan", value: 7 },
 });
 
 /* -------------------------------------------- */

@@ -12,10 +12,9 @@
             }}
         </div>
         <div class="tags">
-            <span class="tag">Tag</span>
-            <span class="tag">Tag</span>
-            <span class="tag">Tag</span>
-            <span class="tag">Tag</span>
+            {{#each tags as |tag|}}
+                <span class="tag">{{tag}}</span>
+            {{/each}}
         </div>
     </div>
 </header>

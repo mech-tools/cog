@@ -5,6 +5,9 @@ import COGItemType from "./item-type.mjs";
  */
 export default class COGFeature extends COGItemType {
 
+  /** @override */
+  static LOCALIZATION_PREFIXES = ["COG.ITEM", "COG.FEATURE"];
+
   /* -------------------------------------------- */
   /*  Data Schema
   /* -------------------------------------------- */

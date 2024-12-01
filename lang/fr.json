@@ -5,7 +5,8 @@
       "npc": "PNJ "
     },
     "Item": {
-      "feature": "Capacité "
+      "feature": "Capacité ",
+      "path": "Voie "
     }
   },
 
@@ -18,7 +19,7 @@
     "D20": "Dé 20"
   },
 
-  "COG.SIZES": {
+  "COG.ACTOR_SIZES": {
     "Tiny": "Minuscule",
     "Very_small": "Très petite",
     "Small": "Petite",
@@ -26,6 +27,12 @@
     "Large": "Grande",
     "Huge": "Énorme",
     "Gargantuan": "Colossale"
+  },
+
+  "COG.PATH_TYPES": {
+    "Species": "Espèce",
+    "Cultural": "Culturel",
+    "Expertise": "Savoir-faire"
   },
 
   "COG.ACTOR": {
@@ -186,6 +193,7 @@
         "Description": "Configuration de la caractéristique \"{ability}\" du personnage."
       }
     },
+
     "HIT_DIE": {
       "LABELS": {
         "Window_title": "Configuration : dé de vie ({name})",
@@ -193,30 +201,35 @@
         "Roll_hit_die": "Faire le jet"
       }
     },
+
     "HIT_POINTS": {
       "LABELS": {
         "Window_title": "Configuration : points de vie ({name})",
         "Description": "Configuration des points de vie maximum du personnage."
       }
     },
+
     "ATTACK": {
       "LABELS": {
         "Window_title": "Configuration : {attack} ({name})",
         "Description": "Configuration de l'attaque \"{attack}\" du personnage."
       }
     },
+
     "INITIATIVE": {
       "LABELS": {
         "Window_title": "Configuration : initiative ({name})",
         "Description": "Configuration de l'initiative du personnage."
       }
     },
+
     "WOUND_THRESHOLD": {
       "LABELS": {
         "Window_title": "Configuration : seuil de blessure ({name})",
         "Description": "Configuration du seuil de blessure du personnage."
       }
     },
+
     "DEFENSE": {
       "LABELS": {
         "Window_title": "Configuration : {defense} ({name})",
@@ -231,6 +244,18 @@
       "Config": "Configuration",
       "Public": "Publique",
       "Secret": "Secrète"
+    }
+  },
+
+  "COG.PATH": {
+    "FIELDS": {
+      "type.label": "Type",
+      "type.hint": "Un personnage peut accéder à une seule voie d'espèce, une seule voie culturelle et plusieurs voies de savoir-faire."
+    },
+
+    "LABELS": {
+      "Path_configuration": "Configuration de la voie",
+      "Feature_configuration": "Configuration des capacités"
     }
   }
 }
