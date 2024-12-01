@@ -86,25 +86,25 @@ export default class PcSheet extends COGBaseActorSheet {
     // Create the incomplete tooltip
     const incomplete = !!hitDieHistory || increasesDelta !== 0;
 
-    let details = `<p>${game.i18n.localize("COG.ACTOR.LABELS.Creation_steps.Title")}</p><ul>`;
+    let details = `<h4>${game.i18n.localize("COG.PC.LABELS.Creation_steps.Title")}</h4><ul>`;
 
     if (hitDieHistory > 0) {
-      const hitDieHistoryLabel = game.i18n.format("COG.ACTOR.LABELS.Creation_steps.Hit_die_count", {
+      const hitDieHistoryLabel = game.i18n.format("COG.PC.LABELS.Creation_steps.Hit_die_count", {
         count: hitDieHistory,
       });
-      details += `<li><span>${hitDieHistoryLabel}</span></li>`;
+      details += `<li>${hitDieHistoryLabel}</li>`;
     }
 
     if (increasesDelta !== 0) {
       const increasesDeltaLabel = game.i18n.format(
         increasesDelta > 0
-          ? "COG.ACTOR.LABELS.Creation_steps.Attacks_increases_count_too_many"
-          : "COG.ACTOR.LABELS.Creation_steps.Attacks_increases_count_missing",
+          ? "COG.PC.LABELS.Creation_steps.Attacks_increases_count_too_many"
+          : "COG.PC.LABELS.Creation_steps.Attacks_increases_count_missing",
         {
           count: Math.abs(increasesDelta),
         },
       );
-      details += `<li><span>${increasesDeltaLabel}</span></li>`;
+      details += `<li>${increasesDeltaLabel}</li>`;
     }
 
     details += "</ul>";

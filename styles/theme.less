@@ -700,5 +700,31 @@
     box-shadow: 0 0 15px var(--color-drop-shadow);
     padding: var(--spacing-50);
     border-radius: var(--border-radius);
+    text-align: left;
+
+    h4 {
+      color: var(--color-primary);
+      text-align: center;
+    }
+
+    ul {
+      padding-left: var(--spacing-100);
+    }
+
+    li {
+      font-size: var(--font-size-12);
+    }
+
+    &:has(ul, ol) {
+      padding-right: var(--spacing-75);
+    }
+
+    > :first-child {
+      margin-top: 0;
+    }
+
+    > :last-child {
+      margin-bottom: 0;
+    }
   }
 }

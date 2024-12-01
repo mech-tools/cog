@@ -4,6 +4,8 @@ import COGActorType from "./actor-type.mjs";
  * Data schema, attributes, and methods specific to Npc type Actors.
  */
 export default class COGNpc extends COGActorType {
+  /** @override */
+  static LOCALIZATION_PREFIXES = ["COG.ACTOR", "COG.NPC"];
 
   /* -------------------------------------------- */
   /*  Database Workflows
@@ -39,11 +41,11 @@ export default class COGNpc extends COGActorType {
     });
 
     // Defenses
-    const defenses = ["physical", "psy"];
+    const defenseTypes = ["physical", "psy"];
 
     schema.defenses = new fields.SchemaField({
       protection: new fields.SchemaField(
-        defenses.reduce((obj, id) => {
+        defenseTypes.reduce((obj, id) => {
           obj[id] = new fields.SchemaField({
             base: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
             max: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),

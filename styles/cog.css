@@ -641,6 +641,26 @@
   box-shadow: 0 0 15px var(--color-drop-shadow);
   padding: var(--spacing-50);
   border-radius: var(--border-radius);
+  text-align: left;
+}
+.cog#tooltip h4 {
+  color: var(--color-primary);
+  text-align: center;
+}
+.cog#tooltip ul {
+  padding-left: var(--spacing-100);
+}
+.cog#tooltip li {
+  font-size: var(--font-size-12);
+}
+.cog#tooltip:has(ul, ol) {
+  padding-right: var(--spacing-75);
+}
+.cog#tooltip > :first-child {
+  margin-top: 0;
+}
+.cog#tooltip > :last-child {
+  margin-bottom: 0;
 }
 /* ---------------------------------- */
 /*  Slide Toggles
@@ -1138,19 +1158,6 @@ slide-toggle[checked] .slide-toggle-thumb {
 .cog.sheet.actor .tab.attributes .defenses.detailed .item {
   width: 100%;
   gap: var(--spacing-25);
-}
-/* ----------------------------------------- */
-/*  Creation Steps Tooltip
-/* ----------------------------------------- */
-#tooltip.cog.creation-steps p {
-  color: var(--color-primary);
-}
-#tooltip.cog.creation-steps ul {
-  text-align: left;
-}
-#tooltip.cog.creation-steps li span {
-  font-size: var(--font-size-12);
-  margin-left: calc(-1 * var(--spacing-25));
 }
 /* ----------------------------------------- */
 /*  Config Sheet

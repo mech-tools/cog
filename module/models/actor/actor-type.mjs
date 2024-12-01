@@ -4,9 +4,6 @@
  */
 export default class COGActorType extends foundry.abstract.TypeDataModel {
 
-  /** @override */
-  static LOCALIZATION_PREFIXES = ["COG.ACTOR"];
-
   /* -------------------------------------------- */
   /*  Data Schema
   /* -------------------------------------------- */
@@ -35,14 +32,14 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
             base: new fields.NumberField({
               ...requiredInteger,
               initial: 0,
-              label: "COG.ACTOR.FIELDS.abilities.*.base.label",
-              hint: "COG.ACTOR.FIELDS.abilities.*.base.hint",
+              label: "COG.ACTOR.FIELDS.*.base.label",
+              hint: "COG.ACTOR.FIELDS.abilities.[ability].base.hint",
             }),
             bonus: new fields.NumberField({
               ...requiredInteger,
               initial: 0,
-              label: "COG.ACTOR.FIELDS.abilities.*.bonus.label",
-              hint: "COG.ACTOR.FIELDS.abilities.*.bonus.hint",
+              label: "COG.ACTOR.FIELDS.*.bonus.label",
+              hint: "COG.ACTOR.FIELDS.*.bonus.hint",
             }),
             max: new fields.NumberField({ ...requiredInteger, initial: 0 }),
           },
@@ -55,8 +52,19 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
     // Health Pool
     schema.health = new fields.SchemaField({
       hitPoints: new fields.SchemaField({
-        base: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
-        bonus: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+        base: new fields.NumberField({
+          ...requiredInteger,
+          initial: 0,
+          min: 0,
+          label: "COG.ACTOR.FIELDS.*.base.label",
+        }),
+        bonus: new fields.NumberField({
+          ...requiredInteger,
+          initial: 0,
+          min: 0,
+          label: "COG.ACTOR.FIELDS.*.bonus.label",
+          hint: "COG.ACTOR.FIELDS.*.bonus.hint",
+        }),
         max: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
         value: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
       }),
@@ -79,16 +87,37 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
       }),
       initiative: new fields.SchemaField(
         {
-          base: new fields.NumberField({ ...requiredInteger, initial: 0 }),
-          bonus: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+          base: new fields.NumberField({
+            ...requiredInteger,
+            initial: 0,
+            label: "COG.ACTOR.FIELDS.*.base.label",
+          }),
+          bonus: new fields.NumberField({
+            ...requiredInteger,
+            initial: 0,
+            min: 0,
+            label: "COG.ACTOR.FIELDS.*.bonus.label",
+            hint: "COG.ACTOR.FIELDS.*.bonus.hint",
+          }),
           max: new fields.NumberField({ ...requiredInteger, initial: 0 }),
         },
         { abbreviation: "COG.ACTOR.FIELDS.attributes.initiative.abbreviation" },
       ),
       wounds: new fields.SchemaField({
         threshold: new fields.SchemaField({
-          base: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
-          bonus: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+          base: new fields.NumberField({
+            ...requiredInteger,
+            initial: 0,
+            min: 0,
+            label: "COG.ACTOR.FIELDS.*.base.label",
+          }),
+          bonus: new fields.NumberField({
+            ...requiredInteger,
+            initial: 0,
+            min: 0,
+            label: "COG.ACTOR.FIELDS.*.bonus.label",
+            hint: "COG.ACTOR.FIELDS.*.bonus.hint",
+          }),
           max: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
         }),
         count: new fields.NumberField({
@@ -109,21 +138,21 @@ export default class COGActorType extends foundry.abstract.TypeDataModel {
           base: new fields.NumberField({
             ...requiredInteger,
             initial: 0,
-            label: "COG.ACTOR.FIELDS.attacks.*.base.label",
+            label: "COG.ACTOR.FIELDS.*.base.label",
           }),
           increases: new fields.NumberField({
             ...requiredInteger,
             initial: 0,
             min: 0,
-            label: "COG.ACTOR.FIELDS.attacks.*.increases.label",
-            hint: id !== "psy" && "COG.ACTOR.FIELDS.attacks.*.increases.hint",
+            label: "COG.ACTOR.FIELDS.*.increases.label",
+            hint: id !== "psy" && "COG.ACTOR.FIELDS.*.increases.hint",
           }),
           bonus: new fields.NumberField({
             ...requiredInteger,
             initial: 0,
             min: 0,
-            label: "COG.ACTOR.FIELDS.attacks.*.bonus.label",
-            hint: "COG.ACTOR.FIELDS.attacks.*.bonus.hint",
+            label: "COG.ACTOR.FIELDS.*.bonus.label",
+            hint: "COG.ACTOR.FIELDS.*.bonus.hint",
           }),
           max: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
         });

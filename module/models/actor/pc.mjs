@@ -5,6 +5,9 @@ import COGActorType from "./actor-type.mjs";
  */
 export default class COGPc extends COGActorType {
 
+  /** @override */
+  static LOCALIZATION_PREFIXES = ["COG.ACTOR", "COG.PC"];
+
   /* -------------------------------------------- */
   /*  Properties
   /* -------------------------------------------- */
@@ -103,8 +106,8 @@ export default class COGPc extends COGActorType {
             ...nullableInteger,
             initial: null,
             min: 0,
-            label: "COG.ACTOR.FIELDS.hitDie.history.*.label",
-            hint: "COG.ACTOR.FIELDS.hitDie.history.*.hint",
+            label: "COG.PC.FIELDS.hitDie.history.[level].label",
+            hint: "COG.PC.FIELDS.hitDie.history.[level].hint",
           });
           return obj;
         }, {}),
@@ -123,46 +126,46 @@ export default class COGPc extends COGActorType {
     });
 
     // Defenses
-    const defenses = ["temp", "archaic", "firearm", "ionic", "laser", "plasma", "psy"];
+    const defenseTypes = ["temp", "archaic", "firearm", "ionic", "laser", "plasma", "psy"];
 
     schema.defenses = new fields.SchemaField(
-      defenses.reduce((obj, id) => {
+      defenseTypes.reduce((obj, id) => {
         obj[id] = new fields.SchemaField({
           protection: new fields.SchemaField(
             {
               base: new fields.NumberField({
                 ...requiredInteger,
                 initial: 0,
-                label: "COG.ACTOR.FIELDS.defenses.*.protection.base.label",
-                hint: id !== "psy" && "COG.ACTOR.FIELDS.defenses.*.protection.base.hint",
+                label: "COG.ACTOR.FIELDS.*.base.label",
+                hint: id !== "psy" && "COG.PC.FIELDS.defenses.[type].protection.base.hint",
               }),
               bonus: new fields.NumberField({
                 ...requiredInteger,
                 initial: 0,
-                label: "COG.ACTOR.FIELDS.defenses.*.protection.bonus.label",
-                hint: "COG.ACTOR.FIELDS.defenses.*.protection.bonus.hint",
+                label: "COG.ACTOR.FIELDS.*.bonus.label",
+                hint: "COG.ACTOR.FIELDS.*.bonus.hint",
               }),
               max: new fields.NumberField({ ...requiredInteger, initial: 0 }),
             },
-            { label: "COG.ACTOR.FIELDS.defenses.*.protection.label" },
+            { label: "COG.PC.FIELDS.defenses.[type].protection.label" },
           ),
           reduction: new fields.SchemaField(
             {
               base: new fields.NumberField({
                 ...requiredInteger,
                 initial: 0,
-                label: "COG.ACTOR.FIELDS.defenses.*.reduction.base.label",
-                hint: id !== "temp" && "COG.ACTOR.FIELDS.defenses.*.reduction.base.hint",
+                label: "COG.ACTOR.FIELDS.*.base.label",
+                hint: id !== "temp" && "COG.PC.FIELDS.defenses.[type].reduction.base.hint",
               }),
               bonus: new fields.NumberField({
                 ...requiredInteger,
                 initial: 0,
-                label: "COG.ACTOR.FIELDS.defenses.*.reduction.bonus.label",
-                hint: "COG.ACTOR.FIELDS.defenses.*.reduction.bonus.hint",
+                label: "COG.ACTOR.FIELDS.*.bonus.label",
+                hint: "COG.ACTOR.FIELDS.*.bonus.hint",
               }),
               max: new fields.NumberField({ ...requiredInteger, initial: 0 }),
             },
-            { label: "COG.ACTOR.FIELDS.defenses.*.reduction.label" },
+            { label: "COG.PC.FIELDS.defenses.[type].reduction.label" },
           ),
         });
         return obj;

@@ -37,6 +37,15 @@
 
   "COG.ACTOR": {
     "FIELDS": {
+      "*": {
+        "base.label": "Base",
+        "base.hint": "Valeur de base du personnage.",
+        "bonus.label": "Bonus",
+        "bonus.hint": "Bonus manuel ajouté à la valeur de base du personnage.",
+        "increases.label": "Augmentations",
+        "increases.hint": "Amélioration de niveau du personnage ajouté à la valeur de base du personnage."
+      },
+
       "abilities": {
         "label": "Caractéristiques",
         "strength.label": "Force",
@@ -51,18 +60,12 @@
         "perception.abbreviation": "Per",
         "charisma.label": "Charisme",
         "charisma.abbreviation": "Cha",
-        "*.base.label": "Base",
-        "*.base.hint": "Valeur de base du personnage. Ne devrait plus être modifié après la création du personnage.",
-        "*.bonus.label": "Bonus",
-        "*.bonus.hint": "Bonus manuel ajouté à la valeur de base du personnage."
+        "[ability].base.hint": "Valeur de base du personnage. Ne devrait plus être modifié après la création du personnage."
       },
 
       "health.hitPoints": {
         "label": "Points de vie",
-        "base.label": "Base",
-        "base.hint": "Maximum de points de vie (avant modificateurs) calculé en fonction du niveau du personnage.",
-        "bonus.label": "Bonus",
-        "bonus.hint": "Bonus manuel ajouté aux points de vie maximum."
+        "base.hint": "Maximum de points de vie (avant modificateurs) calculé en fonction du niveau du personnage."
       },
 
       "health.tempDmgs": {
@@ -70,35 +73,14 @@
         "abbreviation": "TMP"
       },
 
-      "hitDie": {
-        "type.label": "Dé de vie",
-        "history": {
-          "*.label": "Niveau {level}",
-          "*.hint.profile": "Défini par le profil.",
-          "*.hint.hitdie": "Résultat du Dé de vie + Constitution si négative (minimum de 0).",
-          "*.hint.con": "Constitution (minimum de 0)."
-        }
-      },
-
-      "advancement": {
-        "level.label": "Niveau",
-        "cr.label": "NC"
-      },
-
       "attributes": {
         "size.label": "Taille",
         "initiative.label": "initiative",
         "initiative.abbreviation": "init",
-        "initiative.base.label": "Base",
         "initiative.base.hint": "Valeur de base du personnage. Elle est égale à 10 + Dextérité + Perception plus tout autre modificateur de base (profil, trait, ...).",
-        "initiative.bonus.label": "Bonus",
-        "initiative.bonus.hint": "Bonus manuel ajouté à la valeur de base du personnage.",
         "wounds.label": "Blessures",
         "wounds.threshold.label": "Seuil",
-        "wounds.threshold.base.label": "Base",
         "wounds.threshold.base.hint": "Valeur de base du personnage. Elle est égale à 10 + Constitution + Force plus tout autre modificateur de base (profil, trait, ...).",
-        "wounds.threshold.bonus.label": "Bonus",
-        "wounds.threshold.bonus.hint": "Bonus manuel ajouté à la valeur de base du personnage.",
         "wounds.count.label": "Bless. graves",
         "wounds.count.pips.equal": "Retirer cette blessure",
         "wounds.count.pips.greater": "Augmenter le nombre de blessures à {count}",
@@ -113,44 +95,7 @@
         "range.base.hint": "Valeur de base du personnage. Elle est égale à la Dextérité du personnage plus tout autre modificateur de base (profil, trait, ...).",
         "psy.label": "Psychique",
         "psy.base.hint": "Valeur de base du personnage. Elle est égale à la Perception du personnage plus tout autre modificateur de base (profil, trait, ...).",
-        "psy.increases.hint": "Amélioration de niveau du personnage ajouté à la valeur de base du personnage. Seuls les personnages avec un profil de psi peuvent accroître leur score de base au-delà de 2.",
-        "*.base.label": "Base",
-        "*.increases.label": "Augmentations",
-        "*.increases.hint": "Amélioration de niveau du personnage ajouté à la valeur de base du personnage.",
-        "*.bonus.label": "Bonus",
-        "*.bonus.hint": "Bonus manuel ajouté à la valeur de base du personnage."
-      },
-
-      "resources": {
-        "label": "Ressources",
-        "luck.label": "Chance",
-        "instability.label": "Instabilité"
-      },
-
-      "defenses": {
-        "label": "Défenses",
-        "protection.physical.label": "Physique",
-        "protection.psy.label": "Psychique",
-        "reduction.label": "Réd. Domm.",
-        "temp.label": "Dommages temporaires",
-        "temp.reduction.base.hint": "Valeur de base du personnage. Elle est égale à la Force plus tout autre modificateur de base (profil, trait, ...).",
-        "archaic.label": "Armes archaïques",
-        "firearm.label": "Armes à feu",
-        "ionic.label": "Armes ioniques",
-        "laser.label": "Armes lasers",
-        "plasma.label": "Armes plasmatiques",
-        "psy.label": "Effets psychiques",
-        "psy.protection.base.hint": "Valeur de base du personnage. Elle est égale à 10 + Charisme plus tout autre modificateur de base (profil, trait, ...).",
-        "*.protection.label": "Défense",
-        "*.reduction.label": "Réduction de dommages",
-        "*.protection.base.label": "Base",
-        "*.protection.base.hint": "Valeur de base du personnage. Elle est égale à 10 + Dextérité + Armure plus tout autre modificateur de base (profil, trait, ...).",
-        "*.protection.bonus.label": "Bonus",
-        "*.protection.bonus.hint": "Bonus manuel ajouté à la valeur de base du personnage.",
-        "*.reduction.base.label": "Base",
-        "*.reduction.base.hint": "Valeur de base du personnage. Elle est égale à 0 plus tout autre modificateur de base (profil, trait, ...).",
-        "*.reduction.bonus.label": "Bonus",
-        "*.reduction.bonus.hint": "Bonus manuel ajouté à la valeur de base du personnage."
+        "psy.increases.hint": "Amélioration de niveau du personnage ajouté à la valeur de base du personnage. Seuls les personnages avec un profil de psi peuvent accroître leur score de base au-delà de 2."
       }
     },
 
@@ -169,6 +114,51 @@
     },
 
     "LABELS": {
+      "Favorite_actions": "Favoris"
+    }
+  },
+
+  "COG.PC": {
+    "FIELDS": {
+      "hitDie": {
+        "type.label": "Dé de vie",
+        "history": {
+          "[level].label": "Niveau {level}",
+          "[level].hint.profile": "Défini par le profil.",
+          "[level].hint.hitdie": "Résultat du Dé de vie + Constitution si négative (minimum de 0).",
+          "[level].hint.con": "Constitution (minimum de 0)."
+        }
+      },
+
+      "advancement": {
+        "level.label": "Niveau"
+      },
+
+      "resources": {
+        "label": "Ressources",
+        "luck.label": "Chance",
+        "instability.label": "Instabilité"
+      },
+
+      "defenses": {
+        "label": "Défenses",
+        "temp.label": "Dommages temporaires",
+        "temp.reduction.base.hint": "Valeur de base du personnage. Elle est égale à la Force plus tout autre modificateur de base (profil, trait, ...).",
+        "archaic.label": "Armes archaïques",
+        "firearm.label": "Armes à feu",
+        "ionic.label": "Armes ioniques",
+        "laser.label": "Armes lasers",
+        "plasma.label": "Armes plasmatiques",
+        "psy.label": "Effets psychiques",
+        "psy.protection.base.hint": "Valeur de base du personnage. Elle est égale à 10 + Charisme plus tout autre modificateur de base (profil, trait, ...).",
+        "[type].protection.label": "Défense",
+        "[type].reduction.label": "Réduction de dommages",
+        "[type].protection.base.hint": "Valeur de base du personnage. Elle est égale à 10 + Dextérité + Armure plus tout autre modificateur de base (profil, trait, ...).",
+        "[type].reduction.base.hint": "Valeur de base du personnage. Elle est égale à 0 plus tout autre modificateur de base (profil, trait, ...)."
+      }
+    },
+
+    "LABELS": {
       "Configure_hit_die": "Configuration du dé de vie",
       "Configure_hit_points": "Configuration des points de vie",
       "Configure_ability": "Configuration de la caractéristique",
@@ -176,12 +166,26 @@
       "Configure_initiative": "Configuration de l'initiative",
       "Configure_wound_threshold": "Configuration du seuil de blessure",
       "Configure_defense": "Configuration de la défense",
-      "Favorite_actions": "Favoris",
       "Creation_steps": {
         "Title": "Personnage incomplet !",
         "Hit_die_count": "Points de vie manquant sur {count} niveau(x).",
         "Attacks_increases_count_missing": "{count} augmentation(s) d'attaque manquante(s).",
         "Attacks_increases_count_too_many": "{count} augmentation(s) d'attaque en trop."
+      }
+    }
+  },
+
+  "COG.NPC": {
+    "FIELDS": {
+      "advancement": {
+        "cr.label": "NC"
+      },
+
+      "defenses": {
+        "label": "Défenses",
+        "protection.physical.label": "Physique",
+        "protection.psy.label": "Psychique",
+        "reduction.label": "Réd. Domm."
       }
     }
   },
