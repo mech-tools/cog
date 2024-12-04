@@ -15,7 +15,6 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       height: 750,
     },
     actions: {
-      editImage: COGBaseActorSheet.#onEditImage,
       configure: COGBaseActorSheet.#onConfigure,
     },
     actor: {
@@ -370,7 +369,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
   _attachFrameListeners() {
     super._attachFrameListeners();
 
-    // Automatic select of inpunt values
+    // Automatic select of input values
     this.element.addEventListener("focusin", this.#onFocusIn.bind(this));
   }
 
@@ -388,8 +387,10 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
 
   /* -------------------------------------------- */
 
-  /** @override */
-  _onRender(_context, _options) {
+  /** @inheritdoc */
+  _onRender(context, options) {
+    super._onRender(context, options);
+
     if (this.isEditable) {
       // Hit Points toggle
       this.element
@@ -436,33 +437,6 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
 
   /* -------------------------------------------- */
   /*  Actions Event Handlers
-  /* -------------------------------------------- */
-
-  /**
-   * Edit the Actor profile image.
-   * @param {PointerEvent} event   The triggering event.
-   * @param {HTMLElement}  target  The targeted dom element.
-   * @returns {Promise<void>}
-   */
-  static async #onEditImage(event, target) {
-    const attr = target.dataset.edit;
-    const current = foundry.utils.getProperty(this.document, attr);
-    const fp = new FilePicker({
-      current,
-      type: "image",
-      callback: (path) => {
-        target.src = path;
-        if (this.options.form.submitOnChange) {
-          const submit = new Event("submit");
-          this.element.dispatchEvent(submit);
-        }
-      },
-      top: this.position.top + 40,
-      left: this.position.left + 10,
-    });
-    await fp.browse();
-  }
-
   /* -------------------------------------------- */
 
   /**

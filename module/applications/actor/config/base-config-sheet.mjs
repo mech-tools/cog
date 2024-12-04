@@ -37,8 +37,10 @@ export default class BaseConfigSheet extends COGBaseSheet(api.DocumentSheetV2) {
   /*  Sheet Rendering
   /* -------------------------------------------- */
 
-  /** @override */
-  _onRender(_context, _options) {
+  /** @inheritdoc */
+  _onRender(context, options) {
+    super._onRender(context, options);
+
     this.element
       .querySelector(".scrollable")
       ?.addEventListener("scroll", this.#onScrollContent.bind(this));

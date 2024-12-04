@@ -77,7 +77,7 @@ CONFIG.Token.documentClass = documents.COGToken;
 
 Hooks.once("i18nInit", function () {
   // Apply localizations
-  const toLocalize = ["HIT_DIE_TYPES", "ACTOR_SIZES", "PATH_TYPES"];
+  const toLocalize = ["HIT_DIE_TYPES", "ACTOR_SIZES", "ACTOR_LIFESTYLES", "PATH_TYPES"];
   for (let loc of toLocalize) {
     const conf = foundry.utils.getProperty(COG, loc);
 

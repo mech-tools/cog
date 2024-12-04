@@ -1,0 +1,35 @@
+<div class="line-item flexrow {{#unless item}}unknown{{/unless}}">
+    {{! Label }}
+    {{#if label}}
+        <span class="label flexrow flex0">
+            <label>{{label}}</label>
+        </span>
+    {{/if}}
+
+    {{#if item}}
+        {{! Item details }}
+        <a class="details flexrow flex0" data-uuid="{{item.uuid}}" data-link>
+            <img class="icon" src="{{item.img}}" alt="{{item.name}}">
+            <span class="name">{{item.name}}</span>
+        </a>
+    {{else}}
+        {{! No item Data }}
+        <a class="details flexrow flex0">
+            <i class="icon fas fa-unlink"></i>
+            <span class="name">{{localize "Unknown"}}</span>
+        </a>
+    {{/if}}
+
+    {{! Action }}
+    {{#if action}}
+        <span class="action flexrow flex0" data-action="{{action}}" {{#if actionKey}}data-key="{{actionKey}}" {{/if}}
+            data-tooltip="{{#if actionTooltip}}{{actionTooltip}}{{else}}Delete{{/if}}" data-tooltip-class="cog"
+            data-tooltip-direction="UP">
+            {{#if actionLabel}}
+                {{actionLabel}}
+            {{else}}
+                <i class="fa-solid fa-xmark"></i>
+            {{/if}}
+        </span>
+    {{/if}}
+</div>

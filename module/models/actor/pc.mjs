@@ -13,7 +13,7 @@ export default class COGPc extends COGActorType {
   /* -------------------------------------------- */
 
   /**
-   * Get the filtered Hit Die history based on the Actor current level (PC only).
+   * Get the filtered Hit Die history based on the PC current level.
    * @returns {Array}
    */
   get currentHitDieHistory() {
@@ -24,7 +24,7 @@ export default class COGPc extends COGActorType {
   /* -------------------------------------------- */
 
   /**
-   * Get the attacks increases delta based on the Actor current level (PC only).
+   * Get the attacks increases delta based on the PC current level.
    * @returns {number}
    */
   get increasesDelta() {
@@ -66,7 +66,7 @@ export default class COGPc extends COGActorType {
   #resetHitDieHistory(changes) {
     const newLevel = changes.system?.advancement?.level;
 
-    // Exit early of no relevant changes
+    // Exit early if no relevant changes
     if (!newLevel || newLevel >= this.advancement.level) return;
 
     const updates = {};
@@ -136,14 +136,14 @@ export default class COGPc extends COGActorType {
               base: new fields.NumberField({
                 ...requiredInteger,
                 initial: 0,
-                label: "COG.ACTOR.FIELDS.*.base.label",
+                label: "COG.ACTOR.FIELDS.[*].base.label",
                 hint: id !== "psy" && "COG.PC.FIELDS.defenses.[type].protection.base.hint",
               }),
               bonus: new fields.NumberField({
                 ...requiredInteger,
                 initial: 0,
-                label: "COG.ACTOR.FIELDS.*.bonus.label",
-                hint: "COG.ACTOR.FIELDS.*.bonus.hint",
+                label: "COG.ACTOR.FIELDS.[*].bonus.label",
+                hint: "COG.ACTOR.FIELDS.[*].bonus.hint",
               }),
               max: new fields.NumberField({ ...requiredInteger, initial: 0 }),
             },
@@ -154,14 +154,14 @@ export default class COGPc extends COGActorType {
               base: new fields.NumberField({
                 ...requiredInteger,
                 initial: 0,
-                label: "COG.ACTOR.FIELDS.*.base.label",
+                label: "COG.ACTOR.FIELDS.[*].base.label",
                 hint: id !== "temp" && "COG.PC.FIELDS.defenses.[type].reduction.base.hint",
               }),
               bonus: new fields.NumberField({
                 ...requiredInteger,
                 initial: 0,
-                label: "COG.ACTOR.FIELDS.*.bonus.label",
-                hint: "COG.ACTOR.FIELDS.*.bonus.hint",
+                label: "COG.ACTOR.FIELDS.[*].bonus.label",
+                hint: "COG.ACTOR.FIELDS.[*].bonus.hint",
               }),
               max: new fields.NumberField({ ...requiredInteger, initial: 0 }),
             },

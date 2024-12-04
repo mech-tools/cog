@@ -14,7 +14,14 @@ export default (Base) =>
       form: {
         submitOnChange: true,
       },
+      actions: {
+        editImage: this.#onEditImage,
+      },
     };
+
+    /* ----------------------------------------- */
+    /* Helpers
+    /* ----------------------------------------- */
 
     /**
      * Create an object including field, source and value for a document property.
@@ -36,5 +43,84 @@ export default (Base) =>
           source: foundry.utils.getProperty(this.document._source.system, path),
         }),
       };
+    }
+
+    /* ----------------------------------------- */
+    /* Sheet rendering
+    /* ----------------------------------------- */
+
+    /** @inheritdoc */
+    _onRender(_context, _options) {
+      const textareas = this.element.querySelectorAll("textarea");
+
+      for (const textarea of textareas) {
+        textarea.addEventListener("input", this.#resizeTextareaIn.bind(this));
+        textarea.addEventListener("focusin", this.#resizeTextareaIn.bind(this));
+        textarea.addEventListener("focusout", this.#resizeTextareaOut.bind(this));
+      }
+    }
+
+    /* -------------------------------------------- */
+    /*  Actions Event Handlers
+  /* -------------------------------------------- */
+
+    /**
+     * Edit the Actor profile image.
+     * @param {PointerEvent} event   The triggering event.
+     * @param {HTMLElement}  target  The targeted dom element.
+     * @returns {Promise<void>}
+     */
+    static async #onEditImage(event, target) {
+      const attr = target.dataset.edit;
+      const current = foundry.utils.getProperty(this.document, attr);
+      const fp = new FilePicker({
+        current,
+        type: "image",
+        callback: (path) => {
+          target.src = path;
+          if (this.options.form.submitOnChange) {
+            const submit = new Event("submit");
+            this.element.dispatchEvent(submit);
+          }
+        },
+        top: this.position.top + 40,
+        left: this.position.left + 10,
+      });
+      await fp.browse();
+    }
+
+    /* -------------------------------------------- */
+    /*  Others Event Handlers
+    /* -------------------------------------------- */
+
+    /**
+     * Automatically resize textareas.
+     * @param {InputEvent | FocusEvent} event  The triggering event.
+     */
+    #resizeTextareaIn(event) {
+      const target = event.target;
+      const maxHeight = 100;
+      target.style.height = "auto";
+
+      if (target.scrollHeight > maxHeight) {
+        target.style.height = `${maxHeight}px`;
+      } else {
+        const { borderTopWidth, borderBottomWidth, marginTop, marginBottom } =
+          window.getComputedStyle(target);
+
+        target.style.height = `${target.scrollHeight + parseFloat(borderTopWidth) + parseFloat(borderBottomWidth) + parseFloat(marginTop) + parseFloat(marginBottom)}px`;
+      }
+    }
+
+    /* -------------------------------------------- */
+
+    /**
+     * Automatically reset textareas size to default.
+     * @param {FocusEvent} event  The triggering event.
+     */
+    #resizeTextareaOut(event) {
+      const target = event.target;
+
+      target.style.height = "auto";
     }
   };

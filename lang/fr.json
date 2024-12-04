@@ -29,6 +29,15 @@
     "Gargantuan": "Colossale"
   },
 
+  "COG.ACTOR_LIFESTYLES": {
+    "Wretched": "Miséreux",
+    "Poor": "Pauvre",
+    "Modest": "Modeste",
+    "Comfortable": "Aisé",
+    "Wealthy": "Fortuné",
+    "Opulent": "Nanti"
+  },
+
   "COG.PATH_TYPES": {
     "Species": "Espèce",
     "Cultural": "Culturel",
@@ -37,7 +46,7 @@
 
   "COG.ACTOR": {
     "FIELDS": {
-      "*": {
+      "[*]": {
         "base.label": "Base",
         "base.hint": "Valeur de base du personnage.",
         "bonus.label": "Bonus",
@@ -254,12 +263,36 @@
   "COG.PATH": {
     "FIELDS": {
       "type.label": "Type",
-      "type.hint": "Un personnage peut accéder à une seule voie d'espèce, une seule voie culturelle et plusieurs voies de savoir-faire."
+      "type.hint": "Un personnage joueur peut accéder à une seule voie d'espèce, une seule voie culturelle et plusieurs voies de savoir-faire.",
+      "species": {
+        "communicationMode.label": "Mode de communication",
+        "technologyLevel.label": "Niveau technologique",
+        "culture.label": "Culture",
+        "politicalSystem.label": "Système politique",
+        "gravity.label": "Gravité"
+      },
+      "cultural": {
+        "lifestyle.label": "Niveau de vie de départ",
+        "equipement.label": "Équipement"
+      },
+      "expertise": {
+        "equipement.label": "Équipement"
+      },
+      "features": {
+        "[rank].label": "Rang {rank}"
+      }
+    },
+
+    "ERRORS": {
+      "DUPLICATE_FEATURE": "Vous ne pouvez pas ajouter deux fois la même Capacité.",
+      "NOT_A_FEATURE": "Vous pouvez uniquement ajouter des objets de type \"Capacité\" à une voie."
     },
 
     "LABELS": {
+      "Path_type": "Configuration du type de voie",
       "Path_configuration": "Configuration de la voie",
-      "Feature_configuration": "Configuration des capacités"
+      "Features_configuration": "Configuration des capacités [{count}/5]",
+      "Add_features": "Ajoutez cinq capacités à cette voie en glissant & déposant les capacités directement sur cette fiche."
     }
   }
 }

@@ -36,6 +36,7 @@
   --color-frame-bg-75: rgba(48, 40, 49, 0.75);
   --color-frame-bg-50: rgba(48, 40, 49, 0.5);
   --color-frame-bg-25: rgba(48, 40, 49, 0.25);
+  --color-error: red;
   --color-drop-shadow: rgba(0, 0, 0, 0.75);
   --tab-background: #090a0c;
   --color-hitPoints-bar-start: #642626;
@@ -97,9 +98,6 @@
   /*  Images
     /* ----------------------------------------- */
   /* ----------------------------------------- */
-  /* Frames
-    /* ----------------------------------------- */
-  /* ----------------------------------------- */
   /*  Forms
     /* ----------------------------------------- */
   /* ----------------------------------------- */
@@ -107,21 +105,6 @@
     /* ----------------------------------------- */
   /* ----------------------------------------- */
   /*  Prosemirror
-    /* ----------------------------------------- */
-  /* ----------------------------------------- */
-  /*  Buttons
-    /* ----------------------------------------- */
-  /* ----------------------------------------- */
-  /*  Pips
-    /* ----------------------------------------- */
-  /* ----------------------------------------- */
-  /*  Data values
-    /* ----------------------------------------- */
-  /* ----------------------------------------- */
-  /*  Data Charts
-    /* ----------------------------------------- */
-  /* ----------------------------------------- */
-  /*  Tags
     /* ----------------------------------------- */
 }
 .cog.application h1,
@@ -176,6 +159,7 @@
 }
 .cog.application img {
   border: 0;
+  border-radius: 0;
 }
 .cog.application img.profile {
   object-fit: contain;
@@ -185,34 +169,6 @@
 }
 .cog.application img.profile[data-edit]:hover {
   border-color: var(--color-secondary-50);
-}
-.cog.application .framed-section {
-  position: relative;
-  background-color: var(--color-frame-bg-50);
-  border: 1px solid var(--color-secondary-25);
-  border-radius: var(--border-radius);
-  backdrop-filter: blur(1px);
-  padding: var(--spacing-50);
-  align-items: flex-start;
-}
-.cog.application .framed-section:has(> h2) {
-  padding: var(--spacing-175) var(--spacing-100) var(--spacing-50) var(--spacing-100);
-}
-.cog.application .framed-section:has(> h2) h2 {
-  position: absolute;
-  margin: 0;
-  height: var(--spacing-150);
-  padding: calc(var(--spacing-50) - 2px) var(--spacing-50);
-  background: var(--color-frame-bg);
-  border: 1px solid var(--color-secondary-25);
-  box-shadow: 0 0 4px var(--color-secondary-25);
-  border-radius: var(--border-radius);
-  top: calc(-1 * (var(--spacing-50)));
-  left: 50%;
-  transform: translateX(-50%);
-}
-.cog.application .framed-section h3 {
-  font-size: var(--font-size-12);
 }
 .cog.application input,
 .cog.application select {
@@ -259,6 +215,28 @@
 .cog.application .framed-section select:disabled {
   --input-background-color: var(--color-frame-bg-75);
 }
+.cog.application textarea {
+  --color-text-selection-bg: var(--color-secondary);
+  font-family: var(--font-body);
+  min-height: 1px;
+  height: auto;
+  font-size: var(--font-size-12);
+  padding: var(--spacing-50) var(--spacing-50);
+  border-color: var(--color-secondary-25);
+  border-radius: var(--border-radius-half);
+  background-color: var(--color-frame-bg-50);
+  text-shadow: 0 0 5px var(--color-drop-shadow);
+  outline: 1px solid transparent;
+  resize: none;
+  transition: outline-color 0.5s, border-color 0.5s, box-shadow 0.5s;
+}
+.cog.application textarea:hover {
+  border-color: var(--color-secondary-50);
+}
+.cog.application textarea:focus {
+  box-shadow: 0 0 5px var(--color-secondary);
+  outline: 2px solid var(--color-secondary);
+}
 .cog.application fieldset {
   --color-fieldset-border: var(--color-secondary);
   --font-size-fieldset: var(--font-size-14);
@@ -298,6 +276,10 @@
 .cog.application .form-group > .form-fields {
   gap: var(--spacing-50);
 }
+.cog.application .form-group > .form-fields.drop-zone {
+  justify-content: center;
+  align-self: stretch;
+}
 .cog.application .form-group > .hint {
   --color-form-hint: var(--color-text-50);
   --color-form-hint-hover: var(--color-text-75);
@@ -319,9 +301,14 @@
 }
 .cog.application .scrollable,
 .cog.application .prosemirror .editor-content,
-.cog.application .prosemirror textarea {
+.cog.application .prosemirror textarea,
+.cog.application textarea {
   --color-scrollbar: var(--color-secondary-50);
   --color-scrollbar-border: var(--color-secondary-75);
+}
+.cog.application .scrollable,
+.cog.application .prosemirror .editor-content,
+.cog.application .prosemirror textarea {
   --scroll-margin: var(--spacing-75);
   --scroll-gutter: var(--spacing-50);
   margin-right: calc(-1 * var(--scroll-gutter)) !important;
@@ -334,7 +321,27 @@
   padding: 0;
 }
 .cog.application .prosemirror .editor-content {
-  padding: 0;
+  padding: var(--spacing-25) 0;
+}
+.cog.application .prosemirror .editor-content .content-link i {
+  margin-right: var(--spacing-25);
+}
+.cog.application .prosemirror .editor-content .content-link:not(.broken) {
+  border-color: var(--color-secondary-75);
+  transition: border-color 0.5s;
+}
+.cog.application .prosemirror .editor-content .content-link:not(.broken) i {
+  color: var(--color-secondary-75);
+  transition: color 0.5s;
+}
+.cog.application .prosemirror .editor-content .content-link:not(.broken):hover {
+  border-color: var(--color-secondary);
+}
+.cog.application .prosemirror .editor-content .content-link:not(.broken):hover i {
+  color: var(--color-secondary);
+}
+.cog.application .prosemirror .editor-content .content-link.broken i {
+  color: var(--color-error);
 }
 .cog.application .prosemirror.inactive button.toggle {
   --button-background-color: var(--color-frame-bg-50);
@@ -392,245 +399,6 @@
   font-size: var(--font-size-12);
   width: auto;
 }
-.cog.application .standard-button {
-  display: inline-flex;
-  flex: 0;
-  align-items: center;
-  gap: var(--spacing-50);
-  height: var(--spacing-175);
-  padding: var(--spacing-50);
-  font-family: var(--font-h3);
-  font-size: var(--font-size-14);
-  background-color: var(--color-frame-bg-50);
-  border: 1px solid var(--color-secondary-25);
-  border-radius: var(--border-radius-half);
-  backdrop-filter: blur(1px);
-  transition: border-color 0.5s;
-}
-.cog.application .standard-button.raised {
-  box-shadow: 0 0 5px var(--color-drop-shadow);
-}
-.cog.application .standard-button:hover {
-  border-color: var(--color-primary);
-}
-.cog.application .standard-button i {
-  color: var(--color-secondary);
-  transition: color 0.5s;
-}
-.cog.application .standard-button:hover i {
-  color: var(--color-primary);
-}
-.cog.application .standard-button.highlighted i {
-  color: var(--color-primary);
-}
-.cog.application .icon-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--color-tertiary-75);
-  cursor: pointer;
-  transition: color 0.5s;
-  font-size: var(--font-size-14);
-  line-height: normal;
-}
-.cog.application .icon-button:hover {
-  color: var(--color-primary);
-}
-.cog.application h1 .icon-button,
-.cog.application h2 .icon-button,
-.cog.application h3 .icon-button {
-  margin-left: var(--spacing-25);
-}
-.cog.application h3:has(.icon-button) {
-  flex-wrap: nowrap;
-}
-.cog.application .pips {
-  display: flex;
-  gap: var(--spacing-100);
-  margin: var(--spacing-50);
-}
-.cog.application .pips .pip {
-  --pip-size: 20px;
-  --pip-border: 1px;
-  --pip-radius: var(--border-radius-half);
-  cursor: pointer;
-  position: relative;
-  border: var(--pip-border) solid var(--color-secondary);
-  border-radius: var(--border-radius-half);
-  width: var(--pip-size);
-  height: var(--pip-size);
-  background-color: var(--color-frame-bg);
-  box-shadow: 0 0 5px var(--color-drop-shadow);
-  transition: filter 0.5s;
-}
-.cog.application .pips .pip:hover {
-  filter: drop-shadow(0 0 3px var(--color-secondary-75));
-}
-.cog.application .pips .pip.filled::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--color-secondary);
-  border: calc(var(--pip-border) * 2) solid var(--color-frame-bg);
-  border-radius: calc(var(--pip-radius) / 2);
-}
-.cog.application .data.value {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-h3);
-  width: var(--value-size);
-  height: var(--value-size);
-  max-width: var(--value-size);
-  max-height: var(--value-size);
-  font-size: var(--value-font-size);
-  text-align: center;
-  transition: color 0.5s;
-}
-.cog.application .data.value::before {
-  z-index: -1;
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: var(--background-image);
-  background-repeat: no-repeat;
-  transition: filter 0.5s;
-}
-.cog.application .data.value input {
-  font-size: var(--value-font-size);
-  margin: 0 calc(var(--value-size) * 0.2);
-  padding: 0;
-}
-.cog.application .data.value input:focus {
-  box-shadow: none;
-}
-.cog.application .data.value.clickable {
-  cursor: pointer;
-}
-.cog.application .data.value.clickable:hover {
-  color: var(--color-primary);
-}
-.cog.application .data.value.clickable:hover::before {
-  filter: contrast(120%);
-}
-.cog.application .data.value.editable:hover::before {
-  filter: contrast(105%);
-}
-.cog.application .data.value.editable input {
-  --input-background-color: transparent;
-  --input-border-color: transparent;
-  --input-focus-outline-color: transparent;
-}
-.cog.application .data.value.tiny {
-  --value-size: 26px;
-  --value-font-size: var(--font-size-12);
-  --background-image: url(/systems/cog/ui/value/tiny.webp);
-}
-.cog.application .data.value.tiny.alt {
-  --background-image: url(/systems/cog/ui/value/tiny-alt.webp);
-}
-.cog.application .data.value.mini {
-  --value-size: 50px;
-  --value-font-size: var(--font-size-14);
-  --background-image: url(/systems/cog/ui/value/mini.webp);
-}
-.cog.application .data.value.large {
-  --value-size: 88px;
-  --value-font-size: var(--font-size-22);
-  --background-image: url(/systems/cog/ui/value/large.webp);
-}
-.cog.application .data.value.large.alt {
-  --background-image: url(/systems/cog/ui/value/large-alt.webp);
-}
-.cog.application .data.value.large input {
-  --input-height: var(--spacing-200);
-}
-.cog.application .data.chart.diverging {
-  --chart-height: 26px;
-  --bar-height: 8px;
-  --protection-height: 8px;
-  --reduction-height: 6px;
-  --bar-max-pct: 46.5%;
-  --bar-pct: 0%;
-  position: relative;
-  width: 100%;
-  display: flex;
-  height: var(--bar-height);
-  margin: calc((var(--chart-height) - var(--bar-height)) / 2) 0;
-  justify-content: center;
-  align-items: center;
-}
-.cog.application .data.chart.diverging::before {
-  content: "";
-  display: block;
-  position: absolute;
-  height: var(--bar-height);
-  width: 100%;
-  background: radial-gradient(circle, var(--color-secondary) 40%, transparent 41%) left center, radial-gradient(circle, var(--color-secondary) 40%, transparent 41%) right center, linear-gradient(to right, var(--color-secondary) 0, var(--color-secondary) 100%);
-  background-size: var(--bar-height) var(--bar-height), var(--bar-height) var(--bar-height), calc(100% - var(--bar-height)) 1px;
-  background-position: 0 center, 100% center, calc(var(--bar-height) / 2) center;
-  background-repeat: no-repeat;
-}
-.cog.application .data.chart.diverging .value {
-  z-index: 2;
-}
-.cog.application .data.chart.diverging .primary {
-  position: absolute;
-  height: var(--protection-height);
-  max-width: var(--bar-max-pct);
-  border-radius: 2px;
-  background: var(--color-frame-bg);
-  border: 1px solid;
-  z-index: 0;
-}
-.cog.application .data.chart.diverging .primary.positive {
-  width: var(--bar-pct);
-  left: calc(50% + var(--bar-height));
-  border-color: var(--color-reduction-positive);
-  border-left: none;
-}
-.cog.application .data.chart.diverging .primary.negative {
-  width: var(--bar-pct);
-  right: calc(50% + var(--bar-height));
-  border-color: var(--color-secondary);
-  border-right: none;
-}
-.cog.application .data.chart.diverging .secondary {
-  position: absolute;
-  height: var(--reduction-height);
-  max-width: var(--bar-max-pct);
-  z-index: 1;
-  background-repeat: no-repeat;
-}
-.cog.application .data.chart.diverging .secondary.positive {
-  background-image: url(/systems/cog/ui/chart/secondary-positive.webp);
-  width: var(--bar-pct);
-  left: calc(50% + var(--bar-height));
-}
-.cog.application .data.chart.diverging .secondary.negative {
-  background-image: url(/systems/cog/ui/chart/secondary-negative.webp);
-  width: var(--bar-pct);
-  right: calc(50% + var(--bar-height));
-}
-.cog.application .tags {
-  display: flex;
-  gap: var(--spacing-25);
-}
-.cog.application .tags .tag {
-  padding: calc(var(--spacing-25) / 2) var(--spacing-25);
-  font-size: var(--font-size-10);
-  color: var(--color-secondary);
-  background-color: var(--color-frame-bg);
-  border: 1px solid var(--color-secondary-25);
-  border-radius: var(--border-radius);
-}
 .cog#tooltip {
   --tooltip-border-with: 2px;
   background-color: var(--color-frame-bg);
@@ -662,10 +430,36 @@
 .cog#tooltip > :last-child {
   margin-bottom: 0;
 }
-/* ---------------------------------- */
-/*  Slide Toggles
-/* ---------------------------------- */
-slide-toggle {
+.application {
+  /* ---------------------------------- */
+  /*  Slide Toggles
+  /* ---------------------------------- */
+  /* ----------------------------------------- */
+  /* Frames
+  /* ----------------------------------------- */
+  /* ----------------------------------------- */
+  /*  Buttons
+  /* ----------------------------------------- */
+  /* ----------------------------------------- */
+  /*  Pips
+  /* ----------------------------------------- */
+  /* ----------------------------------------- */
+  /*  Data values
+  /* ----------------------------------------- */
+  /* ----------------------------------------- */
+  /*  Data Charts
+  /* ----------------------------------------- */
+  /* ----------------------------------------- */
+  /*  Tags
+  /* ----------------------------------------- */
+  /* ----------------------------------------- */
+  /*  Inline items
+  /* ----------------------------------------- */
+  /* ----------------------------------------- */
+  /*  Instructions
+  /* ----------------------------------------- */
+}
+.application slide-toggle {
   --slide-toggle-height: 20px;
   --slide-toggle-width: 36px;
   --slide-toggle-padding: 2px;
@@ -683,7 +477,7 @@ slide-toggle {
   cursor: pointer;
   /* Checked state */
 }
-slide-toggle .slide-toggle-track {
+.application slide-toggle .slide-toggle-track {
   width: 100%;
   height: 100%;
   background: var(--slide-toggle-track-color-unchecked);
@@ -694,7 +488,7 @@ slide-toggle .slide-toggle-track {
   padding: var(--slide-toggle-padding);
   border: var(--slide-toggle-track-border-width) solid var(--slide-toggle-track-border-color);
 }
-slide-toggle .slide-toggle-thumb {
+.application slide-toggle .slide-toggle-thumb {
   width: var(--slide-toggle-thumb-width);
   height: var(--slide-toggle-thumb-height);
   border-radius: 100%;
@@ -704,17 +498,358 @@ slide-toggle .slide-toggle-thumb {
   transition: margin-left var(--slide-toggle-transition-time) ease;
   line-height: calc(var(--slide-toggle-thumb-height) - (var(--slide-toggle-padding)));
 }
-slide-toggle .slide-toggle-thumb::before {
+.application slide-toggle .slide-toggle-thumb::before {
   font-family: var(--font-awesome);
   color: var(--color-secondary);
   font-weight: bold;
   font-size: var(--font-size-9);
 }
-slide-toggle[checked] .slide-toggle-track {
+.application slide-toggle[checked] .slide-toggle-track {
   background: var(--slide-toggle-track-color-checked);
 }
-slide-toggle[checked] .slide-toggle-thumb {
+.application slide-toggle[checked] .slide-toggle-thumb {
   margin-left: calc(100% - var(--slide-toggle-thumb-width));
+}
+.application .framed-section {
+  position: relative;
+  background-color: var(--color-frame-bg-50);
+  border: 1px solid var(--color-secondary-25);
+  border-radius: var(--border-radius);
+  backdrop-filter: blur(1px);
+  padding: var(--spacing-50);
+  align-items: flex-start;
+}
+.application .framed-section:has(> h2) {
+  padding: var(--spacing-175) var(--spacing-100) var(--spacing-50) var(--spacing-100);
+}
+.application .framed-section:has(> h2) h2 {
+  position: absolute;
+  margin: 0;
+  height: var(--spacing-150);
+  padding: calc(var(--spacing-50) - 2px) var(--spacing-50);
+  background: var(--color-frame-bg);
+  border: 1px solid var(--color-secondary-25);
+  box-shadow: 0 0 4px var(--color-secondary-25);
+  border-radius: var(--border-radius);
+  top: calc(-1 * (var(--spacing-50)));
+  left: 50%;
+  transform: translateX(-50%);
+}
+.application .framed-section h3 {
+  font-size: var(--font-size-12);
+}
+.application .standard-button {
+  display: inline-flex;
+  flex: 0;
+  align-items: center;
+  gap: var(--spacing-50);
+  height: var(--spacing-175);
+  padding: var(--spacing-50);
+  font-family: var(--font-h3);
+  font-size: var(--font-size-14);
+  background-color: var(--color-frame-bg-50);
+  border: 1px solid var(--color-secondary-25);
+  border-radius: var(--border-radius-half);
+  backdrop-filter: blur(1px);
+  transition: border-color 0.5s;
+}
+.application .standard-button.raised {
+  box-shadow: 0 0 5px var(--color-drop-shadow);
+}
+.application .standard-button:hover {
+  border-color: var(--color-primary);
+}
+.application .standard-button i {
+  color: var(--color-secondary);
+  transition: color 0.5s;
+}
+.application .standard-button:hover i {
+  color: var(--color-primary);
+}
+.application .standard-button.highlighted i {
+  color: var(--color-primary);
+}
+.application .icon-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-tertiary-75);
+  cursor: pointer;
+  transition: color 0.5s;
+  font-size: var(--font-size-14);
+  line-height: normal;
+}
+.application .icon-button:hover {
+  color: var(--color-primary);
+}
+.application h1 .icon-button,
+.application h2 .icon-button,
+.application h3 .icon-button {
+  margin-left: var(--spacing-25);
+}
+.application h3:has(.icon-button) {
+  flex-wrap: nowrap;
+}
+.application .pips {
+  display: flex;
+  gap: var(--spacing-100);
+  margin: var(--spacing-50);
+}
+.application .pips .pip {
+  --pip-size: 20px;
+  --pip-border: 1px;
+  --pip-radius: var(--border-radius-half);
+  cursor: pointer;
+  position: relative;
+  border: var(--pip-border) solid var(--color-secondary);
+  border-radius: var(--border-radius-half);
+  width: var(--pip-size);
+  height: var(--pip-size);
+  background-color: var(--color-frame-bg);
+  box-shadow: 0 0 5px var(--color-drop-shadow);
+  transition: filter 0.5s;
+}
+.application .pips .pip:hover {
+  filter: drop-shadow(0 0 3px var(--color-secondary-75));
+}
+.application .pips .pip.filled::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-secondary);
+  border: calc(var(--pip-border) * 2) solid var(--color-frame-bg);
+  border-radius: calc(var(--pip-radius) / 2);
+}
+.application .data.value {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-h3);
+  width: var(--value-size);
+  height: var(--value-size);
+  max-width: var(--value-size);
+  max-height: var(--value-size);
+  font-size: var(--value-font-size);
+  text-align: center;
+  transition: color 0.5s;
+}
+.application .data.value::before {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: var(--background-image);
+  background-repeat: no-repeat;
+  transition: filter 0.5s;
+}
+.application .data.value input {
+  font-size: var(--value-font-size);
+  margin: 0 calc(var(--value-size) * 0.2);
+  padding: 0;
+}
+.application .data.value input:focus {
+  box-shadow: none;
+}
+.application .data.value.clickable {
+  cursor: pointer;
+}
+.application .data.value.clickable:hover {
+  color: var(--color-primary);
+}
+.application .data.value.clickable:hover::before {
+  filter: contrast(120%);
+}
+.application .data.value.editable:hover::before {
+  filter: contrast(105%);
+}
+.application .data.value.editable input {
+  --input-background-color: transparent;
+  --input-border-color: transparent;
+  --input-focus-outline-color: transparent;
+}
+.application .data.value.tiny {
+  --value-size: 26px;
+  --value-font-size: var(--font-size-12);
+  --background-image: url(/systems/cog/ui/value/tiny.webp);
+}
+.application .data.value.tiny.alt {
+  --background-image: url(/systems/cog/ui/value/tiny-alt.webp);
+}
+.application .data.value.mini {
+  --value-size: 50px;
+  --value-font-size: var(--font-size-14);
+  --background-image: url(/systems/cog/ui/value/mini.webp);
+}
+.application .data.value.large {
+  --value-size: 88px;
+  --value-font-size: var(--font-size-22);
+  --background-image: url(/systems/cog/ui/value/large.webp);
+}
+.application .data.value.large.alt {
+  --background-image: url(/systems/cog/ui/value/large-alt.webp);
+}
+.application .data.value.large input {
+  --input-height: var(--spacing-200);
+}
+.application .data.chart.diverging {
+  --chart-height: 26px;
+  --bar-height: 8px;
+  --protection-height: 8px;
+  --reduction-height: 6px;
+  --bar-max-pct: 46.5%;
+  --bar-pct: 0%;
+  position: relative;
+  width: 100%;
+  display: flex;
+  height: var(--bar-height);
+  margin: calc((var(--chart-height) - var(--bar-height)) / 2) 0;
+  justify-content: center;
+  align-items: center;
+}
+.application .data.chart.diverging::before {
+  content: "";
+  display: block;
+  position: absolute;
+  height: var(--bar-height);
+  width: 100%;
+  background: radial-gradient(circle, var(--color-secondary) 40%, transparent 41%) left center, radial-gradient(circle, var(--color-secondary) 40%, transparent 41%) right center, linear-gradient(to right, var(--color-secondary) 0, var(--color-secondary) 100%);
+  background-size: var(--bar-height) var(--bar-height), var(--bar-height) var(--bar-height), calc(100% - var(--bar-height)) 1px;
+  background-position: 0 center, 100% center, calc(var(--bar-height) / 2) center;
+  background-repeat: no-repeat;
+}
+.application .data.chart.diverging .value {
+  z-index: 2;
+}
+.application .data.chart.diverging .primary {
+  position: absolute;
+  height: var(--protection-height);
+  max-width: var(--bar-max-pct);
+  border-radius: 2px;
+  background: var(--color-frame-bg);
+  border: 1px solid;
+  z-index: 0;
+}
+.application .data.chart.diverging .primary.positive {
+  width: var(--bar-pct);
+  left: calc(50% + var(--bar-height));
+  border-color: var(--color-reduction-positive);
+  border-left: none;
+}
+.application .data.chart.diverging .primary.negative {
+  width: var(--bar-pct);
+  right: calc(50% + var(--bar-height));
+  border-color: var(--color-secondary);
+  border-right: none;
+}
+.application .data.chart.diverging .secondary {
+  position: absolute;
+  height: var(--reduction-height);
+  max-width: var(--bar-max-pct);
+  z-index: 1;
+  background-repeat: no-repeat;
+}
+.application .data.chart.diverging .secondary.positive {
+  background-image: url(/systems/cog/ui/chart/secondary-positive.webp);
+  width: var(--bar-pct);
+  left: calc(50% + var(--bar-height));
+}
+.application .data.chart.diverging .secondary.negative {
+  background-image: url(/systems/cog/ui/chart/secondary-negative.webp);
+  width: var(--bar-pct);
+  right: calc(50% + var(--bar-height));
+}
+.application .tags {
+  display: flex;
+  gap: var(--spacing-25);
+}
+.application .tags .tag {
+  padding: calc(var(--spacing-25) / 2) var(--spacing-25);
+  font-size: var(--font-size-10);
+  color: var(--color-secondary);
+  background-color: var(--color-frame-bg);
+  border: 1px solid var(--color-secondary-25);
+  border-radius: var(--border-radius);
+}
+.application .line-item {
+  --item-height: var(--spacing-200);
+  overflow: hidden;
+  height: var(--item-height);
+  align-items: stretch;
+  flex-wrap: nowrap;
+  flex-basis: content;
+  flex-grow: 0;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-half);
+}
+.application .line-item > .label {
+  align-items: center;
+  font-family: var(--font-h3);
+  background-color: var(--color-frame-bg);
+  white-space: nowrap;
+  padding: calc(var(--spacing-25) / 2) var(--spacing-50) 0 var(--spacing-50);
+}
+.application .line-item .details {
+  flex-basis: content;
+  align-items: center;
+  background-color: var(--color-frame-bg-50);
+}
+.application .line-item .details img.icon {
+  width: var(--item-height);
+  height: auto;
+}
+.application .line-item .details i.icon {
+  padding: 0 var(--spacing-25);
+  font-size: var(--font-size-16);
+  padding-top: calc(var(--spacing-25) / 2);
+}
+.application .line-item .details .name {
+  padding: 0 var(--spacing-50);
+  white-space: nowrap;
+}
+.application .line-item .action {
+  flex-basis: content;
+  padding: 0 var(--spacing-50);
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  background-color: var(--color-frame-bg);
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.5s;
+}
+.application .line-item .action i {
+  padding-top: var(--spacing-25);
+}
+.application .line-item .action:hover {
+  background-color: var(--color-secondary);
+}
+.application .line-item.unknown {
+  border: 1px dashed var(--color-error);
+}
+.application .line-item.unknown .details {
+  color: var(--color-error);
+  cursor: initial;
+}
+.application .line-item.unknown .details i.icon {
+  height: auto;
+  font-size: var(--font-size-16);
+  line-height: var(--font-size-16);
+}
+.application .instruction {
+  padding: var(--spacing-100);
+  border-radius: var(--border-radius);
+  border: 2px dashed var(--color-tertiary-50);
+  color: var(--color-tertiary-75);
+  text-align: center;
+}
+.application .instruction.droppable {
+  cursor: pointer;
 }
 /* ----------------------------------------- */
 /*  Application V2 Styles
@@ -724,7 +859,6 @@ slide-toggle[checked] .slide-toggle-thumb {
   --background-texture: url("../ui/application/background.webp");
   --background-overlay: url("../ui/application/overlay.webp");
   background: var(--background-texture) no-repeat, #000000;
-  background-size: cover;
   border-color: var(--color-frame-bg);
   gap: 0;
   box-sizing: content-box;
@@ -1232,6 +1366,9 @@ slide-toggle[checked] .slide-toggle-thumb {
   /* ----------------------------------------- */
   /*  Sheet Body
   /* ----------------------------------------- */
+  /* ----------------------------------------- */
+  /*  Sheet Body
+  /* ----------------------------------------- */
 }
 .cog.sheet.item .sheet-header {
   --sheet-header-height: 80px;
@@ -1286,4 +1423,8 @@ slide-toggle[checked] .slide-toggle-thumb {
 }
 .cog.sheet.item .sheet-body > .tab {
   padding: var(--spacing-100);
+}
+.cog.sheet.item.path .features {
+  gap: var(--spacing-100);
+  justify-content: center;
 }

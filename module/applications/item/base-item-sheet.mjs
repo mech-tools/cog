@@ -14,9 +14,7 @@ export default class COGBaseItemSheet extends COGBaseSheet(sheets.ItemSheetV2) {
       width: 560,
       height: "auto",
     },
-    actions: {
-      editImage: COGBaseItemSheet.#onEditImage,
-    },
+    actions: {},
     item: {
       type: undefined, // Defined by subclass
       advancedDescription: false,
@@ -159,39 +157,11 @@ export default class COGBaseItemSheet extends COGBaseSheet(sheets.ItemSheetV2) {
       secrets: this.document.isOwner,
     };
 
+    // Enrich HTML
     for (const key in description) {
       description[key].enriched = await TextEditor.enrichHTML(description[key].value, context);
     }
 
     return description;
-  }
-
-  /* -------------------------------------------- */
-  /*  Actions Event Handlers
-  /* -------------------------------------------- */
-
-  /**
-   * Edit the Item profile image.
-   * @param {PointerEvent} event   The triggering event.
-   * @param {HTMLElement}  target  The targeted dom element.
-   * @returns {Promise<void>}
-   */
-  static async #onEditImage(event, target) {
-    const attr = target.dataset.edit;
-    const current = foundry.utils.getProperty(this.document, attr);
-    const fp = new FilePicker({
-      current,
-      type: "image",
-      callback: (path) => {
-        target.src = path;
-        if (this.options.form.submitOnChange) {
-          const submit = new Event("submit");
-          this.element.dispatchEvent(submit);
-        }
-      },
-      top: this.position.top + 40,
-      left: this.position.left + 10,
-    });
-    await fp.browse();
   }
 }

@@ -29,6 +29,21 @@ export const ACTOR_SIZES = new Enum({
 /* -------------------------------------------- */
 
 /**
+ * Possible lifetyles of an Actor.
+ * @type {Enum<string>}
+ */
+export const ACTOR_LIFESTYLES = new Enum({
+  WRETCHED: { label: "COG.ACTOR_LIFESTYLES.Wretched", value: "wretched" },
+  POOR: { label: "COG.ACTOR_LIFESTYLES.Poor", value: "poor" },
+  MODEST: { label: "COG.ACTOR_LIFESTYLES.Modest", value: "modest" },
+  COMFORTABLE: { label: "COG.ACTOR_LIFESTYLES.Comfortable", value: "comfortable" },
+  WEALTHY: { label: "COG.ACTOR_LIFESTYLES.Wealthy", value: "wealthy" },
+  OPULENT: { label: "COG.ACTOR_LIFESTYLES.Opulent", value: "opulent" },
+});
+
+/* -------------------------------------------- */
+
+/**
  * The base threshold for initiative onto which bonuses are added.
  * @type {number}
  */
