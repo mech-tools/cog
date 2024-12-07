@@ -1,7 +1,7 @@
 <section class="tab sheet-body flexcol {{tabs.description.cssClass}}" data-tab="{{tabs.description.id}}"
     data-group="{{tabs.description.group}}">
     {{! Secondary Tabs Nav }}
-    {{> (lookup @root "tabsPartial") tabs=tabGroups.description }}
+    {{> "cog.item-nav" tabs=tabGroups.description }}
 
     {{! Public description }}
     <section class="tab flexcol {{tabGroups.description.public.cssClass}}"

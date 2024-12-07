@@ -1,0 +1,59 @@
+<section class="tab sheet-body flexcol {{tabs.config.cssClass}}" data-tab="{{tabs.config.id}}"
+    data-group="{{tabs.config.group}}">
+    {{! Secondary Tabs Nav }}
+    {{> "cog.item-nav" tabs=tabGroups.archetype }}
+
+    {{! Archetype mode }}
+    <section class="tab flexcol {{tabGroups.archetype.config.cssClass}}" data-tab="{{tabGroups.archetype.config.id}}"
+        data-group="{{tabGroups.archetype.config.group}}">
+        <fieldset>
+            <legend>{{localize "COG.ARCHETYPE.LABELS.Archetype_mode"}}</legend>
+            {{formGroup
+                mode.field
+                value=mode.value
+            }}
+        </fieldset>
+    </section>
+
+    {{! Archetype paths }}
+    <section class="tab flexrow paths {{tabGroups.archetype.paths.cssClass}}"
+        data-tab="{{tabGroups.archetype.paths.id}}" data-group="{{tabGroups.archetype.paths.group}}">
+        {{#each paths as |path|}}
+            <fieldset class="drop-zone" data-key="{{@key}}">
+                <legend>
+                    {{localize path.value.field.label}}
+                    {{#if path.rank}}
+                        {{#unless path.value.itemData}}
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        {{/unless}}
+                    {{/if}}
+                    {{#if path.value.itemData.error}}
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    {{/if}}
+                </legend>
+
+                <div class="flexrow path">
+                    {{#if path.value.value}}
+                        {{> "cog.item-line"
+                        item=path.value.itemData
+                        action="removePath"
+                        actionKey=@key
+                    }}
+                    {{else}}
+                        <div class="mini instruction droppable">{{localize "COG.ARCHETYPE.LABELS.Add_path"}}</div>
+                    {{/if}}
+                </div>
+
+                {{#if path.rank}}
+                    {{formGroup
+                        path.rank.field
+                        value=path.rank.value
+                        disabled=path.path.itemData
+                        localize=true
+                        stacked=true
+                    }}
+                {{/if}}
+            </fieldset>
+        {{/each}}
+    </section>
+</section>

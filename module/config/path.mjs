@@ -1,7 +1,7 @@
 import { Enum } from "./api/_modules.mjs";
 
 /**
- * Possible types of a PATH.
+ * Possible types of a Paths.
  * @type {Enum<string>}
  */
 export const PATH_TYPES = new Enum({

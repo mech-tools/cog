@@ -6,7 +6,8 @@
     },
     "Item": {
       "feature": "Capacité ",
-      "path": "Voie "
+      "path": "Voie ",
+      "archetype": "Profil "
     }
   },
 
@@ -42,6 +43,11 @@
     "Species": "Espèce",
     "Cultural": "Culturel",
     "Expertise": "Savoir-faire"
+  },
+
+  "COG.ARCHETYPE_MODES": {
+    "Simple": "Simplifié",
+    "Advanced": "Détaillé"
   },
 
   "COG.ACTOR": {
@@ -120,6 +126,14 @@
       "Paths": "Voies",
       "Effects": "Effets",
       "Biography": "Biographie"
+    },
+
+    "PATH_TABS": {
+      "Species": "Voie d'espèce",
+      "Cultural": "Voie culturelle",
+      "Hobby": "Voie de hobby",
+      "Expertise": "Voie professionnelle",
+      "Prestige": "Voie de prestige"
     },
 
     "LABELS": {
@@ -283,16 +297,52 @@
       }
     },
 
+    "TABS": {
+      "Config": "Voie",
+      "Features": "Capacités [{count}/5]"
+    },
+
     "ERRORS": {
-      "DUPLICATE_FEATURE": "Vous ne pouvez pas ajouter deux fois la même Capacité.",
+      "DUPLICATED_FEATURE": "Vous ne pouvez pas ajouter deux fois la même Capacité.",
       "NOT_A_FEATURE": "Vous pouvez uniquement ajouter des objets de type \"Capacité\" à une voie."
     },
 
     "LABELS": {
-      "Path_type": "Configuration du type de voie",
+      "Path_type": "Type de voie",
       "Path_configuration": "Configuration de la voie",
-      "Features_configuration": "Configuration des capacités [{count}/5]",
+      "Features_configuration": "Capacités [{count}/5]",
       "Add_features": "Ajoutez cinq capacités à cette voie en glissant & déposant les capacités directement sur cette fiche."
+    }
+  },
+
+  "COG.ARCHETYPE": {
+    "FIELDS": {
+      "mode.label": "Mode",
+      "mode.hint": "Le mode simplifié vous permet d'accéder aux profils des règles de base. Le mode de création détaillé vous permet de créer votre propre profil en utilisant les points de création.",
+      "paths": {
+        "cultural.value.label": "Voie culturelle",
+        "hobby.value.label": "Voie de hobby",
+        "[expertise].value.label": "Voie professionnelle",
+        "[path].rank.label": "Rang de départ"
+      }
+    },
+
+    "TABS": {
+      "Config": "Profil",
+      "Paths": "Voies [{count}/4]"
+    },
+
+    "ERRORS": {
+      "DUPLICATED_PATH": "Vous ne pouvez pas ajouter deux fois la même Voie.",
+      "NOT_A_PATH": "Vous pouvez uniquement ajouter des objets de type \"Voie\" à un profil.",
+      "WRONG_PATH_TYPE": "Vous pouvez uniquement ajouter une Voie du bon type à chaque emplacement de voie du profil.",
+      "PATH_INCOMPLETE": "La Voie n'est déposée n'est pas complète."
+    },
+
+    "LABELS": {
+      "Archetype_mode": "Mode de création",
+      "Paths_configuration": "Configuration des voies",
+      "Add_path": "Ajoutez une voie en glissant & déposant une voie ici."
     }
   }
 }

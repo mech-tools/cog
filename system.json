@@ -42,7 +42,8 @@
     },
     "Item": {
       "feature": { "htmlFields": ["description.public"] },
-      "path": { "htmlFields": ["description.public"] }
+      "path": { "htmlFields": ["description.public"] },
+      "archetype": { "htmlFields": ["description.public"] }
     }
   },
   "grid": {

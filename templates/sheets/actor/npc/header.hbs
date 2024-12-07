@@ -4,7 +4,7 @@
         {{> "cog.actor-name"}}
 
         {{! NPC CR }}
-        <div class="level flexrow flex0">
+        <div class="level flexrow flex0 nowrap">
             <span class="label">{{advancement.cr.field.label}}</span>
             {{#if editMode}}
                 {{formInput
@@ -18,7 +18,7 @@
         </div>
 
         {{! NPC Size }}
-        <div class="size flexrow flex0" data-tooltip="{{attributes.size.field.label}}" data-tooltip-class="cog">
+        <div class="size flexrow flex0 nowrap" data-tooltip="{{attributes.size.field.label}}" data-tooltip-class="cog">
             {{#if editMode}}
                 {{formInput
                     attributes.size.field

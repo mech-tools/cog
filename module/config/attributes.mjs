@@ -56,6 +56,7 @@ export const BASE_INITIATIVE = 10;
  * @type {number}
  */
 export const BASE_WOUND_THRESHOLD = 10;
+
 /* -------------------------------------------- */
 
 /**

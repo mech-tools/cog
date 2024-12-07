@@ -29,7 +29,7 @@ export default class COGBaseItemSheet extends COGBaseSheet(sheets.ItemSheetV2) {
     },
     tabs: {
       id: "tabs",
-      template: "templates/generic/tab-navigation.hbs",
+      template: "systems/cog/templates/sheets/item/partials/item-nav.hbs",
     },
     description: {
       id: "description",
@@ -60,12 +60,6 @@ export default class COGBaseItemSheet extends COGBaseSheet(sheets.ItemSheetV2) {
         label: "COG.ITEM.TABS.Config",
       },
     ],
-  };
-
-  /** @override */
-  tabGroups = {
-    sheet: "description",
-    description: "public", // Used by advancedDescription
   };
 
   /* -------------------------------------------- */
@@ -100,40 +94,18 @@ export default class COGBaseItemSheet extends COGBaseSheet(sheets.ItemSheetV2) {
 
   /** @override */
   async _prepareContext(_options) {
-    const tabGroups = this.#getTabs();
+    const tabGroups = this._getTabs();
 
     return {
       // Sheet
       tabGroups,
       tabs: tabGroups.sheet,
-      tabsPartial: this.constructor.PARTS.tabs.template,
 
       // Data
       name: { field: this.document.schema.getField("name"), value: this.document.name },
       img: { field: this.document.schema.getField("img"), value: this.document.img },
       description: await this.#prepareDescription(),
     };
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Configure the tabs used by this sheet.
-   * @returns {Record<string, Record<string, ApplicationTab>>}
-   * @protected
-   */
-  #getTabs() {
-    const tabs = {};
-    for (const [groupId, config] of Object.entries(this.constructor.TABS)) {
-      const group = {};
-      for (const t of config) {
-        const active = this.tabGroups[t.group] === t.id;
-        group[t.id] = Object.assign({ active, cssClass: active ? "active" : "" }, t);
-      }
-      tabs[groupId] = group;
-    }
-
-    return tabs;
   }
 
   /* -------------------------------------------- */
@@ -164,4 +136,27 @@ export default class COGBaseItemSheet extends COGBaseSheet(sheets.ItemSheetV2) {
 
     return description;
   }
+
+  /* -------------------------------------------- */
+  /*  Sheet Rendering
+  /* -------------------------------------------- */
+
+  /** @inheritDoc */
+  _onRender(context, options) {
+    super._onRender(context, options);
+
+    const dropZones = this.element.querySelectorAll(".drop-zone");
+
+    for (const dropZone of dropZones) {
+      dropZone.addEventListener("drop", this._onDropItem.bind(this));
+    }
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handles the dropping of an item into the item.
+   * @param {DragEvent} _event  The triggering event.
+   */
+  _onDropItem(_event) {}
 }

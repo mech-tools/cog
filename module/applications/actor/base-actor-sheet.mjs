@@ -56,12 +56,14 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
    * Define the structure of tabs used by this Actor Sheet.
    */
   static TABS = {
-    sheet: [{ id: "attributes", group: "sheet", label: "COG.ACTOR.TABS.Attributes" }],
-  };
-
-  /** @override */
-  tabGroups = {
-    sheet: "attributes",
+    sheet: [
+      {
+        id: "attributes",
+        group: "sheet",
+        icon: "fa-duotone fa-solid fa-chart-simple",
+        label: "COG.ACTOR.TABS.Attributes",
+      },
+    ],
   };
 
   /**
@@ -105,6 +107,8 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       this.TABS.sheet.push({
         id: "actions",
         group: "sheet",
+        icon: "fa-solid fa-bolt",
+        padded: true,
         label: "COG.ACTOR.TABS.Actions",
       });
     }
@@ -118,6 +122,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       this.TABS.sheet.push({
         id: "inventory",
         group: "sheet",
+        icon: "fa-duotone fa-solid fa-layer-group",
         label: "COG.ACTOR.TABS.Inventory",
       });
     }
@@ -131,6 +136,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       this.TABS.sheet.push({
         id: "paths",
         group: "sheet",
+        icon: "fa-duotone fa-regular fa-code-branch",
         label: "COG.ACTOR.TABS.Paths",
       });
     }
@@ -144,6 +150,8 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       this.TABS.sheet.push({
         id: "effects",
         group: "sheet",
+        icon: "fa-regular fa-atom",
+        padded: true,
         label: "COG.ACTOR.TABS.Effects",
       });
     }
@@ -157,6 +165,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       this.TABS.sheet.push({
         id: "biography",
         group: "sheet",
+        icon: "fa-duotone fa-solid fa-passport",
         label: "COG.ACTOR.TABS.Biography",
       });
     }
@@ -177,7 +186,7 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
 
   /** @override */
   async _prepareContext(_options) {
-    const tabGroups = this.#getTabs();
+    const tabGroups = this._getTabs();
 
     return {
       // Sheet
@@ -193,36 +202,6 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       attributes: this.#prepareAttributes(),
       attacks: this.#prepareAttacks(),
     };
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Configure the tabs used by this sheet.
-   * @returns {Record<string, Record<string, ApplicationTab>>}
-   */
-  #getTabs() {
-    const tabs = {};
-
-    for (const [groupId, config] of Object.entries(this.constructor.TABS)) {
-      const group = {};
-
-      for (const t of config) {
-        const active = this.tabGroups[t.group] === t.id;
-        const icon = `systems/cog/ui/actor/tabs/${t.id}.svg`;
-
-        group[t.id] = {
-          active,
-          cssClass: active ? "active" : "",
-          icon,
-          ...t,
-        };
-      }
-
-      tabs[groupId] = group;
-    }
-
-    return tabs;
   }
 
   /* -------------------------------------------- */

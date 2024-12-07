@@ -82,6 +82,9 @@
   /* ----------------------------------------- */
   /*  Tooltips
   /* ----------------------------------------- */
+  /* ----------------------------------------- */
+  /*  Helpers
+  /* ----------------------------------------- */
 }
 .cog.application {
   /* ----------------------------------------- */
@@ -150,6 +153,11 @@
   font-size: var(--font-size-14);
   color: var(--color-text);
 }
+.cog.application hr {
+  margin: var(--spacing-25) 0;
+  background: var(--color-secondary-50);
+  height: 1px;
+}
 .cog.application a,
 .cog.application a:hover {
   text-shadow: 0 0 5px var(--color-drop-shadow);
@@ -206,6 +214,20 @@
   --color-select-option-bg: var(--color-frame-bg);
   font-size: var(--font-size-12);
   color: var(--color-text-75);
+}
+.cog.application input[type="range"] {
+  --thumb-size: var(--font-size-14);
+  --range-track-color: var(--color-frame-bg);
+  --range-thumb-background-color: var(--color-secondary);
+  --range-thumb-border-color: var(--color-secondary);
+  --color-shadow-primary: tranparent;
+}
+.cog.application input[type="range"]:focus {
+  --range-thumb-border-color: var(--color-primary);
+  box-shadow: none;
+}
+.cog.application range-picker input[type="number"] {
+  font-size: var(--font-size-14);
 }
 .cog.application .framed-section input,
 .cog.application .framed-section select {
@@ -430,6 +452,13 @@
 .cog#tooltip > :last-child {
   margin-bottom: 0;
 }
+.cog .nowrap {
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+.cog i.incomplete {
+  color: var(--color-primary);
+}
 .application {
   /* ---------------------------------- */
   /*  Slide Toggles
@@ -556,6 +585,7 @@
 .application .standard-button.raised {
   box-shadow: 0 0 5px var(--color-drop-shadow);
 }
+.application .standard-button.active,
 .application .standard-button:hover {
   border-color: var(--color-primary);
 }
@@ -563,6 +593,7 @@
   color: var(--color-secondary);
   transition: color 0.5s;
 }
+.application .standard-button.active i,
 .application .standard-button:hover i {
   color: var(--color-primary);
 }
@@ -595,24 +626,30 @@
   gap: var(--spacing-100);
   margin: var(--spacing-50);
 }
-.application .pips .pip {
+.application .pip {
   --pip-size: 20px;
   --pip-border: 1px;
   --pip-radius: var(--border-radius-half);
+  display: inline-flex;
   cursor: pointer;
   position: relative;
   border: var(--pip-border) solid var(--color-secondary);
   border-radius: var(--border-radius-half);
   width: var(--pip-size);
   height: var(--pip-size);
+  min-width: var(--pip-size);
+  min-height: var(--pip-size);
   background-color: var(--color-frame-bg);
   box-shadow: 0 0 5px var(--color-drop-shadow);
   transition: filter 0.5s;
 }
-.application .pips .pip:hover {
+.application .pip:hover {
   filter: drop-shadow(0 0 3px var(--color-secondary-75));
 }
-.application .pips .pip.filled::before {
+.application .pip.small {
+  --pip-size: 14px;
+}
+.application .pip.filled::before {
   content: "";
   position: absolute;
   top: 0;
@@ -779,20 +816,21 @@
 }
 .application .line-item {
   --item-height: var(--spacing-200);
+  flex: 0 1 auto;
+  box-sizing: content-box;
   overflow: hidden;
   height: var(--item-height);
+  min-height: var(--item-height);
   align-items: stretch;
   flex-wrap: nowrap;
-  flex-basis: content;
-  flex-grow: 0;
   border: 1px solid transparent;
   border-radius: var(--border-radius-half);
+  align-self: flex-start;
 }
 .application .line-item > .label {
   align-items: center;
   font-family: var(--font-h3);
   background-color: var(--color-frame-bg);
-  white-space: nowrap;
   padding: calc(var(--spacing-25) / 2) var(--spacing-50) 0 var(--spacing-50);
 }
 .application .line-item .details {
@@ -802,7 +840,7 @@
 }
 .application .line-item .details img.icon {
   width: var(--item-height);
-  height: auto;
+  height: var(--item-height);
 }
 .application .line-item .details i.icon {
   padding: 0 var(--spacing-25);
@@ -810,14 +848,14 @@
   padding-top: calc(var(--spacing-25) / 2);
 }
 .application .line-item .details .name {
+  gap: var(--spacing-50);
+  align-items: baseline;
   padding: 0 var(--spacing-50);
-  white-space: nowrap;
 }
 .application .line-item .action {
   flex-basis: content;
   padding: 0 var(--spacing-50);
   flex-wrap: nowrap;
-  white-space: nowrap;
   background-color: var(--color-frame-bg);
   align-items: center;
   cursor: pointer;
@@ -828,6 +866,9 @@
 }
 .application .line-item .action:hover {
   background-color: var(--color-secondary);
+}
+.application .line-item.error {
+  border: 1px dashed var(--color-error);
 }
 .application .line-item.unknown {
   border: 1px dashed var(--color-error);
@@ -847,6 +888,13 @@
   border: 2px dashed var(--color-tertiary-50);
   color: var(--color-tertiary-75);
   text-align: center;
+  transition: border-color 0.25s;
+}
+.application .instruction:hover {
+  border: 2px dashed var(--color-tertiary-75);
+}
+.application .instruction.mini {
+  padding: var(--spacing-50);
 }
 .application .instruction.droppable {
   cursor: pointer;
@@ -939,6 +987,9 @@
   /* ----------------------------------------- */
   /*  Attributes Tab
   /* ----------------------------------------- */
+  /* ----------------------------------------- */
+  /*  Paths Tab
+  /* ----------------------------------------- */
 }
 .cog.sheet.actor .window-content {
   padding: var(--spacing-25) var(--spacing-100) var(--spacing-100);
@@ -954,11 +1005,6 @@
 .cog.sheet.actor.minimizing .window-content,
 .cog.sheet.actor.maximizing .window-content {
   overflow: hidden;
-}
-.cog.sheet.actor .tab {
-  flex: 1;
-  position: relative;
-  padding-top: var(--spacing-50);
 }
 .cog.sheet.actor .mode-slider .slide-toggle-thumb::before {
   content: "\f0ad";
@@ -976,7 +1022,6 @@
 }
 .cog.sheet.actor .sheet-tabs {
   --tab-size: 38px;
-  --icon-size: 20px;
   flex-direction: column;
   position: absolute;
   width: var(--tab-size);
@@ -988,36 +1033,43 @@
 .cog.sheet.actor .sheet-tabs > a {
   display: flex;
   justify-content: center;
-  align-items: stretch;
+  align-items: center;
   width: var(--tab-size);
   height: var(--tab-size);
   padding: 0;
   background: var(--tab-background);
-  border: 2px solid var(--tab-background);
-  border-left: none;
   border-radius: 0 var(--border-radius-half) var(--border-radius-half) 0;
   box-shadow: 0 0 4px 0px var(--color-drop-shadow);
+  color: var(--color-tertiary-50);
   transition: border-color 0.25s;
 }
+.cog.sheet.actor .sheet-tabs > a i {
+  flex-basis: content;
+  margin: 0;
+  transition: color 0.25s;
+  font-size: var(--font-size-18);
+}
+.cog.sheet.actor .sheet-tabs > a.padded i {
+  margin-top: calc(var(--spacing-25) / 2);
+}
 .cog.sheet.actor .sheet-tabs > a.active {
-  border-color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  border-left: none;
 }
-.cog.sheet.actor .sheet-tabs > a .tab-icon {
-  background-color: var(--color-tertiary-50);
-  mask-repeat: no-repeat;
-  mask-position: center;
-  mask-size: auto var(--icon-size);
-  transition: background-color 0.5s;
+.cog.sheet.actor .sheet-tabs > a:hover i {
+  color: var(--color-primary);
 }
-.cog.sheet.actor .sheet-tabs > a:hover .tab-icon {
-  background-color: var(--color-primary);
-}
-.cog.sheet.actor .sheet-tabs > a.active .tab-icon {
-  background-color: var(--color-primary);
+.cog.sheet.actor .sheet-tabs > a.active i {
+  color: var(--color-primary);
 }
 .cog.sheet.actor .sheet-body {
   flex: 1;
   gap: var(--spacing-100);
+}
+.cog.sheet.actor .sheet-body > .tab {
+  flex: 1;
+  position: relative;
+  padding-top: var(--spacing-50);
 }
 .cog.sheet.actor .sheet-sidebar {
   position: relative;
@@ -1197,18 +1249,11 @@
 .cog.sheet.actor .sheet-header header .size,
 .cog.sheet.actor .sheet-header header .level {
   gap: var(--spacing-50);
-  flex-wrap: nowrap;
   align-items: baseline;
   font-family: var(--font-h1);
   color: var(--color-primary);
   padding-top: var(--spacing-25);
   font-size: var(--font-size-14);
-}
-.cog.sheet.actor .sheet-header header .size .label,
-.cog.sheet.actor .sheet-header header .level .label,
-.cog.sheet.actor .sheet-header header .size .value,
-.cog.sheet.actor .sheet-header header .level .value {
-  white-space: nowrap;
 }
 .cog.sheet.actor .sheet-header header .size {
   flex-basis: auto;
@@ -1293,6 +1338,82 @@
   width: 100%;
   gap: var(--spacing-25);
 }
+.cog.sheet.actor .tab.paths {
+  gap: var(--spacing-150);
+}
+.cog.sheet.actor .tab.paths .available-points {
+  justify-content: center;
+}
+.cog.sheet.actor .tab.paths .available-points h3 {
+  font-size: var(--font-size-12);
+  background-color: var(--color-frame-bg);
+  border: 1px solid var(--color-secondary-25);
+  padding: var(--spacing-25) var(--spacing-200) var(--spacing-25) var(--spacing-100);
+}
+.cog.sheet.actor .tab.paths .available-points .data.value {
+  z-index: 1;
+  margin-left: calc(-1 * var(--spacing-150));
+}
+.cog.sheet.actor .tab.paths .details {
+  gap: var(--spacing-100);
+  flex-grow: 1;
+}
+.cog.sheet.actor .tab.paths .details .tabs {
+  gap: var(--spacing-50);
+  flex-wrap: wrap;
+}
+.cog.sheet.actor .tab.paths .details .tabs > a {
+  flex: 1 1 calc(33.333% - var(--spacing-50));
+  max-width: calc(33.333% - var(--spacing-50));
+}
+.cog.sheet.actor .tab.paths .details .tabs > a label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cog.sheet.actor .tab.paths .tab {
+  gap: var(--spacing-50);
+  align-items: flex-start;
+  justify-content: center;
+  flex-grow: 1;
+}
+.cog.sheet.actor .tab.paths .tab .feature {
+  flex: 0 0 calc(33% - (var(--spacing-50) * 2 / 3));
+  align-content: flex-start;
+  height: calc(50% - var(--spacing-50) / 2);
+  padding: 0;
+}
+.cog.sheet.actor .tab.paths .tab .feature .title {
+  width: 100%;
+  gap: var(--spacing-25);
+  background-color: var(--color-frame-bg);
+  border-bottom: 1px solid var(--color-secondary-25);
+  padding: calc(var(--spacing-25) + var(--spacing-25) / 2) var(--spacing-50);
+  font-family: var(--font-h3);
+}
+.cog.sheet.actor .tab.paths .tab .feature .title .pip {
+  margin-right: var(--spacing-25);
+}
+.cog.sheet.actor .tab.paths .tab .feature .title .rank,
+.cog.sheet.actor .tab.paths .tab .feature .title .separator {
+  color: var(--color-secondary);
+}
+.cog.sheet.actor .tab.paths .tab .feature .title .name {
+  flex-basis: content;
+  color: var(--color-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cog.sheet.actor .tab.paths .tab .feature .body {
+  padding: var(--spacing-50);
+  gap: var(--spacing-50);
+  flex-grow: 1;
+}
+.cog.sheet.actor .tab.paths .tab .feature .body .description {
+  flex-grow: 1;
+}
+.cog.sheet.actor .tab.paths .tab .feature .body .footer .actions {
+  justify-content: flex-end;
+}
 /* ----------------------------------------- */
 /*  Config Sheet
 /* ----------------------------------------- */
@@ -1344,9 +1465,6 @@
   gap: var(--spacing-100);
   padding-top: var(--spacing-25);
 }
-.cog.sheet.config .incomplete {
-  color: var(--color-primary);
-}
 .cog.sheet.config .icon-button {
   font-size: var(--font-size-18);
 }
@@ -1367,7 +1485,10 @@
   /*  Sheet Body
   /* ----------------------------------------- */
   /* ----------------------------------------- */
-  /*  Sheet Body
+  /*  Path config
+  /* ----------------------------------------- */
+  /* ----------------------------------------- */
+  /*  Archetype config
   /* ----------------------------------------- */
 }
 .cog.sheet.item .sheet-header {
@@ -1426,5 +1547,15 @@
 }
 .cog.sheet.item.path .features {
   gap: var(--spacing-100);
+  justify-content: center;
+}
+.cog.sheet.item.archetype .paths {
+  align-items: stretch;
+}
+.cog.sheet.item.archetype .paths fieldset {
+  flex: 1 1 calc(50% - var(--spacing-100));
+  max-width: calc(50% - var(--spacing-100));
+}
+.cog.sheet.item.archetype .paths fieldset .path {
   justify-content: center;
 }

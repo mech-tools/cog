@@ -1,5 +1,6 @@
 import * as ATTRIBUTES from "./attributes.mjs";
 import * as PATH from "./path.mjs";
+import * as ARCHETYPE from "./archetype.mjs";
 import * as API from "./api/_modules.mjs";
 
 export const SYSTEM_ID = "cog";
@@ -23,4 +24,5 @@ export const COG = {
   BASE_WOUND_THRESHOLD: ATTRIBUTES.BASE_WOUND_THRESHOLD,
   BASE_DEFENSE_PROTECTION: ATTRIBUTES.BASE_DEFENSE_PROTECTION,
   PATH_TYPES: PATH.PATH_TYPES,
+  ARCHETYPE_MODES: ARCHETYPE.ARCHETYPE_MODES,
 };

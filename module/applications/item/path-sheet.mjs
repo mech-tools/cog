@@ -17,6 +17,13 @@ export default class PathSheet extends COGBaseItemSheet {
 
   static {
     this._initializeItemSheetClass();
+
+    // Paths tabs
+    this.TABS = foundry.utils.deepClone(this.TABS);
+    this.TABS.path = [
+      { id: "config", group: "paths", label: "COG.PATH.TABS.Config" },
+      { id: "features", group: "paths", label: "COG.PATH.TABS.Features" },
+    ];
   }
 
   /* -------------------------------------------- */
@@ -27,6 +34,10 @@ export default class PathSheet extends COGBaseItemSheet {
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
 
+    // Sheet
+    context.tabGroups = await this.#prepareTabGroups(context.tabGroups);
+
+    // Data
     context.tags = this.document.system.tags;
     context.type = this.makeField("type");
     context.features = await this.#prepareFeatures();
@@ -63,8 +74,35 @@ export default class PathSheet extends COGBaseItemSheet {
   /* -------------------------------------------- */
 
   /**
+   * Update and return a new tabGroups object updated with metadata.
+   * @param {Object} tabGroups  The tabGroups being updated.
+   * @returns {Promise<{ any: { any: { incomplete: boolean; count: number } } }>}
+   */
+  async #prepareTabGroups(tabGroups) {
+    const isIncomplete = !(await this.document.system.isComplete);
+    const featuresCount = await this.document.system.featuresCount;
+
+    const updatedTabGroups = foundry.utils.mergeObject(
+      tabGroups,
+      {
+        "sheet.config.incomplete": isIncomplete,
+        "path.features.incomplete": isIncomplete,
+        "path.features.count": featuresCount,
+      },
+      { inplace: true },
+    );
+
+    return updatedTabGroups;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
    * Prepare and format the display of Features on the item sheet.
-   * @returns {{ count: number; values: { any: { item: Object | null } } }}
+   * @returns {Promise<{
+   *   count: number;
+   *   values: { any: { itemData: { uuid: string; name: string; img: string } | null } };
+   * }>}
    */
   async #prepareFeatures() {
     const features = {
@@ -87,27 +125,7 @@ export default class PathSheet extends COGBaseItemSheet {
       }
     }
 
-    // Count all available features and deduce completed
-    features.count = Object.values(features.values).reduce(
-      (count, feature) => (feature.itemData ? count + 1 : count),
-      0,
-    );
-    features.complete = features.count === 5;
-
     return features;
-  }
-
-  /* -------------------------------------------- */
-  /*  Sheet Rendering
-  /* -------------------------------------------- */
-
-  /** @inheritDoc */
-  _onRender(context, options) {
-    super._onRender(context, options);
-
-    this.element
-      .querySelector('section[data-tab="config"]')
-      ?.addEventListener("drop", this.#onDropFeature.bind(this));
   }
 
   /* -------------------------------------------- */
@@ -129,11 +147,18 @@ export default class PathSheet extends COGBaseItemSheet {
   /*  Others Event Handlers
   /* -------------------------------------------- */
 
+  /** @inheritdoc */
+  _onDropItem(event) {
+    this.#onDropFeature(event);
+  }
+
+  /* -------------------------------------------- */
+
   /**
    * Handles the dropping of a feature item onto the path item.
    * @param {DragEvent} event  The triggering event.
    */
-  async #onDropFeature(event) {
+  #onDropFeature(event) {
     const data = TextEditor.getDragEventData(event);
 
     const slot = this.document.system.firstAvailableSlot;

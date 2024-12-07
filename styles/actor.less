@@ -25,12 +25,6 @@
     }
   }
 
-  .tab {
-    flex: 1;
-    position: relative;
-    padding-top: var(--spacing-50);
-  }
-
   /* ----------------------------------------- */
   /*  Sheet Mode
   /* ----------------------------------------- */
@@ -60,7 +54,6 @@
 
   .sheet-tabs {
     --tab-size: 38px;
-    --icon-size: 20px;
 
     flex-direction: column;
     position: absolute;
@@ -73,35 +66,38 @@
     > a {
       display: flex;
       justify-content: center;
-      align-items: stretch;
+      align-items: center;
       width: var(--tab-size);
       height: var(--tab-size);
       padding: 0;
       background: var(--tab-background);
-      border: 2px solid var(--tab-background);
-      border-left: none;
       border-radius: 0 var(--border-radius-half) var(--border-radius-half) 0;
       box-shadow: 0 0 4px 0px var(--color-drop-shadow);
+      color: var(--color-tertiary-50);
       transition: border-color 0.25s;
 
+      i {
+        flex-basis: content;
+        margin: 0;
+        transition: color 0.25s;
+        font-size: var(--font-size-18);
+      }
+
+      &.padded i {
+        margin-top: calc(var(--spacing-25) / 2);
+      }
+
       &.active {
-        border-color: var(--color-primary);
+        border: 2px solid var(--color-primary);
+        border-left: none;
       }
 
-      .tab-icon {
-        background-color: var(--color-tertiary-50);
-        mask-repeat: no-repeat;
-        mask-position: center;
-        mask-size: auto var(--icon-size);
-        transition: background-color 0.5s;
+      &:hover i {
+        color: var(--color-primary);
       }
 
-      &:hover .tab-icon {
-        background-color: var(--color-primary);
-      }
-
-      &.active .tab-icon {
-        background-color: var(--color-primary);
+      &.active i {
+        color: var(--color-primary);
       }
     }
   }
@@ -113,6 +109,12 @@
   .sheet-body {
     flex: 1;
     gap: var(--spacing-100);
+
+    > .tab {
+      flex: 1;
+      position: relative;
+      padding-top: var(--spacing-50);
+    }
   }
 
   /* ----------------------------------------- */
@@ -348,17 +350,11 @@
       .size,
       .level {
         gap: var(--spacing-50);
-        flex-wrap: nowrap;
         align-items: baseline;
         font-family: var(--font-h1);
         color: var(--color-primary);
         padding-top: var(--spacing-25);
         font-size: var(--font-size-14);
-
-        .label,
-        .value {
-          white-space: nowrap;
-        }
       }
 
       .size {
@@ -471,6 +467,105 @@
     .defenses.detailed .item {
       width: 100%;
       gap: var(--spacing-25);
+    }
+  }
+
+  /* ----------------------------------------- */
+  /*  Paths Tab
+  /* ----------------------------------------- */
+
+  .tab.paths {
+    gap: var(--spacing-150);
+
+    .available-points {
+      justify-content: center;
+
+      h3 {
+        font-size: var(--font-size-12);
+        background-color: var(--color-frame-bg);
+        border: 1px solid var(--color-secondary-25);
+        padding: var(--spacing-25) var(--spacing-200) var(--spacing-25) var(--spacing-100);
+      }
+
+      .data.value {
+        z-index: 1;
+        margin-left: calc(-1 * var(--spacing-150));
+      }
+    }
+
+    .details {
+      gap: var(--spacing-100);
+      flex-grow: 1;
+
+      .tabs {
+        gap: var(--spacing-50);
+        flex-wrap: wrap;
+
+        > a {
+          flex: 1 1 calc(33.333% - var(--spacing-50));
+          max-width: calc(33.333% - var(--spacing-50));
+
+          label {
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
+
+    .tab {
+      gap: var(--spacing-50);
+      align-items: flex-start;
+      justify-content: center;
+      flex-grow: 1;
+
+      .feature {
+        flex: 0 0 calc((33% - (var(--spacing-50) * 2 / 3)));
+        align-content: flex-start;
+        height: calc((50% - var(--spacing-50) / 2));
+        padding: 0;
+
+        .title {
+          width: 100%;
+          gap: var(--spacing-25);
+          background-color: var(--color-frame-bg);
+          border-bottom: 1px solid var(--color-secondary-25);
+          padding: calc(var(--spacing-25) + var(--spacing-25) / 2) var(--spacing-50);
+          font-family: var(--font-h3);
+
+          .pip {
+            margin-right: var(--spacing-25);
+          }
+
+          .rank,
+          .separator {
+            color: var(--color-secondary);
+          }
+
+          .name {
+            flex-basis: content;
+            color: var(--color-primary);
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+
+        .body {
+          padding: var(--spacing-50);
+          gap: var(--spacing-50);
+          flex-grow: 1;
+
+          .description {
+            flex-grow: 1;
+          }
+
+          .footer {
+            .actions {
+              justify-content: flex-end;
+            }
+          }
+        }
+      }
     }
   }
 }

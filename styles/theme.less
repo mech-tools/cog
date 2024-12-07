@@ -61,6 +61,12 @@
       color: var(--color-text);
     }
 
+    hr {
+      margin: var(--spacing-25) 0;
+      background: var(--color-secondary-50);
+      height: 1px;
+    }
+
     /* ----------------------------------------- */
     /*  Links
     /* ----------------------------------------- */
@@ -141,6 +147,25 @@
 
         font-size: var(--font-size-12);
         color: var(--color-text-75);
+      }
+    }
+
+    input[type="range"] {
+      --thumb-size: var(--font-size-14);
+      --range-track-color: var(--color-frame-bg);
+      --range-thumb-background-color: var(--color-secondary);
+      --range-thumb-border-color: var(--color-secondary);
+      --color-shadow-primary: tranparent;
+
+      &:focus {
+        --range-thumb-border-color: var(--color-primary);
+        box-shadow: none;
+      }
+    }
+
+    range-picker {
+      input[type="number"] {
+        font-size: var(--font-size-14);
       }
     }
 
@@ -445,5 +470,18 @@
     > :last-child {
       margin-bottom: 0;
     }
+  }
+
+  /* ----------------------------------------- */
+  /*  Helpers
+  /* ----------------------------------------- */
+
+  .nowrap {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  i.incomplete {
+    color: var(--color-primary);
   }
 }

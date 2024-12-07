@@ -1,6 +1,78 @@
 <section class="tab {{tabs.paths.id}} {{tabs.paths.cssClass}}" data-tab="{{tabs.paths.id}}"
     data-group="{{tabs.paths.group}}">
-    <div class="framed-section">
-        <h2>Paths</h2>
+    {{! Available points}}
+    <div class="available-points flexrow flex0">
+        <h3 class="flex0 nowrap">
+            Points à dépenser
+        </h3>
+        <span class="data value mini">
+            2
+        </span>
+    </div>
+
+    {{! Paths }}
+    <div class="details flexcol">
+        {{! Paths nav}}
+        <nav class="tabs">
+            {{#each tabGroups.paths as |tab|}}
+                <a class="{{tab.cssClass}} standard-button" data-action="tab" data-group="{{tab.group}}"
+                    data-tab="{{tab.id}}">
+                    <i class="{{tab.icon}}"></i>
+                    <label class="nowrap">{{localize tab.label}}</label>
+                </a>
+            {{/each}}
+        </nav>
+
+        {{! Paths details}}
+        <section class="tab flexrow {{tabGroups.paths.species.cssClass}}" data-tab="{{tabGroups.paths.species.id}}"
+            data-group="{{tabGroups.paths.species.group}}">
+            <div class="framed-section feature flexcol">
+                <div class="title flexrow nowrap">
+                    <span class="pip small flex0"></span>
+                    <span class="rank flex0 nowrap">Rang 1</span>
+                    <span class="separator flex0 nowrap">//</span>
+                    <span class="name flex0 nowrap">Chanceux</span>
+                </div>
+                <div class="body flexcol">
+                    <span class="description">
+                        Les humains disposent d'1 PC supplémentaire à chaque rang impair dans la
+                        voie d'espèce. De plus, un humain peut utiliser
+                        1 PC pour annuler un modificateur de situation sur l'un de ses tests. Il peut utiliser ce PC en
+                        plus d'un autre point
+                        lui conférant un modificateur de chance.
+                    </span>
+                    <div class="footer flexrow">
+                        <div class="tags">
+                            <span class="tag">test</span>
+                            <span class="tag">test</span>
+                            <span class="tag">test</span>
+                        </div>
+                        <div class="actions flex0">
+                            <i class="icon-button fa-duotone fa-solid fa-pen-to-square"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="tab flexrow {{tabGroups.paths.cultural.cssClass}}" data-tab="{{tabGroups.paths.cultural.id}}"
+            data-group="{{tabGroups.paths.cultural.group}}">
+            cultural
+        </section>
+        <section class="tab flexrow {{tabGroups.paths.hobby.cssClass}}" data-tab="{{tabGroups.paths.hobby.id}}"
+            data-group="{{tabGroups.paths.hobby.group}}">
+            hobby
+        </section>
+        <section class="tab flexrow {{tabGroups.paths.expertise1.cssClass}}"
+            data-tab="{{tabGroups.paths.expertise1.id}}" data-group="{{tabGroups.paths.expertise1.group}}">
+            expertise1
+        </section>
+        <section class="tab flexrow {{tabGroups.paths.expertise2.cssClass}}"
+            data-tab="{{tabGroups.paths.expertise2.id}}" data-group="{{tabGroups.paths.expertise2.group}}">
+            expertise2
+        </section>
+        <section class="tab flexrow {{tabGroups.paths.prestige.cssClass}}" data-tab="{{tabGroups.paths.prestige.id}}"
+            data-group="{{tabGroups.paths.prestige.group}}">
+            prestige
+        </section>
     </div>
 </section>

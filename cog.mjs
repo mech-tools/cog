@@ -52,6 +52,7 @@ Hooks.once("init", async function () {
   CONFIG.Item.dataModels = {
     feature: models.item.COGFeature,
     path: models.item.COGPath,
+    archetype: models.item.COGArchetype,
   };
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet(COG.id, applications.item.FeatureSheet, {
@@ -60,6 +61,10 @@ Hooks.once("init", async function () {
   });
   Items.registerSheet(COG.id, applications.item.PathSheet, {
     types: ["path"],
+    makeDefault: true,
+  });
+  Items.registerSheet(COG.id, applications.item.ArchetypeSheet, {
+    types: ["archetype"],
     makeDefault: true,
   });
 
@@ -77,7 +82,13 @@ CONFIG.Token.documentClass = documents.COGToken;
 
 Hooks.once("i18nInit", function () {
   // Apply localizations
-  const toLocalize = ["HIT_DIE_TYPES", "ACTOR_SIZES", "ACTOR_LIFESTYLES", "PATH_TYPES"];
+  const toLocalize = [
+    "HIT_DIE_TYPES",
+    "ACTOR_SIZES",
+    "ACTOR_LIFESTYLES",
+    "PATH_TYPES",
+    "ARCHETYPE_MODES",
+  ];
   for (let loc of toLocalize) {
     const conf = foundry.utils.getProperty(COG, loc);
 

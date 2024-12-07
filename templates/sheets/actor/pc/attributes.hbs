@@ -115,7 +115,7 @@
                 <div class="item flexcol flex0">
                     <div class="pips" data-prop="attributes.wounds.count">
                         {{#each attributes.wounds.count.pips}}
-                            <span class="pip {{#if filled}}filled{{/if}}" data-n="{{n}}"
+                            <span class="pip {{~#if filled}} filled{{/if}}" data-n="{{n}}"
                                 data-tooltip="{{localize label count=n}}" data-tooltip-class="cog"
                                 data-tooltip-direction="UP"></span>
                         {{/each}}
@@ -143,7 +143,7 @@
                             {{/if}}
                         </h3>
                         <div class="data chart diverging">
-                            <span class="data value tiny {{#if def.protection.positive}}alt{{/if}}">
+                            <span class="data value tiny {{~#if def.protection.positive}} alt{{/if}}">
                                 {{def.protection.max.value}}
                             </span>
                             <span class="primary {{ifThen def.protection.positive 'positive' 'negative'}}"

@@ -115,10 +115,7 @@
                                     value=attributes.initiative.base.value
                                 }}
                             {{else}}
-                                {{~#if attributes.initiative.max.positive}}
-                                    +
-                                {{~/if}}
-                                {{~attributes.initiative.max.value}}
+                                {{signedString attributes.initiative.max.value}}
                             {{/if}}
                         </span>
                         <h3 class="flexrow">
@@ -149,7 +146,7 @@
                     <div class="item flexcol flex0">
                         <div class="pips" data-prop="attributes.wounds.count">
                             {{#each attributes.wounds.count.pips}}
-                                <span class="pip {{#if filled}}filled{{/if}}" data-n="{{n}}"
+                                <span class="pip {{~#if filled}} filled{{/if}}" data-n="{{n}}"
                                     data-tooltip="{{localize label count=n}}" data-tooltip-class="cog"
                                     data-tooltip-direction="UP"></span>
                             {{/each}}

@@ -41,6 +41,34 @@ export default class COGPath extends COGItemType {
   }
 
   /* -------------------------------------------- */
+
+  /**
+   * Check if all 5 features exists and the items exists as well.
+   * @returns {Promise<boolean>}
+   */
+  get isComplete() {
+    return Promise.all(
+      Object.values(this.features).map(async (featureUuid) => {
+        return featureUuid !== null && !!(await fromUuid(featureUuid));
+      }),
+    ).then((result) => result.every(Boolean));
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Count the number of existing features returning an actual "feature" item.
+   * @returns {Promise<number>}
+   */
+  get featuresCount() {
+    return Promise.all(
+      Object.values(this.features).map(async (featureUuid) => {
+        return featureUuid !== null && !!(await fromUuid(featureUuid));
+      }),
+    ).then((result) => result.filter(Boolean).length);
+  }
+
+  /* -------------------------------------------- */
   /*  Database Workflows
   /* -------------------------------------------- */
 
@@ -54,8 +82,9 @@ export default class COGPath extends COGItemType {
 
       // Check if feature already exists
       if (Object.values(this.features).find((uuid) => uuid === featureUuid)) {
-        ui.notifications.warn("COG.PATH.ERRORS.DUPLICATE_FEATURE", { localize: true });
+        ui.notifications.warn("COG.PATH.ERRORS.DUPLICATED_FEATURE", { localize: true });
         changes.system.features[rank] = null;
+        continue;
       }
 
       // Check if item is of type "feature"
@@ -63,6 +92,7 @@ export default class COGPath extends COGItemType {
       if (item.type !== "feature") {
         ui.notifications.error("COG.PATH.ERRORS.NOT_A_FEATURE", { localize: true });
         changes.system.features[rank] = null;
+        continue;
       }
     }
 

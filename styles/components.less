@@ -122,6 +122,7 @@
       box-shadow: 0 0 5px var(--color-drop-shadow);
     }
 
+    &.active,
     &:hover {
       border-color: var(--color-primary);
     }
@@ -131,6 +132,7 @@
       transition: color 0.5s;
     }
 
+    &.active i,
     &:hover i {
       color: var(--color-primary);
     }
@@ -173,37 +175,44 @@
     display: flex;
     gap: var(--spacing-100);
     margin: var(--spacing-50);
+  }
 
-    .pip {
-      --pip-size: 20px;
-      --pip-border: 1px;
-      --pip-radius: var(--border-radius-half);
+  .pip {
+    --pip-size: 20px;
+    --pip-border: 1px;
+    --pip-radius: var(--border-radius-half);
 
-      cursor: pointer;
-      position: relative;
-      border: var(--pip-border) solid var(--color-secondary);
-      border-radius: var(--border-radius-half);
-      width: var(--pip-size);
-      height: var(--pip-size);
-      background-color: var(--color-frame-bg);
-      box-shadow: 0 0 5px var(--color-drop-shadow);
-      transition: filter 0.5s;
+    display: inline-flex;
+    cursor: pointer;
+    position: relative;
+    border: var(--pip-border) solid var(--color-secondary);
+    border-radius: var(--border-radius-half);
+    width: var(--pip-size);
+    height: var(--pip-size);
+    min-width: var(--pip-size);
+    min-height: var(--pip-size);
+    background-color: var(--color-frame-bg);
+    box-shadow: 0 0 5px var(--color-drop-shadow);
+    transition: filter 0.5s;
 
-      &:hover {
-        filter: drop-shadow(0 0 3px var(--color-secondary-75));
-      }
+    &:hover {
+      filter: drop-shadow(0 0 3px var(--color-secondary-75));
+    }
 
-      &.filled::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: var(--color-secondary);
-        border: calc(var(--pip-border) * 2) solid var(--color-frame-bg);
-        border-radius: calc(var(--pip-radius) / 2);
-      }
+    &.small {
+      --pip-size: 14px;
+    }
+
+    &.filled::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--color-secondary);
+      border: calc(var(--pip-border) * 2) solid var(--color-frame-bg);
+      border-radius: calc(var(--pip-radius) / 2);
     }
   }
 
@@ -422,20 +431,21 @@
   .line-item {
     --item-height: var(--spacing-200);
 
+    flex: 0 1 auto;
+    box-sizing: content-box;
     overflow: hidden;
     height: var(--item-height);
+    min-height: var(--item-height);
     align-items: stretch;
     flex-wrap: nowrap;
-    flex-basis: content;
-    flex-grow: 0;
     border: 1px solid transparent;
     border-radius: var(--border-radius-half);
+    align-self: flex-start;
 
     > .label {
       align-items: center;
       font-family: var(--font-h3);
       background-color: var(--color-frame-bg);
-      white-space: nowrap;
       padding: calc(var(--spacing-25) / 2) var(--spacing-50) 0 var(--spacing-50);
     }
 
@@ -446,7 +456,7 @@
 
       img.icon {
         width: var(--item-height);
-        height: auto;
+        height: var(--item-height);
       }
 
       i.icon {
@@ -456,8 +466,9 @@
       }
 
       .name {
+        gap: var(--spacing-50);
+        align-items: baseline;
         padding: 0 var(--spacing-50);
-        white-space: nowrap;
       }
     }
 
@@ -466,7 +477,6 @@
       align-items: center;
       padding: 0 var(--spacing-50);
       flex-wrap: nowrap;
-      white-space: nowrap;
       background-color: var(--color-frame-bg);
       align-items: center;
       cursor: pointer;
@@ -479,6 +489,10 @@
       &:hover {
         background-color: var(--color-secondary);
       }
+    }
+
+    &.error {
+      border: 1px dashed var(--color-error);
     }
 
     &.unknown {
@@ -507,6 +521,15 @@
     border: 2px dashed var(--color-tertiary-50);
     color: var(--color-tertiary-75);
     text-align: center;
+    transition: border-color 0.25s;
+
+    &:hover {
+      border: 2px dashed var(--color-tertiary-75);
+    }
+
+    &.mini {
+      padding: var(--spacing-50);
+    }
 
     &.droppable {
       cursor: pointer;

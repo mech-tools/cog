@@ -46,6 +46,41 @@ export default (Base) =>
     }
 
     /* ----------------------------------------- */
+    /* Sheet context
+    /* ----------------------------------------- */
+
+    /**
+     * Configure the tabs used by this sheet.
+     * @returns {Record<string, Record<string, ApplicationTab>>}
+     */
+    _getTabs() {
+      const tabs = {};
+
+      for (const [groupId, config] of Object.entries(this.constructor.TABS)) {
+        const group = {};
+
+        for (const t of config) {
+          if (!this.tabGroups[t.group]) this.tabGroups[t.group] = config[0].id;
+          const active = this.tabGroups[t.group] === t.id;
+
+          const cssClass = [];
+          if (active) cssClass.push("active");
+          if (t.padded) cssClass.push("padded");
+
+          group[t.id] = {
+            active,
+            cssClass: cssClass.join(" "),
+            ...t,
+          };
+        }
+
+        tabs[groupId] = group;
+      }
+
+      return tabs;
+    }
+
+    /* ----------------------------------------- */
     /* Sheet rendering
     /* ----------------------------------------- */
 
