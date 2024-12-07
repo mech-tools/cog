@@ -1,6 +1,6 @@
 <nav class="sheet-tabs tabs" aria-role="{{localize 'SHEETS.FormNavLabel'}}">
     {{! Tabs nav }}
-    {{#each tabs as |tab|}}
+    {{#each tabGroups.sheet as |tab|}}
         <a class="flexrow {{tab.id}} {{tab.cssClass}}" data-action="tab" data-group="{{tab.group}}"
             data-tab="{{tab.id}}" data-tooltip="{{tab.label}}" data-tooltip-class="cog" data-tooltip-direction="RIGHT">
             <i class="{{tab.icon}}"></i>

@@ -139,6 +139,44 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
         icon: "fa-duotone fa-regular fa-code-branch",
         label: "COG.ACTOR.TABS.Paths",
       });
+      this.TABS.paths = [
+        {
+          id: "species",
+          group: "paths",
+          icon: "fa-duotone fa-solid fa-dna",
+          label: "COG.ACTOR.PATH_TABS.Species",
+        },
+        {
+          id: "cultural",
+          group: "paths",
+          icon: "fa-duotone fa-solid fa-masks-theater",
+          label: "COG.ACTOR.PATH_TABS.Cultural",
+        },
+        {
+          id: "hobby",
+          group: "paths",
+          icon: "fa-duotone fa-regular fa-palette",
+          label: "COG.ACTOR.PATH_TABS.Hobby",
+        },
+        {
+          id: "expertise1",
+          group: "paths",
+          icon: "fa-duotone fa-solid fa-briefcase",
+          label: "COG.ACTOR.PATH_TABS.Expertise",
+        },
+        {
+          id: "expertise2",
+          group: "paths",
+          icon: "fa-duotone fa-solid fa-briefcase",
+          label: "COG.ACTOR.PATH_TABS.Expertise",
+        },
+        {
+          id: "prestige",
+          group: "paths",
+          icon: "fa-duotone fa-solid fa-medal",
+          label: "COG.ACTOR.PATH_TABS.Prestige",
+        },
+      ];
     }
 
     // Includes Effects
@@ -186,12 +224,9 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
 
   /** @override */
   async _prepareContext(_options) {
-    const tabGroups = this._getTabs();
-
     return {
       // Sheet
-      tabGroups,
-      tabs: tabGroups.sheet,
+      tabGroups: this._getTabs(),
       editMode: this.isEditable && this.#mode === this.constructor.MODES.EDIT,
 
       // Data

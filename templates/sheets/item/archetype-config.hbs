@@ -1,5 +1,5 @@
-<section class="tab sheet-body flexcol {{tabs.config.cssClass}}" data-tab="{{tabs.config.id}}"
-    data-group="{{tabs.config.group}}">
+<section class="tab sheet-body flexcol {{tabGroups.sheet.config.cssClass}}" data-tab="{{tabGroups.sheet.config.id}}"
+    data-group="{{tabGroups.sheet.config.group}}">
     {{! Secondary Tabs Nav }}
     {{> "cog.item-nav" tabs=tabGroups.archetype }}
 
@@ -48,9 +48,9 @@
                     {{formGroup
                         path.rank.field
                         value=path.rank.value
+                        stacked=true
                         disabled=path.path.itemData
                         localize=true
-                        stacked=true
                     }}
                 {{/if}}
             </fieldset>

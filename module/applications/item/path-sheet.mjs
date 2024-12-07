@@ -82,17 +82,15 @@ export default class PathSheet extends COGBaseItemSheet {
     const isIncomplete = !(await this.document.system.isComplete);
     const featuresCount = await this.document.system.featuresCount;
 
-    const updatedTabGroups = foundry.utils.mergeObject(
+    return foundry.utils.mergeObject(
       tabGroups,
       {
-        "sheet.config.incomplete": isIncomplete,
-        "path.features.incomplete": isIncomplete,
+        "sheet.config.isIncomplete": isIncomplete,
+        "path.features.isIncomplete": isIncomplete,
         "path.features.count": featuresCount,
       },
       { inplace: true },
     );
-
-    return updatedTabGroups;
   }
 
   /* -------------------------------------------- */

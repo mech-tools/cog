@@ -94,12 +94,9 @@ export default class COGBaseItemSheet extends COGBaseSheet(sheets.ItemSheetV2) {
 
   /** @override */
   async _prepareContext(_options) {
-    const tabGroups = this._getTabs();
-
     return {
       // Sheet
-      tabGroups,
-      tabs: tabGroups.sheet,
+      tabGroups: this._getTabs(),
 
       // Data
       name: { field: this.document.schema.getField("name"), value: this.document.name },

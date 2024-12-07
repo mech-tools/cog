@@ -36,47 +36,6 @@ export default class PcSheet extends COGBaseActorSheet {
 
   static {
     this._initializeActorSheetClass();
-
-    // Paths tabs
-    this.TABS = foundry.utils.deepClone(this.TABS);
-    this.TABS.paths = [
-      {
-        id: "species",
-        group: "paths",
-        icon: "fa-duotone fa-solid fa-dna",
-        label: "COG.ACTOR.PATH_TABS.Species",
-      },
-      {
-        id: "cultural",
-        group: "paths",
-        icon: "fa-duotone fa-solid fa-masks-theater",
-        label: "COG.ACTOR.PATH_TABS.Cultural",
-      },
-      {
-        id: "hobby",
-        group: "paths",
-        icon: "fa-duotone fa-regular fa-palette",
-        label: "COG.ACTOR.PATH_TABS.Hobby",
-      },
-      {
-        id: "expertise1",
-        group: "paths",
-        icon: "fa-duotone fa-solid fa-briefcase",
-        label: "COG.ACTOR.PATH_TABS.Expertise",
-      },
-      {
-        id: "expertise2",
-        group: "paths",
-        icon: "fa-duotone fa-solid fa-briefcase",
-        label: "COG.ACTOR.PATH_TABS.Expertise",
-      },
-      {
-        id: "prestige",
-        group: "paths",
-        icon: "fa-duotone fa-solid fa-medal",
-        label: "COG.ACTOR.PATH_TABS.Prestige",
-      },
-    ];
   }
 
   /* -------------------------------------------- */

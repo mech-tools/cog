@@ -55,17 +55,15 @@ export default class ArchetypeSheet extends COGBaseItemSheet {
     const isIncomplete = !(await this.document.system.isComplete);
     const pathsCount = await this.document.system.pathsCount;
 
-    const updatedTabGroups = foundry.utils.mergeObject(
+    return foundry.utils.mergeObject(
       tabGroups,
       {
-        "sheet.config.incomplete": isIncomplete,
-        "archetype.paths.incomplete": isIncomplete,
+        "sheet.config.isIncomplete": isIncomplete,
+        "archetype.paths.isIncomplete": isIncomplete,
         "archetype.paths.count": pathsCount,
       },
       { inplace: true },
     );
-
-    return updatedTabGroups;
   }
 
   /* -------------------------------------------- */
