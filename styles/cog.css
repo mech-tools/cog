@@ -260,14 +260,13 @@
   color: var(--color-text-75);
 }
 .cog.application input[type="range"] {
-  --thumb-size: var(--font-size-14);
   --range-track-color: var(--color-frame-bg);
   --range-thumb-background-color: var(--color-secondary);
   --range-thumb-border-color: var(--color-secondary);
   --color-shadow-primary: tranparent;
 }
 .cog.application input[type="range"]:focus {
-  --range-thumb-border-color: var(--color-primary);
+  --range-thumb-border-color: var(--color-primary-25);
   box-shadow: none;
 }
 .cog.application range-picker input[type="number"] {

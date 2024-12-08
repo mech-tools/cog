@@ -304,7 +304,7 @@
         "cultural.value.label": "Voie culturelle",
         "hobby.value.label": "Voie de hobby",
         "[expertise].value.label": "Voie professionnelle",
-        "[path].rank.label": "Rang de départ"
+        "[path].rank.label": "Rang de départ :"
       }
     },
 
@@ -323,7 +323,7 @@
     "LABELS": {
       "Archetype_mode": "Mode de création",
       "Add_path": "Ajoutez une voie en glissant & déposant ici.",
-      "Selected_path": "Voie sélectionnée"
+      "Selected_path": "Voie sélectionnée :"
     }
   }
 }
