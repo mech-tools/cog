@@ -1,103 +1,45 @@
 <section class="tab sheet-body flexcol drop-zone {{tabGroups.sheet.config.cssClass}}"
     data-tab="{{tabGroups.sheet.config.id}}" data-group="{{tabGroups.sheet.config.group}}">
-    {{! Secondary Tabs Nav }}
-    {{> "cog.item-nav" tabs=tabGroups.path }}
-
-
-    <section class="tab flexcol {{tabGroups.path.config.cssClass}}" data-tab="{{tabGroups.path.config.id}}"
-        data-group="{{tabGroups.path.config.group}}">
-        {{! Path configuration }}
-        <fieldset>
-            <legend>{{localize "COG.PATH.LABELS.Path_type"}}</legend>
+    {{! Path configuration }}
+    <fieldset>
+        <legend>{{localize "COG.PATH.LABELS.Path_type"}}</legend>
+        {{formGroup
+            type.field
+            value=type.value
+        }}
+        {{#if lifestyle}}
             {{formGroup
-                type.field
-                value=type.value
+                lifestyle.field
+                value=lifestyle.value
             }}
-        </fieldset>
+        {{/if}}
+    </fieldset>
 
 
-        {{! Path configuration }}
-        <fieldset>
-            <legend>{{localize "COG.PATH.LABELS.Path_configuration"}}</legend>
-
-            {{! Species configuration }}
-            {{#if species}}
-                <div class="form-group">
-                    <label>{{species.communicationMode.field.label}}</label>
-                    <div class="form-fields">
-                        <textarea name="system.species.communicationMode">{{species.communicationMode.value}}</textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>{{species.technologyLevel.field.label}}</label>
-                    <div class="form-fields">
-                        <textarea name="system.species.technologyLevel">{{species.technologyLevel.value}}</textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>{{species.culture.field.label}}</label>
-                    <div class="form-fields">
-                        <textarea name="system.species.culture">{{species.culture.value}}</textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>{{species.politicalSystem.field.label}}</label>
-                    <div class="form-fields">
-                        <textarea name="system.species.politicalSystem">{{species.politicalSystem.value}}</textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>{{species.gravity.field.label}}</label>
-                    <div class="form-fields">
-                        <textarea name="system.species.gravity">{{species.gravity.value}}</textarea>
-                    </div>
-                </div>
+    {{! Features configuration }}
+    <fieldset>
+        <legend>
+            {{localize "COG.PATH.LABELS.Features_configuration" count=features.count}}
+            {{#if features.isIncomplete}}
+                <i class="incomplete fa-solid fa-triangle-exclamation"></i>
             {{/if}}
-
-            {{! Cultural configuration }}
-            {{#if cultural}}
-                {{formGroup
-                    cultural.lifestyle.field
-                    value=cultural.lifestyle.value
-                }}
-                <div class="form-group">
-                    <label>{{cultural.equipement.field.label}}</label>
-                    <div class="form-fields">
-                        <textarea name="system.cultural.equipement">{{cultural.equipement.value}}</textarea>
-                    </div>
-                </div>
-            {{/if}}
-
-            {{! Expertise configuration }}
-            {{#if expertise}}
-                <div class="form-group">
-                    <label>{{expertise.equipement.field.label}}</label>
-                    <div class="form-fields">
-                        <textarea name="system.expertise.equipement">{{expertise.equipement.value}}</textarea>
-                    </div>
-                </div>
-            {{/if}}
-        </fieldset>
-    </section>
-
-    <section class="tab flexcol {{tabGroups.path.features.cssClass}}" data-tab="{{tabGroups.path.features.id}}"
-        data-group="{{tabGroups.path.features.group}}">
-        {{! Path configuration }}
-
+        </legend>
         <span class="instruction droppable">
             {{localize "COG.PATH.LABELS.Add_features"}}
         </span>
-        <div class="features flexrow">
-            {{#each features.values as |feature| }}
-                {{#if feature.value}}
-                    {{> "cog.item-line"
+        {{#if features.count}}
+            <div class="features flexrow">
+                {{#each features.values as |feature| }}
+                    {{#if feature.value}}
+                        {{> "cog.item-line"
                         item=feature.itemData
                         label=(localize feature.field.label rank=feature.field.name)
                         action="removeFeature"
                         actionKey=@key
                     }}
-                {{/if}}
-            {{/each}}
-        </div>
-    </section>
+                    {{/if}}
+                {{/each}}
+            </div>
+        {{/if}}
+    </fieldset>
 </section>

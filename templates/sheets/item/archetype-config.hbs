@@ -32,17 +32,21 @@
                     {{/if}}
                 </legend>
 
-                <div class="flexrow path">
-                    {{#if path.value.value}}
-                        {{> "cog.item-line"
-                        item=path.value.itemData
-                        action="removePath"
-                        actionKey=@key
-                    }}
-                    {{else}}
-                        <div class="mini instruction droppable">{{localize "COG.ARCHETYPE.LABELS.Add_path"}}</div>
-                    {{/if}}
-                </div>
+
+                {{#if path.value.value}}
+                    <div class="form-group stacked">
+                        <label>{{localize "COG.ARCHETYPE.LABELS.Selected_path"}}</label>
+                        <div class="flexcol form-fields">
+                            {{> "cog.item-line"
+                                item=path.value.itemData
+                                action="removePath"
+                                actionKey=@key
+                            }}
+                        </div>
+                    </div>
+                {{else}}
+                    <span class="mini instruction droppable">{{localize "COG.ARCHETYPE.LABELS.Add_path"}}</span>
+                {{/if}}
 
                 {{#if path.rank}}
                     {{formGroup
@@ -52,6 +56,16 @@
                         disabled=path.path.itemData
                         localize=true
                     }}
+                {{else}}
+                    <div class="form-group stacked">
+                        <label>{{localize "COG.ARCHETYPE.FIELDS.paths.[path].rank.label"}}</label>
+                        <div class="form-fields">
+                            <range-picker value="0" min="0" max="2" step="1" disabled>
+                                <input type="range" min="0" max="2" step="1">
+                                <input type="number" min="0" max="2" step="1">
+                            </range-picker>
+                        </div>
+                    </div>
                 {{/if}}
             </fieldset>
         {{/each}}

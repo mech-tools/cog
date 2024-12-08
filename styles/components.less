@@ -76,6 +76,21 @@
     padding: var(--spacing-50);
     align-items: flex-start;
 
+    &:has(> prose-mirror:only-child) {
+      border-radius: var(--border-radius-half);
+
+      prose-mirror {
+        &.inactive {
+          min-height: 38px;
+          max-height: 83px;
+        }
+
+        .editor-content {
+          padding: 0;
+        }
+      }
+    }
+
     &:has(> h2) {
       padding: var(--spacing-175) var(--spacing-100) var(--spacing-50) var(--spacing-100);
 
@@ -416,7 +431,8 @@
 
     .tag {
       padding: calc(var(--spacing-25) / 2) var(--spacing-25);
-      font-size: var(--font-size-10);
+      font-size: var(--font-size-11);
+      font-weight: 500;
       color: var(--color-secondary);
       background-color: var(--color-frame-bg);
       border: 1px solid var(--color-secondary-25);
@@ -445,7 +461,7 @@
     > .label {
       align-items: center;
       font-family: var(--font-h3);
-      background-color: var(--color-frame-bg);
+      background-color: var(--color-secondary-50);
       padding: calc(var(--spacing-25) / 2) var(--spacing-50) 0 var(--spacing-50);
     }
 
@@ -453,6 +469,11 @@
       flex-basis: content;
       align-items: center;
       background-color: var(--color-frame-bg-50);
+      transition: background-color 0.5s;
+
+      &:hover {
+        background-color: var(--color-frame-bg);
+      }
 
       img.icon {
         width: var(--item-height);
@@ -483,7 +504,7 @@
       transition: background-color 0.5s;
 
       i {
-        padding-top: var(--spacing-25);
+        padding-top: calc(var(--spacing-25) / 2);
       }
 
       &:hover {

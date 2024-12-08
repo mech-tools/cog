@@ -3,13 +3,63 @@
 /* ----------------------------------------- */
 
 @font-face {
+  font-display: swap;
   font-family: "SpaceBoards";
   src: url("../fonts/SpaceBoards.ttf");
 }
 
 @font-face {
+  font-display: swap;
   font-family: "Hyperion";
   src: url("../fonts/Hyperion Bold.otf");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Roboto Condensed";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/roboto-condensed-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Roboto Condensed";
+  font-style: italic;
+  font-weight: 400;
+  src: url("../fonts/roboto-condensed-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Roboto Condensed";
+  font-style: normal;
+  font-weight: 500;
+  src: url("../fonts/roboto-condensed-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Roboto Condensed";
+  font-style: italic;
+  font-weight: 500;
+  src: url("../fonts/roboto-condensed-500italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Roboto Condensed";
+  font-style: normal;
+  font-weight: 700;
+  src: url("../fonts/roboto-condensed-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Roboto Condensed";
+  font-style: italic;
+  font-weight: 700;
+  src: url("../fonts/roboto-condensed-700italic.woff2") format("woff2");
 }
 
 /* ----------------------------------------- */
@@ -20,6 +70,7 @@
   /* ----------------------------------------- */
   /*  Colors
   /* ----------------------------------------- */
+
   --color-text: rgb(238 232 223 / 100%);
   --color-text-75: rgb(238 232 223 / 75%);
   --color-text-50: rgb(238 232 223 / 50%);
@@ -60,16 +111,18 @@
   /* ----------------------------------------- */
   /*  Fonts
   /* ----------------------------------------- */
+
   --font-h1: "SpaceBoards", serif;
   --font-h2: "SpaceBoards", serif;
   --font-h3: "Hyperion", serif;
-  --font-body: "Signika", serif;
+  --font-body: "Roboto Condensed", serif;
   --font-size-9: 0.5625rem;
   --font-size-22: 1.375rem;
 
   /* ----------------------------------------- */
   /*  Spacing
   /* ----------------------------------------- */
+
   --spacing-100: 1rem; // 16px
   --spacing-25: calc(var(--spacing-100) * 0.25); // 4px
   --spacing-50: calc(var(--spacing-100) * 0.5); // 8px
@@ -88,6 +141,7 @@
   /* ----------------------------------------- */
   /*  Border Radius
   /* ----------------------------------------- */
+
   --border-radius: 4px;
   --border-radius-half: calc(var(--border-radius) / 2);
 }

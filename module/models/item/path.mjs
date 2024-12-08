@@ -23,7 +23,7 @@ export default class COGPath extends COGItemType {
 
     switch (this.type) {
       case COG.PATH_TYPES.CULTURAL:
-        tags.lifestyle = COG.ACTOR_LIFESTYLES.choices[this[COG.PATH_TYPES.CULTURAL].lifestyle];
+        tags.lifestyle = COG.ACTOR_LIFESTYLES.choices[this.lifestyle];
         break;
     }
 
@@ -36,7 +36,7 @@ export default class COGPath extends COGItemType {
    * Get the first available feature slot index.
    * @returns {string}
    */
-  get firstAvailableSlot() {
+  get firstAvailableFeatureSlot() {
     return Object.entries(this.features).find(([, value]) => value === null)?.[0];
   }
 
@@ -130,28 +130,11 @@ export default class COGPath extends COGItemType {
       choices: COG.PATH_TYPES.choices,
     });
 
-    // Species
-    schema[COG.PATH_TYPES.SPECIES] = new fields.SchemaField({
-      communicationMode: new fields.StringField(),
-      technologyLevel: new fields.StringField(),
-      culture: new fields.StringField(),
-      politicalSystem: new fields.StringField(),
-      gravity: new fields.StringField(),
-    });
-
-    // Cultural
-    schema[COG.PATH_TYPES.CULTURAL] = new fields.SchemaField({
-      lifestyle: new fields.StringField({
-        ...required,
-        initial: COG.ACTOR_LIFESTYLES.WRETCHED,
-        choices: COG.ACTOR_LIFESTYLES.choices,
-      }),
-      equipement: new fields.StringField(),
-    });
-
-    // Expertise
-    schema[COG.PATH_TYPES.EXPERTISE] = new fields.SchemaField({
-      equipement: new fields.StringField(),
+    // Lifestyle
+    schema.lifestyle = new fields.StringField({
+      ...required,
+      initial: COG.ACTOR_LIFESTYLES.WRETCHED,
+      choices: COG.ACTOR_LIFESTYLES.choices,
     });
 
     // Features

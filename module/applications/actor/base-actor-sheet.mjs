@@ -230,8 +230,8 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
       editMode: this.isEditable && this.#mode === this.constructor.MODES.EDIT,
 
       // Data
-      name: { field: this.document.schema.getField("name"), value: this.document.name },
       img: { field: this.document.schema.getField("img"), value: this.document.img },
+      name: { field: this.document.schema.getField("name"), value: this.document.name },
       abilities: this.#prepareAbilities(),
       health: this.#prepareHealth(),
       attributes: this.#prepareAttributes(),

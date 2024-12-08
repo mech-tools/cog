@@ -5,7 +5,7 @@
     /* ----------------------------------------- */
 
     color: var(--color-text);
-    font-size: var(--font-size-12);
+    font-size: var(--font-size-13);
     font-family: var(--font-body);
     text-shadow: 0 0 5px var(--color-drop-shadow);
 
@@ -184,7 +184,7 @@
       font-family: var(--font-body);
       min-height: 1px;
       height: auto;
-      font-size: var(--font-size-12);
+      font-size: var(--font-size-13);
       padding: var(--spacing-50) var(--spacing-50);
       border-color: var(--color-secondary-25);
       border-radius: var(--border-radius-half);
@@ -241,7 +241,7 @@
         gap: var(--spacing-50);
         align-items: baseline;
         font-weight: normal;
-        font-size: var(--font-size-14);
+        font-size: var(--font-size-15);
         line-height: normal;
         transition: color 0.5s;
 
@@ -263,7 +263,7 @@
         --color-form-hint: var(--color-text-50);
         --color-form-hint-hover: var(--color-text-75);
 
-        font-size: var(--font-size-12);
+        font-size: var(--font-size-13);
         line-height: normal;
         transition: color 0.5s;
       }
@@ -321,22 +321,29 @@
       .editor-content {
         padding: var(--spacing-25) 0;
 
-        .content-link {
+        .content-link,
+        .inline-roll {
+          padding-left: 2px;
+          padding-right: 2px;
+          border: none;
+          background: transparent;
+          color: var(--color-text-75);
+          text-decoration: underline currentcolor;
+          text-underline-offset: 2px;
+          transition: color 0.25s;
+
           i {
             margin-right: var(--spacing-25);
           }
 
           &:not(.broken) {
-            border-color: var(--color-secondary-75);
-            transition: border-color 0.5s;
-
             i {
               color: var(--color-secondary-75);
               transition: color 0.5s;
             }
 
             &:hover {
-              border-color: var(--color-secondary);
+              color: var(--color-text);
 
               i {
                 color: var(--color-secondary);
@@ -345,8 +352,10 @@
           }
 
           &.broken {
+            color: var(--color-tertiary-75);
+
             i {
-              color: var(--color-error);
+              color: var(--color-tertiary-75);
             }
           }
         }
@@ -365,7 +374,7 @@
           margin: 0;
           padding: var(--spacing-25) var(--spacing-50);
           box-shadow: 0 0 5px var(--color-drop-shadow);
-          right: var(--spacing-25);
+          right: calc(-1 * var(--spacing-25));
           top: calc(-1 * var(--spacing-25));
           border-radius: var(--border-radius-half);
           text-shadow: 0 0 5px var(--color-drop-shadow);
@@ -422,7 +431,7 @@
 
         textarea {
           padding: 0;
-          font-size: var(--font-size-12);
+          font-size: var(--font-size-13);
           width: auto;
         }
       }
@@ -456,7 +465,7 @@
     }
 
     li {
-      font-size: var(--font-size-12);
+      font-size: var(--font-size-13);
     }
 
     &:has(ul, ol) {

@@ -17,7 +17,9 @@ export default class COGArchetype extends COGItemType {
    * @returns {Record<string, string>}
    */
   get tags() {
-    const tags = {};
+    const tags = {
+      mode: COG.ARCHETYPE_MODES.choices[this.mode],
+    };
 
     return tags;
   }
@@ -25,30 +27,36 @@ export default class COGArchetype extends COGItemType {
   /* -------------------------------------------- */
 
   /**
-   * Get the first available path slot index.
-   * @param {string} type  The type of path to seach for.
-   * @returns {string}
+   * Given a path type, returns if the path slot contains a valid "path" item.
+   * @param {string} path  The path type.
+   * @returns {Promise<boolean>}
    */
-  firstAvailableSlot(type) {
-    return Object.keys(this.paths).find((path) => path.startsWith(type));
+  async isValidPath(path) {
+    const item = await fromUuid(this.paths[path].value);
+    if (!path) return false;
+
+    if (
+      (path !== "hobby" && !path.startsWith(item.system.type)) ||
+      (path === "hobby" && item.system.type !== COG.PATH_TYPES.EXPERTISE)
+    )
+      return false;
+
+    return await item.system.isComplete;
   }
 
   /* -------------------------------------------- */
 
   /**
-   * Check if all 4 paths exists ("hobby" is optionnal) and the items exists and are valid as well.
+   * Check if all 4 paths exists ("hobby" is optionnal) and the "path" items are valid.
    * @returns {Promise<boolean>}
    */
   get isComplete() {
     return Promise.all(
-      Object.entries(this.paths).map(async ([key, { value }]) => {
-        if (key !== "hobby" && value === null) return false;
-        if (key === "hobby" && value === null) return true;
+      Object.entries(this.paths).map(async ([path, { value: pathUuid }]) => {
+        if (path !== "hobby" && pathUuid === null) return false;
+        if (path === "hobby" && pathUuid === null) return true;
 
-        const path = await fromUuid(value);
-        if (!path) return false;
-
-        return await path.system.isComplete;
+        return await this.isValidPath(path);
       }),
     ).then((result) => result.every(Boolean));
   }
@@ -56,18 +64,15 @@ export default class COGArchetype extends COGItemType {
   /* -------------------------------------------- */
 
   /**
-   * Count the number of existing path returning an actual "path" item that is also valid.
+   * Count the number of existing path returning an actual "path" item.
    * @returns {Promise<number>}
    */
   get pathsCount() {
     return Promise.all(
-      Object.values(this.paths).map(async ({ value }) => {
-        if (value === null) return false;
+      Object.entries(this.paths).map(async ([path, { value: pathUuid }]) => {
+        if (pathUuid === null) return false;
 
-        const path = await fromUuid(value);
-        if (!path) return false;
-
-        return await path.system.isComplete;
+        return await this.isValidPath(path);
       }),
     ).then((result) => result.filter(Boolean).length);
   }

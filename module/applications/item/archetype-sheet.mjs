@@ -34,14 +34,16 @@ export default class ArchetypeSheet extends COGBaseItemSheet {
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
 
-    // Sheet
-    context.tabGroups = await this.#prepareTabGroups(context.tabGroups);
+    return {
+      ...context,
 
-    // Data
-    context.mode = this.makeField("mode");
-    context.paths = await this.#preparePaths();
+      // Sheet
+      tabGroups: await this.#prepareTabGroups(context.tabGroups),
 
-    return context;
+      // Data
+      mode: this.makeField("mode"),
+      paths: await this.#preparePaths(),
+    };
   }
 
   /* -------------------------------------------- */
@@ -93,7 +95,9 @@ export default class ArchetypeSheet extends COGBaseItemSheet {
             uuid: itemData.uuid,
             name: itemData.name,
             img: itemData.img,
-            error: !(await itemData.system.isComplete),
+            error:
+              !(await this.document.system.isValidPath(path)) ||
+              !(await itemData.system.isComplete),
           };
         }
       }

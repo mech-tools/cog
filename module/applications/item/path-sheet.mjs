@@ -17,13 +17,6 @@ export default class PathSheet extends COGBaseItemSheet {
 
   static {
     this._initializeItemSheetClass();
-
-    // Paths tabs
-    this.TABS = foundry.utils.deepClone(this.TABS);
-    this.TABS.path = [
-      { id: "config", group: "paths", label: "COG.PATH.TABS.Config" },
-      { id: "features", group: "paths", label: "COG.PATH.TABS.Features" },
-    ];
   }
 
   /* -------------------------------------------- */
@@ -34,41 +27,19 @@ export default class PathSheet extends COGBaseItemSheet {
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
 
-    // Sheet
-    context.tabGroups = await this.#prepareTabGroups(context.tabGroups);
+    return {
+      ...context,
 
-    // Data
-    context.tags = this.document.system.tags;
-    context.type = this.makeField("type");
-    context.features = await this.#prepareFeatures();
+      // Sheet
+      tabGroups: await this.#prepareTabGroups(context.tabGroups),
 
-    // Switch between all types of paths
-    switch (context.type.value) {
-      case COG.PATH_TYPES.SPECIES:
-        context[COG.PATH_TYPES.SPECIES] = {
-          communicationMode: this.makeField("species.communicationMode"),
-          technologyLevel: this.makeField("species.technologyLevel"),
-          culture: this.makeField("species.culture"),
-          politicalSystem: this.makeField("species.politicalSystem"),
-          gravity: this.makeField("species.gravity"),
-        };
-        break;
-
-      case COG.PATH_TYPES.CULTURAL:
-        context[COG.PATH_TYPES.CULTURAL] = {
-          lifestyle: this.makeField("cultural.lifestyle"),
-          equipement: this.makeField("cultural.equipement"),
-        };
-        break;
-
-      case COG.PATH_TYPES.EXPERTISE:
-        context[COG.PATH_TYPES.EXPERTISE] = {
-          equipement: this.makeField("expertise.equipement"),
-        };
-        break;
-    }
-
-    return context;
+      // Data
+      type: this.makeField("type"),
+      features: await this.#prepareFeatures(),
+      ...(this.document.system.type === COG.PATH_TYPES.CULTURAL && {
+        lifestyle: this.makeField("lifestyle"),
+      }),
+    };
   }
 
   /* -------------------------------------------- */
@@ -76,19 +47,14 @@ export default class PathSheet extends COGBaseItemSheet {
   /**
    * Update and return a new tabGroups object updated with metadata.
    * @param {Object} tabGroups  The tabGroups being updated.
-   * @returns {Promise<{ any: { any: { incomplete: boolean; count: number } } }>}
+   * @returns {Promise<{ any: { any: { incomplete: boolean } } }>}
    */
   async #prepareTabGroups(tabGroups) {
     const isIncomplete = !(await this.document.system.isComplete);
-    const featuresCount = await this.document.system.featuresCount;
 
     return foundry.utils.mergeObject(
       tabGroups,
-      {
-        "sheet.config.isIncomplete": isIncomplete,
-        "path.features.isIncomplete": isIncomplete,
-        "path.features.count": featuresCount,
-      },
+      { "sheet.config.isIncomplete": isIncomplete },
       { inplace: true },
     );
   }
@@ -104,6 +70,8 @@ export default class PathSheet extends COGBaseItemSheet {
    */
   async #prepareFeatures() {
     const features = {
+      isIncomplete: !(await this.document.system.isComplete),
+      count: await this.document.system.featuresCount,
       values: {},
     };
 
@@ -159,7 +127,7 @@ export default class PathSheet extends COGBaseItemSheet {
   #onDropFeature(event) {
     const data = TextEditor.getDragEventData(event);
 
-    const slot = this.document.system.firstAvailableSlot;
+    const slot = this.document.system.firstAvailableFeatureSlot;
     if (slot) this.document.update({ [`system.features.${slot}`]: data.uuid });
   }
 }

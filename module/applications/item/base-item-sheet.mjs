@@ -99,8 +99,9 @@ export default class COGBaseItemSheet extends COGBaseSheet(sheets.ItemSheetV2) {
       tabGroups: this._getTabs(),
 
       // Data
-      name: { field: this.document.schema.getField("name"), value: this.document.name },
       img: { field: this.document.schema.getField("img"), value: this.document.img },
+      name: { field: this.document.schema.getField("name"), value: this.document.name },
+      tags: this.document.system.tags,
       description: await this.#prepareDescription(),
     };
   }
@@ -121,14 +122,17 @@ export default class COGBaseItemSheet extends COGBaseSheet(sheets.ItemSheetV2) {
       }),
     };
 
-    const context = {
+    // Enrich HTML
+    const EditorContext = {
       relativeTo: this.document,
       secrets: this.document.isOwner,
     };
 
-    // Enrich HTML
     for (const key in description) {
-      description[key].enriched = await TextEditor.enrichHTML(description[key].value, context);
+      description[key].enriched = await TextEditor.enrichHTML(
+        description[key].value,
+        EditorContext,
+      );
     }
 
     return description;

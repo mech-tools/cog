@@ -80,24 +80,9 @@ export default (Base) =>
       return tabs;
     }
 
-    /* ----------------------------------------- */
-    /* Sheet rendering
-    /* ----------------------------------------- */
-
-    /** @inheritdoc */
-    _onRender(_context, _options) {
-      const textareas = this.element.querySelectorAll("textarea");
-
-      for (const textarea of textareas) {
-        textarea.addEventListener("input", this.#resizeTextareaIn.bind(this));
-        textarea.addEventListener("focusin", this.#resizeTextareaIn.bind(this));
-        textarea.addEventListener("focusout", this.#resizeTextareaOut.bind(this));
-      }
-    }
-
     /* -------------------------------------------- */
     /*  Actions Event Handlers
-  /* -------------------------------------------- */
+    /* -------------------------------------------- */
 
     /**
      * Edit the Actor profile image.
@@ -122,40 +107,5 @@ export default (Base) =>
         left: this.position.left + 10,
       });
       await fp.browse();
-    }
-
-    /* -------------------------------------------- */
-    /*  Others Event Handlers
-    /* -------------------------------------------- */
-
-    /**
-     * Automatically resize textareas.
-     * @param {InputEvent | FocusEvent} event  The triggering event.
-     */
-    #resizeTextareaIn(event) {
-      const target = event.target;
-      const maxHeight = 100;
-      target.style.height = "auto";
-
-      if (target.scrollHeight > maxHeight) {
-        target.style.height = `${maxHeight}px`;
-      } else {
-        const { borderTopWidth, borderBottomWidth, marginTop, marginBottom } =
-          window.getComputedStyle(target);
-
-        target.style.height = `${target.scrollHeight + parseFloat(borderTopWidth) + parseFloat(borderBottomWidth) + parseFloat(marginTop) + parseFloat(marginBottom)}px`;
-      }
-    }
-
-    /* -------------------------------------------- */
-
-    /**
-     * Automatically reset textareas size to default.
-     * @param {FocusEvent} event  The triggering event.
-     */
-    #resizeTextareaOut(event) {
-      const target = event.target;
-
-      target.style.height = "auto";
     }
   };
