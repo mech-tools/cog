@@ -326,7 +326,6 @@
           padding-right: 2px;
           border: none;
           background: transparent;
-          color: var(--color-text-75);
           text-decoration: underline currentcolor;
           text-underline-offset: 2px;
           transition: color 0.25s;
@@ -337,22 +336,17 @@
 
           &:not(.broken) {
             i {
-              color: var(--color-secondary-75);
               transition: color 0.5s;
             }
 
-            &:hover {
-              color: var(--color-text);
-
-              i {
-                color: var(--color-secondary);
-              }
+            &:hover,
+            &:hover i {
+              color: var(--color-secondary);
             }
           }
 
           &.broken {
-            color: var(--color-tertiary-75);
-
+            &,
             i {
               color: var(--color-tertiary-75);
             }
