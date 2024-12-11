@@ -95,10 +95,12 @@ export default class COGPc extends COGActorType {
 
     // Hit Die
     schema.hitDie = new fields.SchemaField({
-      type: new fields.StringField({
-        ...required,
+      type: new fields.NumberField({
+        ...requiredInteger,
         initial: COG.HIT_DIE_TYPES.D6,
         choices: COG.HIT_DIE_TYPES.choices,
+        min: COG.HIT_DIE_TYPES.D6,
+        max: COG.HIT_DIE_TYPES.D10,
       }),
       history: new fields.SchemaField(
         Array.fromRange(20, 1).reduce((obj, level) => {

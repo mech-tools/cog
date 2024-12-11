@@ -1,23 +1,46 @@
-<section class="tab sheet-body flexcol {{tabGroups.sheet.config.cssClass}}" data-tab="{{tabGroups.sheet.config.id}}"
-    data-group="{{tabGroups.sheet.config.group}}">
-    {{! Secondary Tabs Nav }}
-    {{> "cog.item-nav" tabs=tabGroups.archetype }}
+<section class="tab sheet-body flexcol scrollable {{tabGroups.sheet.config.cssClass}}"
+    data-tab="{{tabGroups.sheet.config.id}}" data-group="{{tabGroups.sheet.config.group}}">
 
     {{! Archetype mode }}
-    <section class="tab flexcol {{tabGroups.archetype.config.cssClass}}" data-tab="{{tabGroups.archetype.config.id}}"
-        data-group="{{tabGroups.archetype.config.group}}">
-        <fieldset>
-            <legend>{{localize "COG.ARCHETYPE.LABELS.Archetype_mode"}}</legend>
-            {{formGroup
+    <fieldset>
+        <legend>{{localize "COG.ARCHETYPE.LABELS.Archetype_mode"}}</legend>
+        {{formGroup
                 mode.field
                 value=mode.value
             }}
-        </fieldset>
-    </section>
+    </fieldset>
+
+    {{! Bonuses }}
+    <fieldset>
+        <legend>{{localize "COG.ARCHETYPE.LABELS.Bonuses"}}</legend>
+        {{#if simple}}
+            {{formGroup
+                    simple.hitDie.field
+                    value=simple.hitDie.value
+                    localize=true
+                }}
+            {{formGroup
+                    simple.luck.field
+                    value=simple.luck.value
+                    localize=true
+                }}
+            {{#each simple.attacks as |attack|}}
+                {{formGroup
+                        attack.field
+                        value=attack.value
+                        localize=true
+                    }}
+            {{/each}}
+            {{formGroup
+                    simple.initiative.field
+                    value=simple.initiative.value
+                    localize=true
+                }}
+        {{/if}}
+    </fieldset>
 
     {{! Archetype paths }}
-    <section class="tab flexrow paths {{tabGroups.archetype.paths.cssClass}}"
-        data-tab="{{tabGroups.archetype.paths.id}}" data-group="{{tabGroups.archetype.paths.group}}">
+    <div class="paths flexrow">
         {{#each paths as |path|}}
             <fieldset class="drop-zone" data-key="{{@key}}">
                 <legend>
@@ -36,7 +59,7 @@
                 {{#if path.value.value}}
                     <div class="form-group stacked">
                         <label>{{localize "COG.ARCHETYPE.LABELS.Selected_path"}}</label>
-                        <div class="flexcol form-fields">
+                        <div class="form-fields">
                             {{> "cog.item-line"
                                 item=path.value.itemData
                                 action="removePath"
@@ -69,5 +92,5 @@
                 {{/if}}
             </fieldset>
         {{/each}}
-    </section>
+    </div>
 </section>

@@ -259,7 +259,6 @@
       bottom: 0;
       background-image: var(--background-image);
       background-repeat: no-repeat;
-      transition: filter 0.5s;
     }
 
     input {
@@ -277,10 +276,6 @@
 
       &:hover {
         color: var(--color-primary);
-      }
-
-      &:hover::before {
-        filter: contrast(120%);
       }
     }
 
@@ -304,12 +299,20 @@
       &.alt {
         --background-image: url(/systems/cog/ui/value/tiny-alt.webp);
       }
+
+      &::before {
+        transform: translateX(1px);
+      }
     }
 
     &.mini {
       --value-size: 50px;
       --value-font-size: var(--font-size-14);
       --background-image: url(/systems/cog/ui/value/mini.webp);
+
+      &::before {
+        transform: translateY(-0.5px);
+      }
     }
 
     &.large {
@@ -323,6 +326,10 @@
 
       input {
         --input-height: var(--spacing-200);
+      }
+
+      &::before {
+        transform: translateX(1px);
       }
     }
   }
@@ -447,18 +454,22 @@
   .line-item {
     --item-height: var(--spacing-200);
 
-    flex: 0 1 auto;
+    flex: initial !important;
+    display: flex;
+    width: max-content;
+    max-width: 100%;
+    overflow: hidden;
     box-sizing: content-box;
     overflow: hidden;
     height: var(--item-height);
     min-height: var(--item-height);
     align-items: stretch;
-    flex-wrap: nowrap;
     border: 1px solid transparent;
     border-radius: var(--border-radius-half);
-    align-self: flex-start;
 
     > .label {
+      flex: 0 0 auto;
+      display: flex;
       align-items: center;
       font-family: var(--font-h3);
       background-color: var(--color-secondary-50);
@@ -466,7 +477,11 @@
     }
 
     .details {
-      flex-basis: content;
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      min-width: 0;
       align-items: center;
       background-color: var(--color-frame-bg-50);
       transition: background-color 0.5s;
@@ -476,8 +491,9 @@
       }
 
       img.icon {
-        width: var(--item-height);
-        height: var(--item-height);
+        flex-shrink: 0;
+        max-width: var(--item-height);
+        max-height: var(--item-height);
       }
 
       i.icon {
@@ -487,6 +503,10 @@
       }
 
       .name {
+        flex: 1 1 auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 0;
         gap: var(--spacing-50);
         align-items: baseline;
         padding: 0 var(--spacing-50);
@@ -494,7 +514,8 @@
     }
 
     .action {
-      flex-basis: content;
+      flex: 0 0 auto;
+      display: flex;
       align-items: center;
       padding: 0 var(--spacing-50);
       flex-wrap: nowrap;

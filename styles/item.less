@@ -3,6 +3,10 @@
 /* ----------------------------------------- */
 
 .cog.sheet.item {
+  .window-content {
+    padding: 0 var(--spacing-100) var(--spacing-100);
+  }
+
   /* ----------------------------------------- */
   /*  Sheet Header
   /* ----------------------------------------- */
@@ -11,7 +15,7 @@
     --sheet-header-height: 80px;
 
     box-sizing: content-box;
-    padding: var(--spacing-25) var(--spacing-100) var(--spacing-100) var(--spacing-100);
+    padding: var(--spacing-25) 0 var(--spacing-100) 0;
     height: var(--sheet-header-height);
     align-items: flex-start;
     gap: var(--spacing-50);
@@ -43,7 +47,7 @@
   /* ----------------------------------------- */
 
   .sheet-tabs {
-    margin: 0;
+    margin: 0 calc(-1 * var(--spacing-100));
     border-color: var(--color-secondary-75);
 
     > a {
@@ -68,19 +72,10 @@
   /* ----------------------------------------- */
 
   .sheet-body {
-    padding: var(--spacing-100);
+    padding-top: var(--spacing-100);
 
-    &:has(> .sheet-tabs) {
-      gap: 0;
-      padding: 0;
-
-      .sheet-tabs {
-        border-top: 0;
-      }
-    }
-
-    > .tab {
-      padding: var(--spacing-100);
+    &[data-tab="config"] {
+      max-height: 500px;
     }
   }
 
@@ -101,11 +96,13 @@
 
   &.archetype {
     .paths {
+      padding-bottom: var(--spacing-25);
+      gap: var(--spacing-100);
       align-items: stretch;
 
       fieldset {
         flex: 1 1 calc(50% - var(--spacing-100));
-        max-width: calc(50% - var(--spacing-100));
+        max-width: calc(50% - (var(--spacing-100) / 2));
         justify-content: flex-end;
       }
     }

@@ -2,12 +2,12 @@ import { Enum } from "./api/_modules.mjs";
 
 /**
  * Allowed Hit Die types in the system.
- * @type {Enum<string>}
+ * @type {Enum<number>}
  */
 export const HIT_DIE_TYPES = new Enum({
-  D6: { label: "COG.DICE.D6", value: "d6" },
-  D8: { label: "COG.DICE.D8", value: "d8" },
-  D10: { label: "COG.DICE.D10", value: "d10" },
+  D6: { label: "COG.DICE.D6", value: 6 },
+  D8: { label: "COG.DICE.D8", value: 8 },
+  D10: { label: "COG.DICE.D10", value: 10 },
 });
 
 /* -------------------------------------------- */

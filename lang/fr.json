@@ -5,7 +5,7 @@
       "npc": "PNJ "
     },
     "Item": {
-      "feature": "Capacité ",
+      "pcfeature": "Capacité de joueur ",
       "path": "Voie ",
       "archetype": "Profil "
     }
@@ -39,6 +39,14 @@
     "Opulent": "Nanti"
   },
 
+  "COG.FEATURE_RANKS": {
+    "Rank1": "Rang 1",
+    "Rank2": "Rang 2",
+    "Rank3": "Rang 3",
+    "Rank4": "Rang 4",
+    "Rank5": "Rang 5"
+  },
+
   "COG.PATH_TYPES": {
     "Species": "Espèce",
     "Cultural": "Culturel",
@@ -54,11 +62,11 @@
     "FIELDS": {
       "[*]": {
         "base.label": "Base",
-        "base.hint": "Valeur de base du personnage.",
+        "base.hint": "Valeur de base de votre personnage.",
         "bonus.label": "Bonus",
-        "bonus.hint": "Bonus manuel ajouté à la valeur de base du personnage.",
+        "bonus.hint": "Bonus manuel ajouté à la valeur de base de votre personnage.",
         "increases.label": "Augmentations",
-        "increases.hint": "Amélioration de niveau du personnage ajouté à la valeur de base du personnage."
+        "increases.hint": "Amélioration de niveau de votre personnage ajouté à la valeur de base de votre personnage."
       },
 
       "abilities": {
@@ -75,27 +83,29 @@
         "perception.abbreviation": "Per",
         "charisma.label": "Charisme",
         "charisma.abbreviation": "Cha",
-        "[ability].base.hint": "Valeur de base du personnage. Ne devrait plus être modifié après la création du personnage."
+        "[ability].base.hint": "Valeur de base de votre personnage. Ne devrait plus être modifié après la création de votre personnage."
       },
 
-      "health.hitPoints": {
-        "label": "Points de vie",
-        "base.hint": "Maximum de points de vie (avant modificateurs) calculé en fonction du niveau du personnage."
-      },
+      "health": {
+        "hitPoints": {
+          "label": "Points de vie",
+          "base.hint": "Maximum de points de vie (avant modificateurs) calculé en fonction du niveau de votre personnage."
+        },
 
-      "health.tempDmgs": {
-        "label": "Dommages temporaires",
-        "abbreviation": "TMP"
+        "tempDmgs": {
+          "label": "Dommages temporaires",
+          "abbreviation": "TMP"
+        }
       },
 
       "attributes": {
         "size.label": "Taille",
-        "initiative.label": "initiative",
-        "initiative.abbreviation": "init",
-        "initiative.base.hint": "Valeur de base du personnage. Elle est égale à 10 + Dextérité + Perception plus tout autre modificateur de base (profil, trait, ...).",
+        "initiative.label": "Initiative",
+        "initiative.abbreviation": "Init.",
+        "initiative.base.hint": "Valeur de base de votre personnage. Elle est égale à 10 + Dextérité + Perception plus tout autre modificateur de base (profil, trait, ...).",
         "wounds.label": "Blessures",
         "wounds.threshold.label": "Seuil",
-        "wounds.threshold.base.hint": "Valeur de base du personnage. Elle est égale à 10 + Constitution + Force plus tout autre modificateur de base (profil, trait, ...).",
+        "wounds.threshold.base.hint": "Valeur de base de votre personnage. Elle est égale à 10 + Constitution + Force plus tout autre modificateur de base (profil, trait, ...).",
         "wounds.count.label": "Bless. graves",
         "wounds.count.pips.equal": "Retirer cette blessure",
         "wounds.count.pips.greater": "Augmenter le nombre de blessures à {count}",
@@ -105,12 +115,12 @@
       "attacks": {
         "label": "Attaques",
         "melee.label": "Contact",
-        "melee.base.hint": "Valeur de base du personnage. Elle est égale à la Force du personnage plus tout autre modificateur de base (profil, trait, ...).",
+        "melee.base.hint": "Valeur de base de votre personnage. Elle est égale à la Force de votre personnage plus tout autre modificateur de base (profil, trait, ...).",
         "range.label": "Distance",
-        "range.base.hint": "Valeur de base du personnage. Elle est égale à la Dextérité du personnage plus tout autre modificateur de base (profil, trait, ...).",
+        "range.base.hint": "Valeur de base de votre personnage. Elle est égale à la Dextérité de votre personnage plus tout autre modificateur de base (profil, trait, ...).",
         "psy.label": "Psychique",
-        "psy.base.hint": "Valeur de base du personnage. Elle est égale à la Perception du personnage plus tout autre modificateur de base (profil, trait, ...).",
-        "psy.increases.hint": "Amélioration de niveau du personnage ajouté à la valeur de base du personnage. Seuls les personnages avec un profil de psi peuvent accroître leur score de base au-delà de 2."
+        "psy.base.hint": "Valeur de base de votre personnage. Elle est égale à la Perception de votre personnage plus tout autre modificateur de base (profil, trait, ...).",
+        "psy.increases.hint": "Amélioration de niveau de votre personnage ajouté à la valeur de base. Seuls les personnages avec un profil de psi peuvent accroître leur score de base au-delà de 2."
       }
     },
 
@@ -163,21 +173,25 @@
         "instability.label": "Instabilité"
       },
 
+      "lifestyle": {
+        "value.label": "Niveau de vie"
+      },
+
       "defenses": {
         "label": "Défenses",
         "temp.label": "Dommages temporaires",
-        "temp.reduction.base.hint": "Valeur de base du personnage. Elle est égale à la Force plus tout autre modificateur de base (profil, trait, ...).",
+        "temp.reduction.base.hint": "Valeur de base de votre personnage. Elle est égale à la Force plus tout autre modificateur de base (profil, trait, ...).",
         "archaic.label": "Armes archaïques",
         "firearm.label": "Armes à feu",
         "ionic.label": "Armes ioniques",
         "laser.label": "Armes lasers",
         "plasma.label": "Armes plasmatiques",
         "psy.label": "Effets psychiques",
-        "psy.protection.base.hint": "Valeur de base du personnage. Elle est égale à 10 + Charisme plus tout autre modificateur de base (profil, trait, ...).",
+        "psy.protection.base.hint": "Valeur de base de votre personnage. Elle est égale à 10 + Charisme plus tout autre modificateur de base (profil, trait, ...).",
         "[type].protection.label": "Défense",
         "[type].reduction.label": "Réduction de dommages",
-        "[type].protection.base.hint": "Valeur de base du personnage. Elle est égale à 10 + Dextérité + Armure plus tout autre modificateur de base (profil, trait, ...).",
-        "[type].reduction.base.hint": "Valeur de base du personnage. Elle est égale à 0 plus tout autre modificateur de base (profil, trait, ...)."
+        "[type].protection.base.hint": "Valeur de base de votre personnage. Elle est égale à 10 + Dextérité + Armure plus tout autre modificateur de base (profil, trait, ...).",
+        "[type].reduction.base.hint": "Valeur de base de votre personnage. Elle est égale à 0 plus tout autre modificateur de base (profil, trait, ...)."
       }
     },
 
@@ -217,7 +231,7 @@
     "ABILITY": {
       "LABELS": {
         "Window_title": "Configuration : {ability} ({name})",
-        "Description": "Configuration de la caractéristique \"{ability}\" du personnage."
+        "Description": "Configuration de la caractéristique \"{ability}\" de votre personnage."
       }
     },
 
@@ -232,35 +246,35 @@
     "HIT_POINTS": {
       "LABELS": {
         "Window_title": "Configuration : points de vie ({name})",
-        "Description": "Configuration des points de vie maximum du personnage."
+        "Description": "Configuration des points de vie maximum de votre personnage."
       }
     },
 
     "ATTACK": {
       "LABELS": {
         "Window_title": "Configuration : {attack} ({name})",
-        "Description": "Configuration de l'attaque \"{attack}\" du personnage."
+        "Description": "Configuration de l'attaque \"{attack}\" de votre personnage."
       }
     },
 
     "INITIATIVE": {
       "LABELS": {
         "Window_title": "Configuration : initiative ({name})",
-        "Description": "Configuration de l'initiative du personnage."
+        "Description": "Configuration de l'initiative de votre personnage."
       }
     },
 
     "WOUND_THRESHOLD": {
       "LABELS": {
         "Window_title": "Configuration : seuil de blessure ({name})",
-        "Description": "Configuration du seuil de blessure du personnage."
+        "Description": "Configuration du seuil de blessure de votre personnage."
       }
     },
 
     "DEFENSE": {
       "LABELS": {
         "Window_title": "Configuration : {defense} ({name})",
-        "Description": "Configuration de la défense contre les \"{defense}\" du personnage."
+        "Description": "Configuration de la défense contre les \"{defense}\" de votre personnage."
       }
     }
   },
@@ -274,19 +288,24 @@
     }
   },
 
+  "COG.FEATURE": {
+    "FIELDS": {
+      "rank.label": "Rang",
+      "rank.hint": "Rang de la Capacité. Ce Rang définit quel emplacement de Voie la capacité peut occuper."
+    }
+  },
+
   "COG.PATH": {
     "FIELDS": {
       "type.label": "Type",
       "type.hint": "Un personnage joueur peut accéder à une seule voie d'espèce, une seule voie culturelle et plusieurs voies de savoir-faire.",
-      "lifestyle.label": "Niveau de vie de départ",
-      "features": {
-        "[rank].label": "Rang {rank}"
-      }
+      "cultural.lifestyle.hint": "Niveau de vie initial du personnage joueur. Il peut ensuite être modifié par le Profil ou en cours de jeu."
     },
 
     "ERRORS": {
       "DUPLICATED_FEATURE": "Vous ne pouvez pas ajouter deux fois la même Capacité.",
-      "NOT_A_FEATURE": "Vous pouvez uniquement ajouter des objets de type \"Capacité\" à une Voie."
+      "NOT_A_PC_FEATURE": "Vous pouvez uniquement ajouter des objets de type \"Capacité\" à une Voie.",
+      "WRONG_FEATURE_RANK": "La capacité n'est pas du bon rang. Rang attendu \"{rank}\""
     },
 
     "LABELS": {
@@ -300,6 +319,12 @@
     "FIELDS": {
       "mode.label": "Mode",
       "mode.hint": "Le mode simplifié vous permet d'accéder aux profils des règles de base. Le mode de création détaillé vous permet de créer votre propre profil en utilisant les points de création.",
+      "simple": {
+        "hitDie.hint": "Dé de vie de départ du personnage.",
+        "luck.hint": "Bonus à la chance maximale du personnage.",
+        "[attack].hint": "Bonus au type d'attaque du personnage.",
+        "initiative.hint": "Bonus à l'initiative du personnage."
+      },
       "paths": {
         "cultural.value.label": "Voie culturelle",
         "hobby.value.label": "Voie de hobby",
@@ -309,7 +334,7 @@
     },
 
     "TABS": {
-      "Config": "Profil",
+      "Archetype": "Profil",
       "Paths": "Voies [{count}/4]"
     },
 
@@ -322,6 +347,7 @@
 
     "LABELS": {
       "Archetype_mode": "Mode de création",
+      "Bonuses": "Bonus du profil",
       "Add_path": "Ajoutez une voie en glissant & déposant ici.",
       "Selected_path": "Voie sélectionnée :"
     }

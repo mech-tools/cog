@@ -7,10 +7,11 @@
             type.field
             value=type.value
         }}
-        {{#if lifestyle}}
+        {{#if cultural}}
             {{formGroup
-                lifestyle.field
-                value=lifestyle.value
+                cultural.lifestyle.field
+                value=cultural.lifestyle.value
+                localize=true
             }}
         {{/if}}
     </fieldset>
@@ -33,7 +34,7 @@
                     {{#if feature.value}}
                         {{> "cog.item-line"
                         item=feature.itemData
-                        label=(localize feature.field.label rank=feature.field.name)
+                        label=itemData.label
                         action="removeFeature"
                         actionKey=@key
                     }}

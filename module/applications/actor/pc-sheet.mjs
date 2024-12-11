@@ -57,7 +57,7 @@ export default class PcSheet extends COGBaseActorSheet {
       hitDie: {
         type: {
           ...this.makeField("hitDie.type"),
-          icon: `systems/cog/ui/dice/${this.document.system.hitDie.type}.svg`,
+          icon: `systems/cog/ui/dice/d${this.document.system.hitDie.type}.svg`,
         },
       },
       resources: {
@@ -144,8 +144,8 @@ export default class PcSheet extends COGBaseActorSheet {
 
     // Chart data
     const barCap = Math.max(
-      ...Object.values(defenses.values).map(({ protection }) => protection.max.value),
-      ...Object.values(defenses.values).map(({ reduction }) => reduction.max.value),
+      ...Object.values(defenses.values).map(({ protection }) => Math.abs(protection.max.value)),
+      ...Object.values(defenses.values).map(({ reduction }) => Math.abs(reduction.max.value)),
     );
 
     // Max css percentage is defined by CSS to 46.5%

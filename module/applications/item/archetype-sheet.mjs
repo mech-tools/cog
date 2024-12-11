@@ -17,13 +17,6 @@ export default class ArchetypeSheet extends COGBaseItemSheet {
 
   static {
     this._initializeItemSheetClass();
-
-    // Archetype tabs
-    this.TABS = foundry.utils.deepClone(this.TABS);
-    this.TABS.archetype = [
-      { id: "config", group: "archetype", label: "COG.ARCHETYPE.TABS.Config" },
-      { id: "paths", group: "archetype", label: "COG.ARCHETYPE.TABS.Paths" },
-    ];
   }
 
   /* -------------------------------------------- */
@@ -34,16 +27,35 @@ export default class ArchetypeSheet extends COGBaseItemSheet {
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
 
-    return {
-      ...context,
-
+    Object.assign(context, {
       // Sheet
       tabGroups: await this.#prepareTabGroups(context.tabGroups),
 
       // Data
       mode: this.makeField("mode"),
       paths: await this.#preparePaths(),
-    };
+    });
+
+    switch (context.mode.value) {
+      // Simple mode
+      case COG.ARCHETYPE_MODES.SIMPLE:
+        context[COG.ARCHETYPE_MODES.SIMPLE] = {
+          hitDie: this.makeField("simple.hitDie"),
+          luck: this.makeField("simple.luck"),
+          attacks: {
+            melee: this.makeField("simple.attacks.melee"),
+            range: this.makeField("simple.attacks.range"),
+            psy: this.makeField("simple.attacks.psy"),
+          },
+          initiative: this.makeField("simple.initiative"),
+        };
+        break;
+      // Advanced mode
+      case COG.ARCHETYPE_MODES.ADVANCED:
+        break;
+    }
+
+    return context;
   }
 
   /* -------------------------------------------- */
@@ -51,19 +63,14 @@ export default class ArchetypeSheet extends COGBaseItemSheet {
   /**
    * Update and return a new tabGroups object updated with metadata.
    * @param {Object} tabGroups  The tabGroups being updated.
-   * @returns {Promise<{ any: { any: { incomplete: boolean; count: number } } }>}
+   * @returns {Promise<{ any: { any: { incomplete: boolean } } }>}
    */
   async #prepareTabGroups(tabGroups) {
-    const isIncomplete = !(await this.document.system.isComplete);
-    const pathsCount = await this.document.system.pathsCount;
+    const isIncomplete = !(await this.document.system.isComplete());
 
     return foundry.utils.mergeObject(
       tabGroups,
-      {
-        "sheet.config.isIncomplete": isIncomplete,
-        "archetype.paths.isIncomplete": isIncomplete,
-        "archetype.paths.count": pathsCount,
-      },
+      { "sheet.config.isIncomplete": isIncomplete },
       { inplace: true },
     );
   }
@@ -97,7 +104,7 @@ export default class ArchetypeSheet extends COGBaseItemSheet {
             img: itemData.img,
             error:
               !(await this.document.system.isValidPath(path)) ||
-              !(await itemData.system.isComplete),
+              !(await itemData.system.isComplete()),
           };
         }
       }
@@ -126,7 +133,7 @@ export default class ArchetypeSheet extends COGBaseItemSheet {
   /* -------------------------------------------- */
 
   /** @inheritdoc */
-  async _onDropItem(event) {
+  _onDropItem(event) {
     this.#onDropPath(event);
   }
 
@@ -136,7 +143,7 @@ export default class ArchetypeSheet extends COGBaseItemSheet {
    * Handles the dropping of a path item onto the archetype item.
    * @param {DragEvent} event  The triggering event.
    */
-  async #onDropPath(event) {
+  #onDropPath(event) {
     const data = TextEditor.getDragEventData(event);
     const pathType = event.currentTarget.dataset.key;
 

@@ -16,4 +16,20 @@ export default class FeatureSheet extends COGBaseItemSheet {
   static {
     this._initializeItemSheetClass();
   }
+
+  /* -------------------------------------------- */
+  /*  Sheet Context
+  /* -------------------------------------------- */
+
+  /** @inheritdoc */
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+
+    return {
+      ...context,
+
+      // Data
+      rank: this.makeField("rank"),
+    };
+  }
 }

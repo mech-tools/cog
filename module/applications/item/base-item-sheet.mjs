@@ -29,7 +29,7 @@ export default class COGBaseItemSheet extends COGBaseSheet(sheets.ItemSheetV2) {
     },
     tabs: {
       id: "tabs",
-      template: "systems/cog/templates/sheets/item/partials/item-nav.hbs",
+      template: "systems/cog/templates/sheets/item/nav.hbs",
     },
     description: {
       id: "description",
@@ -38,6 +38,7 @@ export default class COGBaseItemSheet extends COGBaseSheet(sheets.ItemSheetV2) {
     config: {
       id: "config",
       template: undefined, // Defined during _initializeItemSheetClass
+      scrollable: [""],
     },
   };
 

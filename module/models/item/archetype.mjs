@@ -25,6 +25,8 @@ export default class COGArchetype extends COGItemType {
   }
 
   /* -------------------------------------------- */
+  /*  Helpers
+  /* -------------------------------------------- */
 
   /**
    * Given a path type, returns if the path slot contains a valid "path" item.
@@ -33,7 +35,7 @@ export default class COGArchetype extends COGItemType {
    */
   async isValidPath(path) {
     const item = await fromUuid(this.paths[path].value);
-    if (!path) return false;
+    if (!item) return false;
 
     if (
       (path !== "hobby" && !path.startsWith(item.system.type)) ||
@@ -50,31 +52,17 @@ export default class COGArchetype extends COGItemType {
    * Check if all 4 paths exists ("hobby" is optionnal) and the "path" items are valid.
    * @returns {Promise<boolean>}
    */
-  get isComplete() {
-    return Promise.all(
+  async isComplete() {
+    const results = await Promise.all(
       Object.entries(this.paths).map(async ([path, { value: pathUuid }]) => {
         if (path !== "hobby" && pathUuid === null) return false;
         if (path === "hobby" && pathUuid === null) return true;
 
         return await this.isValidPath(path);
       }),
-    ).then((result) => result.every(Boolean));
-  }
+    );
 
-  /* -------------------------------------------- */
-
-  /**
-   * Count the number of existing path returning an actual "path" item.
-   * @returns {Promise<number>}
-   */
-  get pathsCount() {
-    return Promise.all(
-      Object.entries(this.paths).map(async ([path, { value: pathUuid }]) => {
-        if (pathUuid === null) return false;
-
-        return await this.isValidPath(path);
-      }),
-    ).then((result) => result.filter(Boolean).length);
+    return results.every(Boolean);
   }
 
   /* -------------------------------------------- */
@@ -97,7 +85,7 @@ export default class COGArchetype extends COGItemType {
         pathUuid === this.paths.expertise2.value
       ) {
         ui.notifications.warn("COG.ARCHETYPE.ERRORS.DUPLICATED_PATH", { localize: true });
-        changes.system.paths[path].value = null;
+        changes.system.paths[path].value = this.paths[path].value;
         continue;
       }
 
@@ -106,7 +94,7 @@ export default class COGArchetype extends COGItemType {
       // Check if item is of type "path"
       if (item.type !== "path") {
         ui.notifications.error("COG.ARCHETYPE.ERRORS.NOT_A_PATH", { localize: true });
-        changes.system.paths[path].value = null;
+        changes.system.paths[path].value = this.paths[path].value;
         continue;
       }
 
@@ -116,14 +104,14 @@ export default class COGArchetype extends COGItemType {
         (path !== "hobby" && !path.startsWith(item.system.type))
       ) {
         ui.notifications.warn("COG.ARCHETYPE.ERRORS.WRONG_PATH_TYPE", { localize: true });
-        changes.system.paths[path].value = null;
+        changes.system.paths[path].value = this.paths[path].value;
         continue;
       }
 
       // Check that a path is complete
       if (!(await item.system.isComplete)) {
         ui.notifications.error("COG.ARCHETYPE.ERRORS.PATH_INCOMPLETE", { localize: true });
-        changes.system.paths[path].value = null;
+        changes.system.paths[path].value = this.paths[path].value;
         continue;
       }
     }
@@ -147,38 +135,144 @@ export default class COGArchetype extends COGItemType {
       choices: COG.ARCHETYPE_MODES.choices,
     });
 
-    // Hit Die
-    schema.hitDie = new fields.SchemaField({
-      type: new fields.StringField({
-        ...required,
+    // Simple configuration
+    schema[COG.ARCHETYPE_MODES.SIMPLE] = new fields.SchemaField({
+      // Hit Die
+      hitDie: new fields.NumberField({
+        ...requiredInteger,
         initial: COG.HIT_DIE_TYPES.D6,
         choices: COG.HIT_DIE_TYPES.choices,
+        min: COG.HIT_DIE_TYPES.D6,
+        max: COG.HIT_DIE_TYPES.D10,
+        label: "COG.PC.FIELDS.hitDie.type.label",
+      }),
+
+      // Luck
+      luck: new fields.NumberField({
+        ...requiredInteger,
+        initial: 0,
+        min: 0,
+        label: "COG.PC.FIELDS.resources.luck.label",
+      }),
+
+      // Attacks
+      attacks: new fields.SchemaField(
+        ["melee", "range", "psy"].reduce((obj, id) => {
+          obj[id] = new fields.NumberField({
+            ...requiredInteger,
+            initial: 0,
+            min: 0,
+            label: `COG.ACTOR.FIELDS.attacks.${id}.label`,
+            hint: "COG.ARCHETYPE.FIELDS.simple.[attack].hint",
+          });
+          return obj;
+        }, {}),
+      ),
+
+      // Initiative
+      initiative: new fields.NumberField({
+        ...requiredInteger,
+        initial: 0,
+        min: 0,
+        label: "COG.ACTOR.FIELDS.attributes.initiative.label",
       }),
     });
 
-    // Attacks
-    const attacks = ["melee", "range", "psy"];
+    // Advanced configuration
+    schema[COG.ARCHETYPE_MODES.ADVANCED] = new fields.SchemaField({
+      // Hit Die
+      hitDie: new fields.NumberField({
+        ...requiredInteger,
+        initial: COG.HIT_DIE_TYPES.D6,
+        choices: COG.HIT_DIE_TYPES.choices,
+        min: COG.HIT_DIE_TYPES.D6,
+        max: COG.HIT_DIE_TYPES.D10,
+        label: "COG.PC.FIELDS.hitDie.type.label",
+      }),
 
-    schema.attacks = new fields.SchemaField(
-      attacks.reduce((obj, id) => {
-        obj[id] = new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 4 });
-        return obj;
-      }, {}),
-    );
+      // Luck
+      luck: new fields.NumberField({
+        ...requiredInteger,
+        initial: 0,
+        min: 0,
+        max: 2,
+        label: "COG.PC.FIELDS.resources.luck.label",
+      }),
 
-    // Defenses
-    const defenses = ["physical", "psy"];
+      // Attacks
+      attacks: new fields.SchemaField(
+        ["melee", "range", "psy"].reduce((obj, id) => {
+          obj[id] = new fields.NumberField({
+            ...requiredInteger,
+            initial: 0,
+            min: 0,
+            max: 4,
+            label: `COG.ACTOR.FIELDS.attacks.${id}.label`,
+            hint: "COG.ARCHETYPE.FIELDS.advanced.[attack].hint",
+          });
+          return obj;
+        }, {}),
+      ),
 
-    schema.defenses = new fields.SchemaField(
-      defenses.reduce((obj, id) => {
-        obj[id] = new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 1 });
-        return obj;
-      }, {}),
-    );
+      // Initiative
+      initiative: new fields.NumberField({
+        ...requiredInteger,
+        initial: 0,
+        min: 0,
+        max: 8,
+        label: "COG.ACTOR.FIELDS.attributes.initiative.label",
+      }),
 
-    // attributes
-    schema.resources = new fields.SchemaField({
-      luck: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 2 }),
+      // Trait
+      trait: new fields.DocumentUUIDField({
+        type: "Item",
+      }),
+
+      // Defenses
+      defenses: new fields.SchemaField(
+        ["physical", "psy"].reduce((obj, id) => {
+          obj[id] = new fields.NumberField({
+            ...requiredInteger,
+            initial: 0,
+            min: 0,
+            max: 1,
+            hint: "COG.ARCHETYPE.FIELDS.advanced.[defense].hint",
+          });
+          return obj;
+        }, {}),
+      ),
+
+      // Lifestyle
+      lifestyle: new fields.SchemaField({
+        value: new fields.StringField({
+          ...required,
+          initial: COG.ACTOR_LIFESTYLES.WRETCHED,
+          choices: COG.ACTOR_LIFESTYLES.choices,
+        }),
+        credits: new fields.NumberField({
+          ...requiredInteger,
+          initial: 0,
+          min: 0,
+          max: 8000,
+          step: 1000,
+        }),
+      }),
+
+      // Equipment
+      equipment: new fields.NumberField({
+        ...requiredInteger,
+        initial: 0,
+        min: 0,
+        max: 1,
+      }),
+
+      // Relations
+      relations: new fields.NumberField({
+        ...requiredInteger,
+        initial: 0,
+        min: 0,
+        max: 4,
+      }),
     });
 
     // Paths
@@ -205,36 +299,6 @@ export default class COGArchetype extends COGItemType {
         return obj;
       }, {}),
     );
-
-    // Attributes
-    schema.attributes = new fields.SchemaField({
-      initiative: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 8 }),
-      trait: new fields.DocumentUUIDField({ type: "Item" }),
-    });
-
-    // Lifestyle
-    schema.lifestyle = new fields.SchemaField({
-      value: new fields.StringField({
-        ...required,
-        initial: COG.ACTOR_LIFESTYLES.WRETCHED,
-        choices: COG.ACTOR_LIFESTYLES.choices,
-      }),
-      credits: new fields.NumberField({
-        ...requiredInteger,
-        initial: 0,
-        min: 0,
-        max: 8000,
-        step: 1000,
-      }),
-    });
-
-    // Equipment
-    schema.equipment = new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 1 });
-
-    // Biography
-    schema.biography = new fields.SchemaField({
-      relations: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 4 }),
-    });
 
     // Remove unused fields
     delete schema.description.fields.secret;

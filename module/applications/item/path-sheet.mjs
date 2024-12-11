@@ -27,19 +27,25 @@ export default class PathSheet extends COGBaseItemSheet {
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
 
-    return {
-      ...context,
-
+    Object.assign(context, {
       // Sheet
       tabGroups: await this.#prepareTabGroups(context.tabGroups),
 
       // Data
       type: this.makeField("type"),
       features: await this.#prepareFeatures(),
-      ...(this.document.system.type === COG.PATH_TYPES.CULTURAL && {
-        lifestyle: this.makeField("lifestyle"),
-      }),
-    };
+    });
+
+    switch (context.type.value) {
+      // Cultural type
+      case COG.PATH_TYPES.CULTURAL:
+        context[COG.PATH_TYPES.CULTURAL] = {
+          lifestyle: this.makeField(`${COG.PATH_TYPES.CULTURAL}.lifestyle`),
+        };
+        break;
+    }
+
+    return context;
   }
 
   /* -------------------------------------------- */
@@ -50,7 +56,7 @@ export default class PathSheet extends COGBaseItemSheet {
    * @returns {Promise<{ any: { any: { incomplete: boolean } } }>}
    */
   async #prepareTabGroups(tabGroups) {
-    const isIncomplete = !(await this.document.system.isComplete);
+    const isIncomplete = !(await this.document.system.isComplete());
 
     return foundry.utils.mergeObject(
       tabGroups,
@@ -65,13 +71,23 @@ export default class PathSheet extends COGBaseItemSheet {
    * Prepare and format the display of Features on the item sheet.
    * @returns {Promise<{
    *   count: number;
-   *   values: { any: { itemData: { uuid: string; name: string; img: string } | null } };
+   *   values: {
+   *     any: {
+   *       itemData: {
+   *         uuid: string;
+   *         name: string;
+   *         img: string;
+   *         error: boolean;
+   *         label: string;
+   *       } | null;
+   *     };
+   *   };
    * }>}
    */
   async #prepareFeatures() {
     const features = {
-      isIncomplete: !(await this.document.system.isComplete),
-      count: await this.document.system.featuresCount,
+      isIncomplete: !(await this.document.system.isComplete()),
+      count: await this.document.system.featuresCount(),
       values: {},
     };
 
@@ -86,6 +102,8 @@ export default class PathSheet extends COGBaseItemSheet {
             uuid: itemData.uuid,
             name: itemData.name,
             img: itemData.img,
+            error: !(await this.document.system.isValidFeature(rank)),
+            label: COG.FEATURE_RANKS.choices[itemData.system.rank],
           };
         }
       }
@@ -124,10 +142,12 @@ export default class PathSheet extends COGBaseItemSheet {
    * Handles the dropping of a feature item onto the path item.
    * @param {DragEvent} event  The triggering event.
    */
-  #onDropFeature(event) {
+  async #onDropFeature(event) {
     const data = TextEditor.getDragEventData(event);
 
-    const slot = this.document.system.firstAvailableFeatureSlot;
-    if (slot) this.document.update({ [`system.features.${slot}`]: data.uuid });
+    const item = await fromUuid(data.uuid);
+    const rank = item.system.rank || 1;
+
+    this.document.update({ [`system.features.${rank}`]: data.uuid });
   }
 }

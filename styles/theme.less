@@ -212,6 +212,7 @@
 
       position: relative;
       border-radius: var(--border-radius);
+      min-width: 0;
 
       legend {
         color: var(--color-primary);
@@ -251,6 +252,10 @@
 
       > .form-fields {
         gap: var(--spacing-50);
+
+        &:has(.line-item:only-child) {
+          justify-content: flex-start;
+        }
 
         &.drop-zone {
           justify-content: center;

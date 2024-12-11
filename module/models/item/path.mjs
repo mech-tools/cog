@@ -31,13 +31,19 @@ export default class COGPath extends COGItemType {
   }
 
   /* -------------------------------------------- */
+  /*  Helpers
+  /* -------------------------------------------- */
 
   /**
-   * Get the first available feature slot index.
-   * @returns {string}
+   * Given a rank, returns if the feature slot holds a valid "feature" item.
+   * @param {string} rank  The rank.
+   * @returns {Promise<boolean>}
    */
-  get firstAvailableFeatureSlot() {
-    return Object.entries(this.features).find(([, value]) => value === null)?.[0];
+  async isValidFeature(rank) {
+    const item = await fromUuid(this.features[rank]);
+    if (!item) return false;
+
+    return item.system.rank === parseInt(rank);
   }
 
   /* -------------------------------------------- */
@@ -46,12 +52,16 @@ export default class COGPath extends COGItemType {
    * Check if all 5 features exists and the items exists as well.
    * @returns {Promise<boolean>}
    */
-  get isComplete() {
-    return Promise.all(
-      Object.values(this.features).map(async (featureUuid) => {
-        return featureUuid !== null && !!(await fromUuid(featureUuid));
+  async isComplete() {
+    const results = await Promise.all(
+      Object.entries(this.features).map(async ([rank, featureUuid]) => {
+        if (featureUuid === null) return false;
+
+        return await this.isValidFeature(rank);
       }),
-    ).then((result) => result.every(Boolean));
+    );
+
+    return results.every(Boolean);
   }
 
   /* -------------------------------------------- */
@@ -60,12 +70,16 @@ export default class COGPath extends COGItemType {
    * Count the number of existing features returning an actual "feature" item.
    * @returns {Promise<number>}
    */
-  get featuresCount() {
-    return Promise.all(
-      Object.values(this.features).map(async (featureUuid) => {
-        return featureUuid !== null && !!(await fromUuid(featureUuid));
+  async featuresCount() {
+    const results = await Promise.all(
+      Object.entries(this.features).map(async ([rank, featureUuid]) => {
+        if (featureUuid === null) return false;
+
+        return await this.isValidFeature(rank);
       }),
-    ).then((result) => result.filter(Boolean).length);
+    );
+
+    return results.filter(Boolean).length;
   }
 
   /* -------------------------------------------- */
@@ -83,34 +97,26 @@ export default class COGPath extends COGItemType {
       // Check if feature already exists
       if (Object.values(this.features).find((uuid) => uuid === featureUuid)) {
         ui.notifications.warn("COG.PATH.ERRORS.DUPLICATED_FEATURE", { localize: true });
-        changes.system.features[rank] = null;
+        changes.system.features[rank] = this.features[rank];
         continue;
       }
 
-      // Check if item is of type "feature"
       const item = await fromUuid(featureUuid);
-      if (item.type !== "feature") {
-        ui.notifications.error("COG.PATH.ERRORS.NOT_A_FEATURE", { localize: true });
-        changes.system.features[rank] = null;
+
+      // Check if item is of type "pc feature"
+      if (item.type !== "pcfeature") {
+        ui.notifications.error("COG.PATH.ERRORS.NOT_A_PC_FEATURE", { localize: true });
+        changes.system.features[rank] = this.features[rank];
+        continue;
+      }
+
+      // Check if feature is of right rank
+      if (item.system.rank !== parseInt(rank)) {
+        ui.notifications.warn(game.i18n.format("COG.PATH.ERRORS.WRONG_FEATURE_RANK", { rank }));
+        changes.system.features[rank] = this.features[rank];
         continue;
       }
     }
-
-    // Reset features order
-    const mergedFeatures = foundry.utils.mergeObject(this.features, changes.system.features, {
-      inplace: true,
-    });
-
-    const newFeatures = Object.values(mergedFeatures).filter((value) => value !== null);
-    if (!newFeatures.length) return;
-
-    const updates = {};
-
-    for (const key in this.features) {
-      updates[`system.features.${key}`] = newFeatures[`${parseInt(key) - 1}`] ?? null;
-    }
-
-    Object.assign(changes, updates);
   }
 
   /* -------------------------------------------- */
@@ -130,20 +136,21 @@ export default class COGPath extends COGItemType {
       choices: COG.PATH_TYPES.choices,
     });
 
-    // Lifestyle
-    schema.lifestyle = new fields.StringField({
-      ...required,
-      initial: COG.ACTOR_LIFESTYLES.WRETCHED,
-      choices: COG.ACTOR_LIFESTYLES.choices,
+    // Cultural path
+    schema[COG.PATH_TYPES.CULTURAL] = new fields.SchemaField({
+      // Lifestyle
+      lifestyle: new fields.StringField({
+        ...required,
+        initial: COG.ACTOR_LIFESTYLES.WRETCHED,
+        choices: COG.ACTOR_LIFESTYLES.choices,
+        label: "COG.PC.FIELDS.lifestyle.value.label",
+      }),
     });
 
     // Features
     schema.features = new fields.SchemaField(
       Array.fromRange(5, 1).reduce((obj, id) => {
-        obj[id] = new fields.DocumentUUIDField({
-          type: "Item",
-          label: "COG.PATH.FIELDS.features.[rank].label",
-        });
+        obj[id] = new fields.DocumentUUIDField({ type: "Item" });
         return obj;
       }, {}),
     );

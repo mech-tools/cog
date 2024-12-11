@@ -50,13 +50,13 @@ Hooks.once("init", async function () {
   // Item document configuration
   CONFIG.Item.documentClass = documents.COGItem;
   CONFIG.Item.dataModels = {
-    feature: models.item.COGFeature,
+    pcfeature: models.item.COGPcFeature,
     path: models.item.COGPath,
     archetype: models.item.COGArchetype,
   };
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet(COG.id, applications.item.FeatureSheet, {
-    types: ["feature"],
+    types: ["pcfeature"],
     makeDefault: true,
   });
   Items.registerSheet(COG.id, applications.item.PathSheet, {
@@ -86,6 +86,7 @@ Hooks.once("i18nInit", function () {
     "HIT_DIE_TYPES",
     "ACTOR_SIZES",
     "ACTOR_LIFESTYLES",
+    "FEATURE_RANKS",
     "PATH_TYPES",
     "ARCHETYPE_MODES",
   ];

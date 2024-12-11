@@ -1,5 +1,10 @@
 <section class="tab sheet-body flexcol {{tabGroups.sheet.config.cssClass}}" data-tab="{{tabGroups.sheet.config.id}}"
     data-group="{{tabGroups.sheet.config.group}}">
     {{! Feature configuration }}
-    feature
+    <fieldset>
+        {{formGroup
+            rank.field
+            value=rank.value
+        }}
+    </fieldset>
 </section>
