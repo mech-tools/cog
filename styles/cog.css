@@ -678,6 +678,9 @@
   font-size: var(--font-size-14);
   line-height: normal;
 }
+.application .icon-button.big {
+  font-size: var(--font-size-18);
+}
 .application .icon-button:hover {
   color: var(--color-primary);
 }
@@ -1518,12 +1521,6 @@
   /* ----------------------------------------- */
   /*  Sheet Content
   /* ----------------------------------------- */
-  /* ----------------------------------------- */
-  /*  General styles
-  /* ----------------------------------------- */
-  /* ----------------------------------------- */
-  /*  Hit Die
-  /* ----------------------------------------- */
 }
 .cog.sheet.config .window-header button[data-action="copyUuid"] {
   display: none;
@@ -1555,12 +1552,7 @@
 .cog.sheet.config .sheet-content {
   gap: var(--spacing-100);
   padding-top: var(--spacing-25);
-}
-.cog.sheet.config .icon-button {
-  font-size: var(--font-size-18);
-}
-.cog.sheet.config.hit-die .sheet-content {
-  max-height: 300px;
+  max-height: 450px;
 }
 /* ----------------------------------------- */
 /*  Item Sheet
