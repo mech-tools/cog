@@ -308,6 +308,7 @@
   position: relative;
   border-radius: var(--border-radius);
   min-width: 0;
+  margin: 0;
 }
 .cog.application fieldset legend {
   color: var(--color-primary);
@@ -751,6 +752,7 @@
   bottom: 0;
   background-image: var(--background-image);
   background-repeat: no-repeat;
+  transition: filter 0.5s;
 }
 .application .data.value input {
   font-size: var(--value-font-size);
@@ -804,7 +806,7 @@
 .application .data.value.large input {
   --input-height: var(--spacing-200);
 }
-.application .data.value.large::before {
+.application .data.value.large:not(:has(input))::before {
   transform: translateX(1px);
 }
 .application .data.chart.diverging {
@@ -1640,7 +1642,7 @@
   align-items: stretch;
 }
 .cog.sheet.item.archetype .paths fieldset {
-  flex: 1 1 calc(50% - var(--spacing-100));
+  flex: 1 1 calc(50% - (var(--spacing-100) / 2));
   max-width: calc(50% - (var(--spacing-100) / 2));
   justify-content: flex-end;
 }

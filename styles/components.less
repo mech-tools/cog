@@ -259,6 +259,7 @@
       bottom: 0;
       background-image: var(--background-image);
       background-repeat: no-repeat;
+      transition: filter 0.5s;
     }
 
     input {
@@ -328,7 +329,7 @@
         --input-height: var(--spacing-200);
       }
 
-      &::before {
+      &:not(:has(input))::before {
         transform: translateX(1px);
       }
     }
