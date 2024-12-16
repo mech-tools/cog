@@ -50,11 +50,16 @@ Hooks.once("init", async function () {
   // Item document configuration
   CONFIG.Item.documentClass = documents.COGItem;
   CONFIG.Item.dataModels = {
+    talent: models.item.COGTalent,
     pcfeature: models.item.COGPcFeature,
     path: models.item.COGPath,
     archetype: models.item.COGArchetype,
   };
   Items.unregisterSheet("core", ItemSheet);
+  Items.registerSheet(COG.id, applications.item.TalentSheet, {
+    types: ["talent"],
+    makeDefault: true,
+  });
   Items.registerSheet(COG.id, applications.item.FeatureSheet, {
     types: ["pcfeature"],
     makeDefault: true,

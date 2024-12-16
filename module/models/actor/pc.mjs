@@ -194,14 +194,14 @@ export default class COGPc extends COGActorType {
   /** @override */
   _prepareBaseAttributes() {
     this.attributes.initiative.base =
-      COG.BASE_INITIATIVE +
+      COG.ACTOR_BASE_INITIATIVE +
       this.abilities.dexterity.base +
       this.abilities.dexterity.bonus +
       this.abilities.perception.base +
       this.abilities.perception.bonus;
 
     this.attributes.wounds.threshold.base =
-      COG.BASE_WOUND_THRESHOLD +
+      COG.ACTOR_BASE_WOUND_THRESHOLD +
       this.abilities.constitution.base +
       this.abilities.constitution.bonus +
       this.abilities.strength.base +
@@ -225,7 +225,7 @@ export default class COGPc extends COGActorType {
       switch (key) {
         case "psy":
           this.defenses[key].protection.base =
-            COG.BASE_DEFENSE_PROTECTION +
+            COG.ACTOR_BASE_DEFENSE_PROTECTION +
             this.abilities.charisma.base +
             this.abilities.charisma.bonus;
           break;
@@ -235,7 +235,7 @@ export default class COGPc extends COGActorType {
         // falls through
         default:
           this.defenses[key].protection.base =
-            COG.BASE_DEFENSE_PROTECTION +
+            COG.ACTOR_BASE_DEFENSE_PROTECTION +
             this.abilities.dexterity.base +
             this.abilities.dexterity.bonus;
       }

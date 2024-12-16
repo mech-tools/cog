@@ -5,6 +5,7 @@
       "npc": "PNJ "
     },
     "Item": {
+      "talent": "Trait ",
       "pcfeature": "Capacité de joueur ",
       "path": "Voie ",
       "archetype": "Profil "
@@ -164,7 +165,8 @@
       },
 
       "advancement": {
-        "level.label": "Niveau"
+        "level.label": "Niveau",
+        "talent.label": "Trait"
       },
 
       "resources": {
@@ -174,7 +176,12 @@
       },
 
       "lifestyle": {
-        "value.label": "Niveau de vie"
+        "level.label": "Niveau de vie",
+        "credits.label": "Crédits"
+      },
+
+      "biography": {
+        "relations.label": "Relations"
       },
 
       "defenses": {
@@ -321,15 +328,36 @@
       "mode.hint": "Le mode simplifié vous permet d'accéder aux profils des règles de base. Le mode de création détaillé vous permet de créer votre propre profil en utilisant les points de création.",
       "simple": {
         "hitDie.hint": "Dé de vie de départ du personnage.",
-        "luck.hint": "Bonus à la chance maximale du personnage.",
-        "[attack].hint": "Bonus au type d'attaque du personnage.",
-        "initiative.hint": "Bonus à l'initiative du personnage."
+        "luck.hint": "Bonus de profil à la chance maximale du personnage.",
+        "attacks.[attack].hint": "Bonus de profil à l'attaque du personnage.",
+        "initiative.hint": "Bonus de profil à l'initiative du personnage."
+      },
+      "advanced": {
+        "hitDie.hint": "Dé de vie de départ du personnage.\nPoints de création : 2 points par augmentation du dé de vie.",
+        "luck.hint": "Bonus de profil à la chance maximale du personnage.\nPoints de création : 1 point par point de chance (maximum 2)",
+        "attacks.[attack].hint": "Bonus de profil à l'attaque du personnage.\nPoints de création : 2 points par point d'attaque.",
+        "initiative.hint": "Bonus de profil à l'initiative du personnage.\nPoints de création : 1 point par point d'initiative.",
+        "talent.hint": "Trait ou avantage supplémentaire (ou 1er trait pour un synthétique) accordé par le profil.<br>Points de création : 3 points pour un trait supplémentaire (maximum 1).",
+        "defenses.physical.label": "Défense physique",
+        "defenses.psy.label": "Défense psychique",
+        "defenses.[defense].hint": "Bonus de profil à la défense du personnage.\nPoints de création : 2 points par point de défense (maximum 1).",
+        "lifestyle.level.hint": "Bonus de profil au niveau de vie du personnage.\nPoints de création : 2 points pour augmenter le niveau de vie d'une catégorie (maximum aisé).",
+        "lifestyle.credits.hint": "Bonus de profil aux crédits du personnage.\nPoints de création : 1 point pour augmenter les crédits de départ de 1 000.",
+        "equipment.label": "Équipement",
+        "equipment.hint": "Bonus de profil aux équipements de départ du personnage.\nPoints de création : 1 point par équipement correspondant à un niveau de vie aisé ou inférieur.",
+        "relations.hint": "Bonus de profil aux relations du personnage.\nPoints de création : 1 point pour chaque 2 relations supplémentaires."
+      },
+      "[mode].attacks": {
+        "melee.label": "Attaque de contact",
+        "range.label": "Attaque à distance",
+        "psy.label": "Attaque pyschique"
       },
       "paths": {
         "cultural.value.label": "Voie culturelle",
         "hobby.value.label": "Voie de hobby",
         "[expertise].value.label": "Voie professionnelle",
-        "[path].rank.label": "Rang de départ :"
+        "[path].rank.label": "Rang de départ :",
+        "[path].rank.hint": "Bonus de profil au rang de départ de la voie.\nPoints de création : 8 points pour 2 points de capacités à répartir entre les voies (il n'est pas possible de n'acheter qu'un seul point de capacité. C'est tout ou rien.)."
       }
     },
 
@@ -339,6 +367,7 @@
     },
 
     "ERRORS": {
+      "NOT_A_TALENT": "Vous pouvez uniquement ajouter un objet de type \"Trait\" au Profil.",
       "DUPLICATED_PATH": "Vous ne pouvez pas ajouter deux fois la même Voie.",
       "NOT_A_PATH": "Vous pouvez uniquement ajouter des objets de type \"Voie\" à un Profil.",
       "WRONG_PATH_TYPE": "Vous pouvez uniquement ajouter une Voie du bon type à chaque emplacement de voie du Profil.",
@@ -348,6 +377,7 @@
     "LABELS": {
       "Archetype_mode": "Mode de création",
       "Bonuses": "Bonus du profil",
+      "Add_talent": "Ajoutez un trait en glissant & déposant ici.",
       "Add_path": "Ajoutez une voie en glissant & déposant ici.",
       "Selected_path": "Voie sélectionnée :"
     }

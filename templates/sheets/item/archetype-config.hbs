@@ -10,87 +10,157 @@
             }}
     </fieldset>
 
+    {{! Creation points (advanced only) }}
+    {{#if advanced}}
+        <div class="creation-points flexrow flex0">
+            <h3 class="flex0 nowrap">
+                Points de création
+            </h3>
+            <span class="data value mini">
+                {{advanced.creationPoints}}
+            </span>
+        </div>
+    {{/if}}
+
     {{! Bonuses }}
-    <fieldset>
+    <fieldset class="bonuses">
         <legend>{{localize "COG.ARCHETYPE.LABELS.Bonuses"}}</legend>
+        {{! Simple bonuses}}
         {{#if simple}}
             {{formGroup
-                    simple.hitDie.field
-                    value=simple.hitDie.value
-                    localize=true
-                }}
+                simple.hitDie.field
+                value=simple.hitDie.value
+                localize=true
+            }}
             {{formGroup
-                    simple.luck.field
-                    value=simple.luck.value
-                    localize=true
-                }}
+                simple.luck.field
+                value=simple.luck.value
+                localize=true
+            }}
             {{#each simple.attacks as |attack|}}
                 {{formGroup
-                        attack.field
-                        value=attack.value
-                        localize=true
-                    }}
-            {{/each}}
-            {{formGroup
-                    simple.initiative.field
-                    value=simple.initiative.value
+                    attack.field
+                    value=attack.value
                     localize=true
                 }}
+            {{/each}}
+            {{formGroup
+                simple.initiative.field
+                value=simple.initiative.value
+                localize=true
+            }}
+        {{/if}}
+
+        {{! Advanced bonuses}}
+        {{#if advanced}}
+            {{formGroup
+                advanced.lifestyle.level.field
+                value=advanced.lifestyle.level.value
+                options=advanced.lifestyle.level.options
+                localize=true
+            }}
+            {{formGroup
+                advanced.lifestyle.credits.field
+                value=advanced.lifestyle.credits.value
+                localize=true
+            }}
+            {{formGroup
+                advanced.equipment.field
+                value=advanced.equipment.value
+                localize=true
+            }}
+            <div class="form-group drop-zone" data-key="talent">
+                <label>{{localize advanced.talent.field.label}}</label>
+                <div class="form-fields">
+                    {{#if advanced.talent.value}}
+                        {{> "cog.item-line"
+                            item=advanced.talent.itemData
+                            action="removeTalent"
+                        }}
+                    {{else}}
+                        <span class="mini instruction droppable">{{localize "COG.ARCHETYPE.LABELS.Add_talent"}}</span>
+                    {{/if}}
+                </div>
+                <p class="hint">{{{localize advanced.talent.field.hint}}}</p>
+            </div>
+            {{formGroup
+                advanced.initiative.field
+                value=advanced.initiative.value
+                localize=true
+            }}
+            {{#each advanced.defenses as |defense|}}
+                {{formGroup
+                    defense.field
+                    value=defense.value
+                    localize=true
+                }}
+            {{/each}}
+            {{#each advanced.attacks as |attack|}}
+                {{formGroup
+                    attack.field
+                    value=attack.value
+                    localize=true
+                }}
+            {{/each}}
+            {{formGroup
+                advanced.hitDie.field
+                value=advanced.hitDie.value
+                localize=true
+            }}
+            {{formGroup
+                advanced.relations.field
+                value=advanced.relations.value
+                localize=true
+            }}
+            {{formGroup
+                advanced.luck.field
+                value=advanced.luck.value
+                localize=true
+            }}
         {{/if}}
     </fieldset>
 
     {{! Archetype paths }}
-    <div class="paths flexrow">
-        {{#each paths as |path|}}
-            <fieldset class="drop-zone" data-key="{{@key}}">
-                <legend>
-                    {{localize path.value.field.label}}
-                    {{#if path.rank}}
-                        {{#unless path.value.itemData}}
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-                        {{/unless}}
-                    {{/if}}
-                    {{#if path.value.itemData.error}}
+    {{#each paths as |path|}}
+        <fieldset class="drop-zone" data-key="{{@key}}">
+            <legend>
+                {{localize path.value.field.label}}
+                {{#if path.rank}}
+                    {{#unless path.value.itemData}}
                         <i class="fa-solid fa-triangle-exclamation"></i>
-                    {{/if}}
-                </legend>
+                    {{/unless}}
+                {{/if}}
+                {{#if path.value.itemData.error}}
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                {{/if}}
+            </legend>
 
 
-                {{#if path.value.value}}
-                    <div class="form-group stacked">
-                        <label>{{localize "COG.ARCHETYPE.LABELS.Selected_path"}}</label>
-                        <div class="form-fields">
-                            {{> "cog.item-line"
+            <div class="form-group">
+                <label>{{localize "COG.ARCHETYPE.LABELS.Selected_path"}}</label>
+                <div class="form-fields">
+                    {{#if path.value.value}}
+                        {{> "cog.item-line"
                                 item=path.value.itemData
                                 action="removePath"
                                 actionKey=@key
                             }}
-                        </div>
-                    </div>
-                {{else}}
-                    <span class="mini instruction droppable">{{localize "COG.ARCHETYPE.LABELS.Add_path"}}</span>
-                {{/if}}
+                    {{else}}
+                        <span class="mini instruction droppable">{{localize "COG.ARCHETYPE.LABELS.Add_path"}}</span>
+                    {{/if}}
+                </div>
+            </div>
 
-                {{#if path.rank}}
-                    {{formGroup
-                        path.rank.field
-                        value=path.rank.value
-                        stacked=true
-                        disabled=path.path.itemData
-                        localize=true
-                    }}
-                {{else}}
-                    <div class="form-group stacked">
-                        <label>{{localize "COG.ARCHETYPE.FIELDS.paths.[path].rank.label"}}</label>
-                        <div class="form-fields">
-                            <range-picker value="0" min="0" max="2" step="1" disabled>
-                                <input type="range" min="0" max="2" step="1">
-                                <input type="number" min="0" max="2" step="1">
-                            </range-picker>
-                        </div>
-                    </div>
-                {{/if}}
-            </fieldset>
-        {{/each}}
-    </div>
+            {{#if path.rank}}
+                {{formGroup
+                    path.rank.field
+                    value=path.rank.value
+                    disabled=path.path.itemData
+                    localize=true
+                    hint=(ifThen @root.advanced path.rank.field.hint false)
+                }}
+            {{/if}}
+        </fieldset>
+    {{/each}}
+
 </section>

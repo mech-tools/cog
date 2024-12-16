@@ -30,15 +30,15 @@ export const ACTOR_SIZES = new Enum({
 
 /**
  * Possible lifetyles of an Actor.
- * @type {Enum<string>}
+ * @type {Enum<number>}
  */
 export const ACTOR_LIFESTYLES = new Enum({
-  WRETCHED: { label: "COG.ACTOR_LIFESTYLES.Wretched", value: "wretched" },
-  POOR: { label: "COG.ACTOR_LIFESTYLES.Poor", value: "poor" },
-  MODEST: { label: "COG.ACTOR_LIFESTYLES.Modest", value: "modest" },
-  COMFORTABLE: { label: "COG.ACTOR_LIFESTYLES.Comfortable", value: "comfortable" },
-  WEALTHY: { label: "COG.ACTOR_LIFESTYLES.Wealthy", value: "wealthy" },
-  OPULENT: { label: "COG.ACTOR_LIFESTYLES.Opulent", value: "opulent" },
+  WRETCHED: { label: "COG.ACTOR_LIFESTYLES.Wretched", value: 1 },
+  POOR: { label: "COG.ACTOR_LIFESTYLES.Poor", value: 2 },
+  MODEST: { label: "COG.ACTOR_LIFESTYLES.Modest", value: 3 },
+  COMFORTABLE: { label: "COG.ACTOR_LIFESTYLES.Comfortable", value: 4 },
+  WEALTHY: { label: "COG.ACTOR_LIFESTYLES.Wealthy", value: 5 },
+  OPULENT: { label: "COG.ACTOR_LIFESTYLES.Opulent", value: 6 },
 });
 
 /* -------------------------------------------- */
@@ -47,7 +47,7 @@ export const ACTOR_LIFESTYLES = new Enum({
  * The base threshold for initiative onto which bonuses are added.
  * @type {number}
  */
-export const BASE_INITIATIVE = 10;
+export const ACTOR_BASE_INITIATIVE = 10;
 
 /* -------------------------------------------- */
 
@@ -55,7 +55,7 @@ export const BASE_INITIATIVE = 10;
  * The base threshold for wounds onto which bonuses are added.
  * @type {number}
  */
-export const BASE_WOUND_THRESHOLD = 10;
+export const ACTOR_BASE_WOUND_THRESHOLD = 10;
 
 /* -------------------------------------------- */
 
@@ -63,4 +63,4 @@ export const BASE_WOUND_THRESHOLD = 10;
  * The base defense protection onto which bonuses are added.
  * @type {number}
  */
-export const BASE_DEFENSE_PROTECTION = 10;
+export const ACTOR_BASE_DEFENSE_PROTECTION = 10;

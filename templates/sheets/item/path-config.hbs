@@ -21,7 +21,7 @@
     <fieldset>
         <legend>
             {{localize "COG.PATH.LABELS.Features_configuration" count=features.count}}
-            {{#if features.isIncomplete}}
+            {{#if features.isInvalid}}
                 <i class="incomplete fa-solid fa-triangle-exclamation"></i>
             {{/if}}
         </legend>

@@ -35,24 +35,10 @@ export default class COGPath extends COGItemType {
   /* -------------------------------------------- */
 
   /**
-   * Given a rank, returns if the feature slot holds a valid "feature" item.
-   * @param {string} rank  The rank.
-   * @returns {Promise<boolean>}
-   */
-  async isValidFeature(rank) {
-    const item = await fromUuid(this.features[rank]);
-    if (!item) return false;
-
-    return item.system.rank === parseInt(rank);
-  }
-
-  /* -------------------------------------------- */
-
-  /**
    * Check if all 5 features exists and the items exists as well.
    * @returns {Promise<boolean>}
    */
-  async isComplete() {
+  async isValid() {
     const results = await Promise.all(
       Object.entries(this.features).map(async ([rank, featureUuid]) => {
         if (featureUuid === null) return false;
@@ -62,6 +48,20 @@ export default class COGPath extends COGItemType {
     );
 
     return results.every(Boolean);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Given a rank, returns if the feature slot holds a valid "feature" item.
+   * @param {string} rank  The rank.
+   * @returns {Promise<boolean>}
+   */
+  async isValidFeature(rank) {
+    const item = await fromUuid(this.features[rank]);
+    if (!item) return false;
+
+    return item.system.rank === parseInt(rank);
   }
 
   /* -------------------------------------------- */
@@ -88,6 +88,17 @@ export default class COGPath extends COGItemType {
 
   /** @override */
   async _preUpdate(changes, _options, _user) {
+    await this.#updateFeatures(changes);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle the changing of a feature item.
+   * @param {Object} changes  Changes on the model.
+   * @returns {Promise<void>}
+   */
+  async #updateFeatures(changes) {
     if (!changes.system?.features) return;
 
     for (const rank in changes.system.features) {
@@ -127,6 +138,7 @@ export default class COGPath extends COGItemType {
   static defineSchema() {
     const fields = foundry.data.fields;
     const required = { required: true, nullable: false };
+    const requiredInteger = { ...required, integer: true };
     const schema = super.defineSchema();
 
     // Type
@@ -139,11 +151,11 @@ export default class COGPath extends COGItemType {
     // Cultural path
     schema[COG.PATH_TYPES.CULTURAL] = new fields.SchemaField({
       // Lifestyle
-      lifestyle: new fields.StringField({
-        ...required,
+      lifestyle: new fields.NumberField({
+        ...requiredInteger,
         initial: COG.ACTOR_LIFESTYLES.WRETCHED,
         choices: COG.ACTOR_LIFESTYLES.choices,
-        label: "COG.PC.FIELDS.lifestyle.value.label",
+        label: "COG.PC.FIELDS.lifestyle.level.label",
       }),
     });
 

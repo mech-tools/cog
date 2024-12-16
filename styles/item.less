@@ -95,15 +95,22 @@
   /* ----------------------------------------- */
 
   &.archetype {
-    .paths {
-      padding-bottom: var(--spacing-25);
-      gap: var(--spacing-100);
-      align-items: stretch;
+    .creation-points {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      justify-content: center;
 
-      fieldset {
-        flex: 1 1 calc(50% - (var(--spacing-100) / 2));
-        max-width: calc(50% - (var(--spacing-100) / 2));
-        justify-content: flex-end;
+      h3 {
+        font-size: var(--font-size-12);
+        background-color: var(--color-frame-bg);
+        border: 1px solid var(--color-secondary-25);
+        padding: var(--spacing-25) var(--spacing-200) var(--spacing-25) var(--spacing-100);
+      }
+
+      .data.value {
+        z-index: 1;
+        margin-left: calc(-1 * var(--spacing-150));
       }
     }
   }

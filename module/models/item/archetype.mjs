@@ -29,6 +29,60 @@ export default class COGArchetype extends COGItemType {
   /* -------------------------------------------- */
 
   /**
+   * Compute the number of creation points left on this archetype.
+   * @returns {number}
+   */
+  async creationPointsLeft() {
+    let left =
+      COG.ARCHETYPE_CREATION_POINTS -
+      this.advanced.lifestyle.credits / 1_000 -
+      this.advanced.equipment -
+      this.advanced.initiative -
+      this.advanced.defenses.physical * 2 -
+      this.advanced.defenses.psy * 2 -
+      this.advanced.attacks.melee * 2 -
+      this.advanced.attacks.range * 2 -
+      this.advanced.attacks.psy * 2 -
+      (this.advanced.hitDie - COG.HIT_DIE_TYPES.D6) -
+      this.advanced.relations / 2 -
+      this.advanced.luck;
+
+    const culturalPath = await fromUuid(this.paths.cultural.value);
+    if (culturalPath && this.advanced.lifestyle.level > culturalPath.system.cultural.lifestyle)
+      left -= 2;
+
+    if (this.advanced.talent !== null) left -= 3;
+
+    for (const path in this.paths) {
+      if (this.paths[path].value !== null && this.paths[path].rank)
+        left -= this.paths[path].rank * 4;
+    }
+
+    return left;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Check if all 4 paths exists ("hobby" is optionnal) and the "path" items are valid.
+   * @returns {Promise<boolean>}
+   */
+  async isValid() {
+    const results = await Promise.all(
+      Object.entries(this.paths).map(async ([path, { value: pathUuid }]) => {
+        if (path !== "hobby" && pathUuid === null) return false;
+        if (path === "hobby" && pathUuid === null) return true;
+
+        return await this.isValidPath(path);
+      }),
+    );
+
+    return results.every(Boolean);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
    * Given a path type, returns if the path slot contains a valid "path" item.
    * @param {string} path  The path type.
    * @returns {Promise<boolean>}
@@ -43,26 +97,7 @@ export default class COGArchetype extends COGItemType {
     )
       return false;
 
-    return await item.system.isComplete;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Check if all 4 paths exists ("hobby" is optionnal) and the "path" items are valid.
-   * @returns {Promise<boolean>}
-   */
-  async isComplete() {
-    const results = await Promise.all(
-      Object.entries(this.paths).map(async ([path, { value: pathUuid }]) => {
-        if (path !== "hobby" && pathUuid === null) return false;
-        if (path === "hobby" && pathUuid === null) return true;
-
-        return await this.isValidPath(path);
-      }),
-    );
-
-    return results.every(Boolean);
+    return await item.system.isValid();
   }
 
   /* -------------------------------------------- */
@@ -71,6 +106,40 @@ export default class COGArchetype extends COGItemType {
 
   /** @override */
   async _preUpdate(changes, _options, _user) {
+    await this.#updateTalent(changes);
+    await this.#updatePaths(changes);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle the changing of the talent item.
+   * @param {Object} changes  Changes on the model.
+   * @returns {Promise<void>}
+   */
+  async #updateTalent(changes) {
+    if (!changes.system?.advanced?.talent) return;
+
+    const talentUuid = changes.system.advanced.talent;
+    if (talentUuid === null) return;
+
+    const item = await fromUuid(talentUuid);
+
+    // Check if item is of type "talent"
+    if (item.type !== "talent") {
+      ui.notifications.error("COG.ARCHETYPE.ERRORS.NOT_A_TALENT", { localize: true });
+      changes.system.advanced.talent = this.advanced.talent;
+    }
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle the changing of the paths items.
+   * @param {Object} changes  Changes on the model.
+   * @returns {Promise<void>}
+   */
+  async #updatePaths(changes) {
     if (!changes.system?.paths) return;
 
     for (const path in changes.system.paths) {
@@ -109,10 +178,19 @@ export default class COGArchetype extends COGItemType {
       }
 
       // Check that a path is complete
-      if (!(await item.system.isComplete)) {
+      if (!(await item.system.isValid())) {
         ui.notifications.error("COG.ARCHETYPE.ERRORS.PATH_INCOMPLETE", { localize: true });
         changes.system.paths[path].value = this.paths[path].value;
         continue;
+      }
+
+      // Update lifestyle based on the new culutural path
+      if (path === "cultural") {
+        foundry.utils.setProperty(
+          changes,
+          "system.advanced.lifestyle.level",
+          item.system[COG.PATH_TYPES.CULTURAL].lifestyle,
+        );
       }
     }
   }
@@ -162,8 +240,8 @@ export default class COGArchetype extends COGItemType {
             ...requiredInteger,
             initial: 0,
             min: 0,
-            label: `COG.ACTOR.FIELDS.attacks.${id}.label`,
-            hint: "COG.ARCHETYPE.FIELDS.simple.[attack].hint",
+            label: `COG.ARCHETYPE.FIELDS.[mode].attacks.${id}.label`,
+            hint: "COG.ARCHETYPE.FIELDS.simple.attacks.[attack].hint",
           });
           return obj;
         }, {}),
@@ -180,39 +258,41 @@ export default class COGArchetype extends COGItemType {
 
     // Advanced configuration
     schema[COG.ARCHETYPE_MODES.ADVANCED] = new fields.SchemaField({
-      // Hit Die
-      hitDie: new fields.NumberField({
-        ...requiredInteger,
-        initial: COG.HIT_DIE_TYPES.D6,
-        choices: COG.HIT_DIE_TYPES.choices,
-        min: COG.HIT_DIE_TYPES.D6,
-        max: COG.HIT_DIE_TYPES.D10,
-        label: "COG.PC.FIELDS.hitDie.type.label",
-      }),
-
-      // Luck
-      luck: new fields.NumberField({
+      // Equipment
+      equipment: new fields.NumberField({
         ...requiredInteger,
         initial: 0,
         min: 0,
-        max: 2,
-        label: "COG.PC.FIELDS.resources.luck.label",
+        max: 8,
+        step: 1,
       }),
 
-      // Attacks
-      attacks: new fields.SchemaField(
-        ["melee", "range", "psy"].reduce((obj, id) => {
-          obj[id] = new fields.NumberField({
-            ...requiredInteger,
-            initial: 0,
-            min: 0,
-            max: 4,
-            label: `COG.ACTOR.FIELDS.attacks.${id}.label`,
-            hint: "COG.ARCHETYPE.FIELDS.advanced.[attack].hint",
-          });
-          return obj;
-        }, {}),
-      ),
+      // Lifestyle
+      lifestyle: new fields.SchemaField({
+        // Level
+        level: new fields.NumberField({
+          ...requiredInteger,
+          initial: COG.ACTOR_LIFESTYLES.WRETCHED,
+          choices: COG.ACTOR_LIFESTYLES.choices,
+          label: "COG.PC.FIELDS.lifestyle.level.label",
+        }),
+
+        // Credits
+        credits: new fields.NumberField({
+          ...requiredInteger,
+          initial: 0,
+          min: 0,
+          max: 8000,
+          step: 1000,
+          label: "COG.PC.FIELDS.lifestyle.credits.label",
+        }),
+      }),
+
+      // Talent
+      talent: new fields.DocumentUUIDField({
+        type: "Item",
+        label: "COG.PC.FIELDS.advancement.talent.label",
+      }),
 
       // Initiative
       initiative: new fields.NumberField({
@@ -223,11 +303,6 @@ export default class COGArchetype extends COGItemType {
         label: "COG.ACTOR.FIELDS.attributes.initiative.label",
       }),
 
-      // Trait
-      trait: new fields.DocumentUUIDField({
-        type: "Item",
-      }),
-
       // Defenses
       defenses: new fields.SchemaField(
         ["physical", "psy"].reduce((obj, id) => {
@@ -236,34 +311,35 @@ export default class COGArchetype extends COGItemType {
             initial: 0,
             min: 0,
             max: 1,
-            hint: "COG.ARCHETYPE.FIELDS.advanced.[defense].hint",
+            hint: "COG.ARCHETYPE.FIELDS.advanced.defenses.[defense].hint",
           });
           return obj;
         }, {}),
       ),
 
-      // Lifestyle
-      lifestyle: new fields.SchemaField({
-        value: new fields.StringField({
-          ...required,
-          initial: COG.ACTOR_LIFESTYLES.WRETCHED,
-          choices: COG.ACTOR_LIFESTYLES.choices,
-        }),
-        credits: new fields.NumberField({
-          ...requiredInteger,
-          initial: 0,
-          min: 0,
-          max: 8000,
-          step: 1000,
-        }),
-      }),
+      // Attacks
+      attacks: new fields.SchemaField(
+        ["melee", "range", "psy"].reduce((obj, id) => {
+          obj[id] = new fields.NumberField({
+            ...requiredInteger,
+            initial: 0,
+            min: 0,
+            max: 4,
+            label: `COG.ARCHETYPE.FIELDS.[mode].attacks.${id}.label`,
+            hint: "COG.ARCHETYPE.FIELDS.advanced.attacks.[attack].hint",
+          });
+          return obj;
+        }, {}),
+      ),
 
-      // Equipment
-      equipment: new fields.NumberField({
+      // Hit Die
+      hitDie: new fields.NumberField({
         ...requiredInteger,
-        initial: 0,
-        min: 0,
-        max: 1,
+        initial: COG.HIT_DIE_TYPES.D6,
+        choices: COG.HIT_DIE_TYPES.choices,
+        min: COG.HIT_DIE_TYPES.D6,
+        max: COG.HIT_DIE_TYPES.D10,
+        label: "COG.PC.FIELDS.hitDie.type.label",
       }),
 
       // Relations
@@ -271,7 +347,18 @@ export default class COGArchetype extends COGItemType {
         ...requiredInteger,
         initial: 0,
         min: 0,
-        max: 4,
+        max: 16,
+        step: 2,
+        label: "COG.PC.FIELDS.biography.relations.label",
+      }),
+
+      // Luck
+      luck: new fields.NumberField({
+        ...requiredInteger,
+        initial: 0,
+        min: 0,
+        max: 2,
+        label: "COG.PC.FIELDS.resources.luck.label",
       }),
     });
 
@@ -293,6 +380,7 @@ export default class COGArchetype extends COGItemType {
               min: 0,
               max: 2,
               label: "COG.ARCHETYPE.FIELDS.paths.[path].rank.label",
+              hint: "COG.ARCHETYPE.FIELDS.paths.[path].rank.hint",
             }),
           }),
         });

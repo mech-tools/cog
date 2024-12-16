@@ -41,6 +41,7 @@
       "npc": {}
     },
     "Item": {
+      "talent": { "htmlFields": ["description.public"] },
       "pcfeature": { "htmlFields": ["description.public"] },
       "path": { "htmlFields": ["description.public"] },
       "archetype": { "htmlFields": ["description.public"] }

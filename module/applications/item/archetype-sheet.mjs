@@ -8,6 +8,7 @@ export default class ArchetypeSheet extends COGBaseItemSheet {
   /** @inheritDoc */
   static DEFAULT_OPTIONS = {
     actions: {
+      removeTalent: ArchetypeSheet.#onRemoveTalent,
       removePath: ArchetypeSheet.#onRemovePath,
     },
     item: {
@@ -52,8 +53,32 @@ export default class ArchetypeSheet extends COGBaseItemSheet {
         break;
       // Advanced mode
       case COG.ARCHETYPE_MODES.ADVANCED:
+        context[COG.ARCHETYPE_MODES.ADVANCED] = {
+          creationPoints: await this.document.system.creationPointsLeft(),
+          hitDie: this.makeField("advanced.hitDie"),
+          luck: this.makeField("advanced.luck"),
+          attacks: {
+            melee: this.makeField("advanced.attacks.melee"),
+            range: this.makeField("advanced.attacks.range"),
+            psy: this.makeField("advanced.attacks.psy"),
+          },
+          initiative: this.makeField("advanced.initiative"),
+          talent: await this.#prepareTalent(),
+          defenses: {
+            melee: this.makeField("advanced.defenses.physical"),
+            range: this.makeField("advanced.defenses.psy"),
+          },
+          lifestyle: {
+            level: this.#prepareLifestyleLevel(),
+            credits: this.makeField("advanced.lifestyle.credits"),
+          },
+          equipment: this.makeField("advanced.equipment"),
+          relations: this.makeField("advanced.relations"),
+        };
         break;
     }
+
+    console.error(context);
 
     return context;
   }
@@ -66,13 +91,32 @@ export default class ArchetypeSheet extends COGBaseItemSheet {
    * @returns {Promise<{ any: { any: { incomplete: boolean } } }>}
    */
   async #prepareTabGroups(tabGroups) {
-    const isIncomplete = !(await this.document.system.isComplete());
+    const isInvalid = !(await this.document.system.isValid());
 
     return foundry.utils.mergeObject(
       tabGroups,
-      { "sheet.config.isIncomplete": isIncomplete },
+      { "sheet.config.isInvalid": isInvalid },
       { inplace: true },
     );
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Prepare and format the display of the Lifestyle Level on the item sheet.
+   * @returns {{
+   *   options: { value: number; label: string; disabled: boolean };
+   * }}
+   */
+  #prepareLifestyleLevel() {
+    const level = this.makeField("advanced.lifestyle.level");
+    level.options = [];
+
+    for (const [lvl, label] of Object.entries(COG.ACTOR_LIFESTYLES.choices)) {
+      level.options.push({ value: lvl, label, disabled: lvl > COG.ACTOR_LIFESTYLES.COMFORTABLE });
+    }
+
+    return level;
   }
 
   /* -------------------------------------------- */
@@ -103,8 +147,7 @@ export default class ArchetypeSheet extends COGBaseItemSheet {
             name: itemData.name,
             img: itemData.img,
             error:
-              !(await this.document.system.isValidPath(path)) ||
-              !(await itemData.system.isComplete()),
+              !(await this.document.system.isValidPath(path)) || !(await itemData.system.isValid()),
           };
         }
       }
@@ -114,11 +157,48 @@ export default class ArchetypeSheet extends COGBaseItemSheet {
   }
 
   /* -------------------------------------------- */
+
+  /**
+   * Prepare and format the display of the Talent on the item sheet.
+   * @returns {{
+   *   any: { itemData: { uuid: string; name: string; img: string } | null };
+   * }}
+   */
+  async #prepareTalent() {
+    const talent = this.makeField("advanced.talent");
+
+    // Add Item Data if available
+    if (talent.value !== null) {
+      const itemData = await fromUuid(talent.value);
+      if (itemData) {
+        talent.itemData = {
+          uuid: itemData.uuid,
+          name: itemData.name,
+          img: itemData.img,
+        };
+      }
+    }
+
+    return talent;
+  }
+
+  /* -------------------------------------------- */
   /*  Actions Event Handlers
   /* -------------------------------------------- */
 
   /**
-   * Handle removing a feature from the path.
+   * Handle removing the Talent from the archetype.
+   * @param {PointerEvent} event   The triggering event.
+   * @param {HTMLElement}  target  The targeted dom element.
+   */
+  static #onRemoveTalent(event, target) {
+    this.document.update({ ["system.advanced.talent"]: null });
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle removing a Path from the archetype.
    * @param {PointerEvent} event   The triggering event.
    * @param {HTMLElement}  target  The targeted dom element.
    */
@@ -134,9 +214,22 @@ export default class ArchetypeSheet extends COGBaseItemSheet {
 
   /** @inheritdoc */
   _onDropItem(event) {
-    this.#onDropPath(event);
+    const target = event.currentTarget;
+
+    target.dataset.key === "talent" ? this.#onDropTalent(event) : this.#onDropPath(event);
   }
 
+  /* -------------------------------------------- */
+
+  /**
+   * Handles the dropping of a path item onto the archetype item.
+   * @param {DragEvent} event  The triggering event.
+   */
+  #onDropTalent(event) {
+    const data = TextEditor.getDragEventData(event);
+
+    this.document.update({ [`system.advanced.talent`]: data.uuid });
+  }
   /* -------------------------------------------- */
 
   /**

@@ -56,11 +56,11 @@ export default class PathSheet extends COGBaseItemSheet {
    * @returns {Promise<{ any: { any: { incomplete: boolean } } }>}
    */
   async #prepareTabGroups(tabGroups) {
-    const isIncomplete = !(await this.document.system.isComplete());
+    const isInvalid = !(await this.document.system.isValid());
 
     return foundry.utils.mergeObject(
       tabGroups,
-      { "sheet.config.isIncomplete": isIncomplete },
+      { "sheet.config.isInvalid": isInvalid },
       { inplace: true },
     );
   }
@@ -86,7 +86,7 @@ export default class PathSheet extends COGBaseItemSheet {
    */
   async #prepareFeatures() {
     const features = {
-      isIncomplete: !(await this.document.system.isComplete()),
+      isInvalid: !(await this.document.system.isValid()),
       count: await this.document.system.featuresCount(),
       values: {},
     };
