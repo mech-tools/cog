@@ -41,7 +41,7 @@ export default class AttackConfigSheet extends BaseConfigSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  async _prepareContext(options) {
+  async _prepareContext(_options) {
     return {
       // Sheet
       increasesDelta: this.document.system.increasesDelta,

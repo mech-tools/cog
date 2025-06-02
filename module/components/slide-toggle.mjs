@@ -132,9 +132,9 @@ export default class SlideToggleElement extends HTMLElement {
 
   /**
    * Handle toggling the control.
-   * @param {PointerEvent} event  The triggering event.
+   * @param {PointerEvent} _event  The triggering event.
    */
-  _onToggle(event) {
+  _onToggle(_event) {
     this.checked = !this.checked;
     this.dispatchEvent(new Event("change"));
   }

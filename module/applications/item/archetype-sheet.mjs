@@ -188,10 +188,10 @@ export default class ArchetypeSheet extends COGBaseItemSheet {
 
   /**
    * Handle removing the Talent from the archetype.
-   * @param {PointerEvent} event   The triggering event.
-   * @param {HTMLElement}  target  The targeted dom element.
+   * @param {PointerEvent} _event   The triggering event.
+   * @param {HTMLElement}  _target  The targeted dom element.
    */
-  static #onRemoveTalent(event, target) {
+  static #onRemoveTalent(_event, _target) {
     this.document.update({ ["system.advanced.talent"]: null });
   }
 
@@ -199,10 +199,10 @@ export default class ArchetypeSheet extends COGBaseItemSheet {
 
   /**
    * Handle removing a Path from the archetype.
-   * @param {PointerEvent} event   The triggering event.
+   * @param {PointerEvent} _event  The triggering event.
    * @param {HTMLElement}  target  The targeted dom element.
    */
-  static #onRemovePath(event, target) {
+  static #onRemovePath(_event, target) {
     const slot = target.dataset.key;
 
     this.document.update({ [`system.paths.${slot}.value`]: null });

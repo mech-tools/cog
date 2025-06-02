@@ -41,7 +41,7 @@ export default class DefenseConfigSheet extends BaseConfigSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  async _prepareContext(options) {
+  async _prepareContext(_options) {
     return {
       // Data
       defense: {

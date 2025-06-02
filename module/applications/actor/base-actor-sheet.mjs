@@ -455,10 +455,10 @@ export default class COGBaseActorSheet extends COGBaseSheet(sheets.ActorSheetV2)
 
   /**
    * Handle spawning the application of various actor configuration profiles.
-   * @param {PointerEvent} event   The triggering event.
+   * @param {PointerEvent} _event  The triggering event.
    * @param {HTMLElement}  target  The targeted dom element.
    */
-  static #onConfigure(event, target) {
+  static #onConfigure(_event, target) {
     const profile = target.dataset.configureProfile;
 
     if (profile in this.options.configureProfiles) {

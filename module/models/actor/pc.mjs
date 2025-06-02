@@ -18,7 +18,7 @@ export default class COGPc extends COGActorType {
    */
   get currentHitDieHistory() {
     return Object.entries(this.hitDie.history)
-      .filter(([level, value]) => parseInt(level) <= this.advancement.level);
+      .filter(([level, _value]) => parseInt(level) <= this.advancement.level);
   }
 
   /* -------------------------------------------- */

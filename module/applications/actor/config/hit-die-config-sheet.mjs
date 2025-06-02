@@ -41,7 +41,7 @@ export default class HitDieConfigSheet extends BaseConfigSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  async _prepareContext(options) {
+  async _prepareContext(_options) {
     return {
       // Data
       hitPoints: { base: this.makeField("health.hitPoints.base") },

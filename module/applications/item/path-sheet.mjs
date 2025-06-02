@@ -118,10 +118,10 @@ export default class PathSheet extends COGBaseItemSheet {
 
   /**
    * Handle removing a feature from the path.
-   * @param {PointerEvent} event   The triggering event.
+   * @param {PointerEvent} _event  The triggering event.
    * @param {HTMLElement}  target  The targeted dom element.
    */
-  static #onRemoveFeature(event, target) {
+  static #onRemoveFeature(_event, target) {
     const slot = target.dataset.key;
 
     this.document.update({ [`system.features.${slot}`]: null });

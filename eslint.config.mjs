@@ -27,7 +27,7 @@ export default [
       "no-undef": "off",
 
       // Keep unused arguments in function & methods allowing to keep @overrided method signature
-      "no-unused-vars": ["warn", { args: "none" }],
+      "no-unused-vars": ["warn", { args: "all", argsIgnorePattern: "^_" }],
 
       // Do not force return description
       "jsdoc/require-returns-description": "off",

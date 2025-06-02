@@ -86,11 +86,11 @@ export default (Base) =>
 
     /**
      * Edit the Actor profile image.
-     * @param {PointerEvent} event   The triggering event.
+     * @param {PointerEvent} _event  The triggering event.
      * @param {HTMLElement}  target  The targeted dom element.
      * @returns {Promise<void>}
      */
-    static async #onEditImage(event, target) {
+    static async #onEditImage(_event, target) {
       const attr = target.dataset.edit;
       const current = foundry.utils.getProperty(this.document, attr);
       const fp = new FilePicker({
